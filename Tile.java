@@ -55,7 +55,7 @@ public class Tile {
     }
 
     public Tile() {
-        type = "Inaccessible";
+        type = "XInaccessible";
         coordinate = new int[] {-1,-1,-1};
         h = null;
         m = null;
@@ -150,7 +150,7 @@ public class Tile {
         String boxtop = tiletype + " - " + tiletype + " - " + tiletype + "\n";
         String tilerep = boxtop;
         tilerep = tilerep + "| ";
-        if (this.getType().equals("Inaccessible")) {
+        if (this.getType().equals("XInaccessible")) {
             tilerep = tilerep + "X X X";
         }
         else {

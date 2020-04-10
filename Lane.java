@@ -4,10 +4,12 @@ import java.util.stream.Stream;
 public class Lane {
     private Tile[][] lane;
     private int lanenum;
+    private int h;
 
-    public Lane(int n) {
+    public Lane(int n, int h) {
         lanenum = n;
-        lane = new Tile[8][2];
+        this.h = h;
+        lane = new Tile[h][2];
         for (int r = 0; r < 8; r++) {
             for (int c = 0; c < 2; c++) {
                 int[] coords = new int[] {lanenum, r, c};
@@ -17,7 +19,7 @@ public class Lane {
         }
         for (int c = 0; c < 2; c++) {
             lane[0][c].setNexus();
-            lane[7][c].setNexus();
+            lane[h-1][c].setNexus();
         }
     }
 
@@ -37,7 +39,7 @@ public class Lane {
     }
 
     public static void main(String[] args) {
-        Lane L1 = new Lane(1);
+        Lane L1 = new Lane(1, 8);
         System.out.println(L1);
     }
 }

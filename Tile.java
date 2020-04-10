@@ -54,6 +54,13 @@ public class Tile {
         m = null;
     }
 
+    public Tile() {
+        type = "Inaccessible";
+        coordinate = new int[] {-1,-1,-1};
+        h = null;
+        m = null;
+    }
+
     // public boolean onLocation() {
     //     return onloc;
     // }
@@ -143,17 +150,22 @@ public class Tile {
         String boxtop = tiletype + " - " + tiletype + " - " + tiletype + "\n";
         String tilerep = boxtop;
         tilerep = tilerep + "| ";
-        if (h_on_me() != null) {
-            tilerep = tilerep + h.boardpiece;
+        if (this.getType().equals("Inaccessible")) {
+            tilerep = tilerep + "X X X";
         }
-        else tilerep = tilerep + "  ";
-        if (m_on_me() != null) {
-            if (m.boardpiece.length() == 2) {
-                tilerep = tilerep + " ";
+        else {
+            if (h_on_me() != null) {
+                tilerep = tilerep + h.boardpiece;
             }
-            tilerep = tilerep + m.boardpiece;
+            else tilerep = tilerep + "  ";
+            if (m_on_me() != null) {
+                if (m.boardpiece.length() == 2) {
+                    tilerep = tilerep + " ";
+                }
+                tilerep = tilerep + m.boardpiece;
+            }
+            else tilerep = tilerep + "   ";
         }
-        else tilerep = tilerep + "   ";
         tilerep = tilerep + " |\n";
         tilerep = tilerep + boxtop;
         return tilerep;
@@ -163,6 +175,8 @@ public class Tile {
         Tile hello = new Tile(new int[] {1,2,3});
         // hello.setTile("yo");
         System.out.println(hello);
+        Tile IX = new Tile();
+        System.out.println(IX);
         System.out.println("-------");
         String tiletype = "P";
         String tilerep = tiletype + " - " + tiletype + " - " + tiletype + "\n";

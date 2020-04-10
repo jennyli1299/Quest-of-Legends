@@ -10,7 +10,7 @@ public class Lane {
         lanenum = n;
         this.h = h;
         lane = new Tile[h][2];
-        for (int r = 0; r < 8; r++) {
+        for (int r = 0; r < h; r++) {
             for (int c = 0; c < 2; c++) {
                 int[] coords = new int[] {lanenum, r, c};
                 Tile t = new Tile(coords);
@@ -26,7 +26,7 @@ public class Lane {
     @Override
     public String toString() {
         String lanerep = "";
-        for (int r = 0; r < 8; r++) {
+        for (int r = 0; r < h; r++) {
             // Stream<String> stream = lane[r][0].toString().lines();
             String[] array0 = lane[r][0].toString().lines().toArray(String[]::new);
             String[] array1 = lane[r][1].toString().lines().toArray(String[]::new);

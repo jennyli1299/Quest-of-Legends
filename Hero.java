@@ -159,7 +159,7 @@ public class Hero extends InGameCharacter {
             if (canCast(s)) {
                 mana -= s.getManaCost();
                 this.castSpell(attacking, stats);
-                removefromINVs(s);
+                // removefromINVs(s);
                 s.unEquip();
             }
             // }
@@ -227,7 +227,7 @@ public class Hero extends InGameCharacter {
         }
     }
     public void removefromINVs(Item i) {
-        // use Potion or Spell --> decrease count in inventory
+        // use Potion --> decrease count in inventory
         String in = i.getItemName(); // Item Name
         if (invnum.get(in).intValue() == 1) {
             inv.remove(in);

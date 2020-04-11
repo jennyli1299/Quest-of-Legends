@@ -15,7 +15,7 @@ public class Quest extends Game {
     // TODO add BATTLE
     // TODO add factory of Monsters
     Tile loc; //TODO take out
-    //TODO Arraylist of Heroes and Monsters
+    // TODO Arraylist of Heroes and Monsters
     ArrayList<Monster> spawnedM;
     ArrayList<Hero> teamH;
     // TODO SEPARATE ACTION FOR EACH HERO
@@ -320,7 +320,7 @@ public class Quest extends Game {
         if (!v) {
             for (Monster m: spawnedM) {
                 Tile pos = m.getLoc();
-                if (pos.getType().equals("Nexus")) {
+                if (pos.getType().equals("NexusBase")) {
                     System.out.println(m.getName() + " has reached the enemy Nexus! DEFEAT!");
                     setGAMEOVER();
                 }

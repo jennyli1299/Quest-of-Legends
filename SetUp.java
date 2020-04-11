@@ -281,7 +281,7 @@ public class SetUp { // redo so only one scanner for all
     }
 
 
-    public static Hero[] chooseYourFighters () {
+    public static Hero[] chooseYourFighters () { //TODO make 3
         Scanner setup = new Scanner(System.in);
         boolean isnum = false;
         int n = 0;

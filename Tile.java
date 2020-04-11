@@ -67,20 +67,22 @@ public class Tile {
     public Monster m_on_me() {
         return m;
     }
-    public void setLocTile(Monster igc) {;
-        m = igc;
+    public void setLocTile(InGameCharacter igc) {;
+        if (igc.getHM().equals("Hero"))
+            h = (Hero)igc;
+        else if (igc.getHM().equals("Monster")) {
+            m = (Monster)igc;
+        }
     }
-    public void leaveTile(Monster igc) {
-        m = null;
+    public void leaveTile(InGameCharacter igc) {
+        if (igc.getHM().equals("Hero"))
+            h = null;
+        else if (igc.getHM().equals("Monster")) {
+            m = null;
+        }
     }
     public Hero h_on_me() {
         return h;
-    }
-    public void setLocTile(Hero igc) {;
-        h = igc;
-    }
-    public void leaveTile(Hero igc) {
-        h = null;
     }
     // public int H_on_me() {
     //     int noone = 0;

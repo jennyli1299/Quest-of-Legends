@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public abstract class InGameCharacter {
     protected String name;
     protected String type;
+    protected String HM;
     protected int lvl;
     protected int exp;
     protected int maxhp;
@@ -41,8 +42,16 @@ public abstract class InGameCharacter {
     public String getType() {
         return type;
     }
+    public String getHM() {
+        return HM;
+    }
     public Tile getLoc() {
         return loc;
+    }
+    public void moveTo(Tile target) {
+        this.loc.leaveTile(this);
+        this.loc = target;
+        target.setLocTile(this);
     }
     public void attack(InGameCharacter c) { //TODO CHANGE ATTACK
         // Random rand = new Random();

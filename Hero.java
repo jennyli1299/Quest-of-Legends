@@ -17,11 +17,10 @@ public class Hero extends InGameCharacter {
     protected Monster attacking;
     protected int[] ogstats; // Strength, Defense, Dexterity, Agility
 
-    //TODO MARKET & NEXUS TILES & LEARN SPELLS
-
     public Hero () {
         name = "a Hero";
         type = "Useless";
+        HM = "Hero";
         lvl = 1;
         exp = 0;
         maxhp = 0;
@@ -37,10 +36,15 @@ public class Hero extends InGameCharacter {
         inv = new HashMap<>();
         invnum = new HashMap<>();
         ogstats = new int[] {strength, defense, dexterity, agility};
+
+        loc = null; // TODO CREATE SOMETHING TO GIVE IT A LOCATION
+        boardpiece = null; //TODO UPDATE CONSTRUCTORS
+        nearbyEnemies = null; //TODO create scan for enemies based on LOC
     }
     public Hero (String n, String t, int m, int s, int a, int dx, int startingmoney, int startingexp) {
         name = n;
         type = t;
+        HM = "Hero";
         lvl = (int) Math.ceil((double)startingexp / 10);
         exp = startingexp;
         maxhp = 100*lvl;
@@ -53,14 +57,19 @@ public class Hero extends InGameCharacter {
         mana = maxmana;
         coins = startingmoney;
         exp = startingexp;
-        attacking = new Monster();
+        attacking = new Monster(); // maybe null
         inv = new HashMap<>();
         invnum = new HashMap<>();
         ogstats = new int[] {strength, defense, dexterity, agility};
+
+        loc = null; // TODO CREATE SOMETHING TO GIVE IT A LOCATION
+        boardpiece = null; //TODO UPDATE CONSTRUCTORS
+        nearbyEnemies = null; //TODO create scan for enemies based on LOC
     }
     public Hero (String n, String t, int l, int e, int h, int m, int s, int d, int dx, int a, int c) { // SUPER CUSTOM HERO
         name = n;
         type = t;
+        HM = "Hero";
         lvl = l;
         exp = e;
         maxhp = h;
@@ -71,11 +80,15 @@ public class Hero extends InGameCharacter {
         defense = d;
         dexterity = dx;
         agility = a;
-        attacking = new Monster();
+        attacking = new Monster(); // maybe null
         inv = new HashMap<>();
         invnum = new HashMap<>();
         coins = c;
         ogstats = new int[] {strength, defense, dexterity, agility};
+
+        loc = null; // TODO CREATE SOMETHING TO GIVE IT A LOCATION
+        boardpiece = null; //TODO UPDATE CONSTRUCTORS
+        nearbyEnemies = null; //TODO create scan for enemies based on LOC
     }
 
     @Override

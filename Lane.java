@@ -19,7 +19,7 @@ public class Lane {
         }
         for (int c = 0; c < 2; c++) {
             lane[0][c].setNexus();
-            lane[h-1][c].setNexus();
+            lane[h-1][c].setBaseNexus();
         }
     }
 

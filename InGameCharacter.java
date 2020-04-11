@@ -15,7 +15,7 @@ public abstract class InGameCharacter {
     protected int agility;
     protected Tile loc; // TODO UPDATE CONSTRUCTORS AND METHODS ABOUT WHERE THEY ARE AND MOVEMENT
     protected String boardpiece; //TODO UPDATE CONSTRUCTORS
-    protected ArrayList<InGameCharacter> nearbyEnemies; //TODO create scanfor enemies based on LOC
+    protected ArrayList<InGameCharacter> nearbyEnemies; //TODO create scan for enemies based on LOC
 
 
     public void levelup() {

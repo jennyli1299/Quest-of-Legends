@@ -4,15 +4,9 @@ public class Warrior extends Hero {
 
     public Warrior (String n, int m, int s, int a, int dx, int startingmoney, int startingexp) {
         super(n, "Warrior", m, s, a, dx, startingmoney, startingexp);
-        loc = null; // TODO CREATE SOMETHING TO GIVE IT A LOCATION
-        boardpiece = null; //TODO UPDATE CONSTRUCTORS
-        nearbyEnemies = null; //TODO create scan for enemies based on LOC
     }
     public Warrior (String n, int l, int e, int h, int m, int s, int d, int dx, int a, int c) {
         super(n, "Warrior", l, e, h, m, s, d, dx, a, c);
-        loc = null; // TODO CREATE SOMETHING TO GIVE IT A LOCATION
-        boardpiece = null; //TODO UPDATE CONSTRUCTORS
-        nearbyEnemies = null; //TODO create scan for enemies based on LOC
     }
 
     public void levelup() {
@@ -43,6 +37,7 @@ public class Warrior extends Hero {
 
     
     public static void main(String[] args) {
-        
+        Warrior UNDEFEATED = new Warrior("UNDEFEATED", 700, 1080, 132, 146, 2017, 7);
+        System.out.println(UNDEFEATED);
     }
 }

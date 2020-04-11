@@ -4,15 +4,9 @@ public class Sorcerer extends Hero {
 
     public Sorcerer (String n, int m, int s, int a, int dx, int startingmoney, int startingexp) {
         super(n, "Sorcerer", m, s, a, dx, startingmoney, startingexp);
-        loc = null; // TODO CREATE SOMETHING TO GIVE IT A LOCATION
-        boardpiece = null; //TODO UPDATE CONSTRUCTORS
-        nearbyEnemies = null; //TODO create scan for enemies based on LOC
     }
     public Sorcerer (String n, int l, int e, int h, int m, int s, int d, int dx, int a, int c) {
         super(n, "Sorcerer", l, e, h, m, s, d, dx, a, c);
-        loc = null; // TODO CREATE SOMETHING TO GIVE IT A LOCATION
-        boardpiece = null; //TODO UPDATE CONSTRUCTORS
-        nearbyEnemies = null; //TODO create scan for enemies based on LOC
     }
 
     public void levelup() {

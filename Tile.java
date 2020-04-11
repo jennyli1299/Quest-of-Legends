@@ -67,7 +67,7 @@ public class Tile {
     public Monster m_on_me() {
         return m;
     }
-    public void setLocTile(InGameCharacter igc) {;
+    public void setLocTile(InGameCharacter igc) { // TODO validate no Hero already on. probably in Quest/take input class
         if (igc.getHM().equals("Hero"))
             h = (Hero)igc;
         else if (igc.getHM().equals("Monster")) {

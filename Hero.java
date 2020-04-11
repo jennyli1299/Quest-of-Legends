@@ -17,6 +17,8 @@ public class Hero extends InGameCharacter {
     protected Monster attacking;
     protected int[] ogstats; // Strength, Defense, Dexterity, Agility
 
+    //TODO MARKET & NEXUS TILES & LEARN SPELLS
+
     public Hero () {
         name = "a Hero";
         type = "Useless";

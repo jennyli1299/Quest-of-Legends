@@ -10,7 +10,7 @@ public class Tile {
     private Hero h;
     private Monster m;
 
-    //TODO check nexus win, scan for enemies to fight, print board, teleport, move, & set locations
+    //TODO check nexus win, scan for enemies to fight, teleport, move, & set locations, MARKET AT NEXUS
 
     // public Tile(int[] coords, ArrayList<Hero> hl, ArrayList<Monster> ml) {
     //     double prob = Math.random();
@@ -124,7 +124,7 @@ public class Tile {
     }
 
     // @Override
-    // public String toString() { //TODO CHANGE HOW BOARD, LANE, TILES ARE PRINTED
+    // public String toString() { 
     //     String tiletype = this.type.substring(0,1);
     //     String boxtop = tiletype + " - " + tiletype + " - " + tiletype + "\n";
     //     String tilerep = boxtop;
@@ -145,7 +145,7 @@ public class Tile {
     // }
 
     @Override
-    public String toString() { //TODO CHANGE HOW BOARD, LANE, TILES ARE PRINTED
+    public String toString() { 
         String tiletype = this.type.substring(0,1);
         String boxtop = tiletype + " - " + tiletype + " - " + tiletype + "\n";
         String tilerep = boxtop;

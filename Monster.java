@@ -38,31 +38,18 @@ public class Monster extends InGameCharacter {
         agility = a;
         og = new int[] {strength,defense,agility};
     }
-    /**
-    private void updhp (int h) {
-        this.hp -= h;
-    }
-    private void updStrength (int a) {
-        this.strength -= a;
-    }
-    private void updDefense (int a) {
-        this.defense -= a;
-    }
-    private void updAgility (int a) {
-        this.agility -= a;
-    }
-    */
 
-    // public void updhp (int h) {
-    //     this.hp -= h;
-    // }
+    @Override
+    public void setPiece(int n) {
+        this.boardpiece = "M" + Integer.toString(n);
+    }
 
     public void updAttributes (int[] a) {
         this.strength -= a[0];
         this.defense -= a[1];
         this.agility -= a[2];
     }
-    // public void attack(Hero h) {}
+    
     public void resetMonster() {
         this.hp = maxhp;
         this.strength = og[0];
@@ -120,5 +107,4 @@ St-Yeenoghu     9       950        850     90
 
         Monster Cyr = new Monster("Cyrrollalee", "Exoskeleon", 7, 700, 800, 75);
     }
-
 }

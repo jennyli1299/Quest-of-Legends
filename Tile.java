@@ -157,14 +157,14 @@ public class Tile {
         }
         else {
             if (h_on_me() != null) {
-                tilerep = tilerep + h.boardpiece;
+                tilerep = tilerep + h.getPiece();
             }
             else tilerep = tilerep + "  ";
             if (m_on_me() != null) {
                 if (m.boardpiece.length() == 2) {
                     tilerep = tilerep + " ";
                 }
-                tilerep = tilerep + m.boardpiece;
+                tilerep = tilerep + m.getPiece();
             }
             else tilerep = tilerep + "   ";
         }

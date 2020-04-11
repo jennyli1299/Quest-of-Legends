@@ -93,9 +93,12 @@ public abstract class InGameCharacter {
         }
     }
 
-    public abstract void reward(); //TODO
+    public abstract void reward();
     // public abstract void levelup();
-    public abstract void setPiece(); //TODO
+    public abstract void setPiece(int n); //TODO SCAN THROUGH LIST OF SPAWNED H/M TO GET N
+    public String getPiece() {
+        return boardpiece;
+    }
 
     public boolean equals(InGameCharacter c) {
         return (this.name.equals(c.name));

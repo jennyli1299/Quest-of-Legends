@@ -38,7 +38,6 @@ public class Hero extends InGameCharacter {
         invnum = new HashMap<>();
         ogstats = new int[] {strength, defense, dexterity, agility};
     }
-    // FILL IN MAKE ANOTHER CONSTRUCTOR W LESS PARAMETERS according to input .txt files
     public Hero (String n, String t, int m, int s, int a, int dx, int startingmoney, int startingexp) {
         name = n;
         type = t;
@@ -59,7 +58,7 @@ public class Hero extends InGameCharacter {
         invnum = new HashMap<>();
         ogstats = new int[] {strength, defense, dexterity, agility};
     }
-    public Hero (String n, String t, int l, int e, int h, int m, int s, int d, int dx, int a, int c) {
+    public Hero (String n, String t, int l, int e, int h, int m, int s, int d, int dx, int a, int c) { // SUPER CUSTOM HERO
         name = n;
         type = t;
         lvl = l;
@@ -78,24 +77,12 @@ public class Hero extends InGameCharacter {
         coins = c;
         ogstats = new int[] {strength, defense, dexterity, agility};
     }
-    /**
-    private void updhp (int h) {
-        this.hp -= h;
-    }
-    private void updStrength (int a) {
-        this.strength -= a;
-    }
-    private void updDefense (int a) {
-        this.defense -= a;
-    }
-    private void updAgility (int a) {
-        this.agility -= a;
-    }
-    */
 
-    // private void updhp (int h) {
-    //     this.hp -= h;
-    // }
+    @Override
+    public void setPiece(int n) {
+        this.boardpiece = "H" + Integer.toString(n);
+
+    }
 
     private void updAttributes (int[] a) {
         this.hp += a[0];

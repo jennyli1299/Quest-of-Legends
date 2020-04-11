@@ -13,6 +13,10 @@ public class Monster extends InGameCharacter {
         defense = 0;
         agility = 0;
         og = new int[] {strength,defense,agility};
+
+        loc = null; // TODO CREATE SOMETHING TO GIVE IT A LOCATION
+        boardpiece = null; //TODO UPDATE CONSTRUCTORS
+        nearbyEnemies = null; //TODO create scan for enemies based on LOC
     }
     public Monster (String n, String t, int l, int s, int d, int a) {
         name = n;
@@ -25,6 +29,10 @@ public class Monster extends InGameCharacter {
         defense = d;
         agility = a;
         og = new int[] {strength,defense,agility};
+
+        loc = null; // TODO CREATE SOMETHING TO GIVE IT A LOCATION
+        boardpiece = null; //TODO UPDATE CONSTRUCTORS
+        nearbyEnemies = null; //TODO create scan for enemies based on LOC
     }
     public Monster (String n, String t, int l, int h, int s, int d, int a) {
         name = n;
@@ -37,6 +45,10 @@ public class Monster extends InGameCharacter {
         defense = d;
         agility = a;
         og = new int[] {strength,defense,agility};
+
+        loc = null; // TODO CREATE SOMETHING TO GIVE IT A LOCATION
+        boardpiece = null; //TODO UPDATE CONSTRUCTORS
+        nearbyEnemies = null; //TODO create scan for enemies based on LOC
     }
 
     @Override
@@ -49,7 +61,7 @@ public class Monster extends InGameCharacter {
         this.defense -= a[1];
         this.agility -= a[2];
     }
-    
+
     public void resetMonster() {
         this.hp = maxhp;
         this.strength = og[0];

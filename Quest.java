@@ -16,6 +16,10 @@ public class Quest extends Game {
     // TODO add factory of Monsters
     Tile loc; //TODO take out
     //TODO Arraylist of Heroes and Monsters
+    ArrayList<Monster> spawnedM;
+    ArrayList<Hero> teamH;
+    // TODO SEPARATE ACTION FOR EACH HERO
+    // TODO VALIDATE MOVEMENTS not necessarily in this class
 
     public Quest() {
         System.out.println("\nWelcome to QUEST! Prepare yourself for a journey filled with Heroes, Monsters, MAGIC, and fun!\n");
@@ -65,7 +69,7 @@ public class Quest extends Game {
             String dir = qScan.nextLine();
             if (dir.equals("I") || dir.equals("i")) {
                 I();
-            }
+            } // TODO add movement for T and B
             else if (dir.equals("W") || dir.equals("A") || dir.equals("D") || dir.equals("S") || dir.equals("w") || dir.equals("a") || dir.equals("d") || dir.equals("s")) {
                 boolean valid = b.valid(dir);
                 if (valid) {
@@ -303,12 +307,43 @@ public class Quest extends Game {
         this.gameOver = true;
     }
 
+    public void checkNexusBreach() {
+        boolean v = false;
+        for (Hero h: team) {
+            Tile pos = h.getLoc();
+            if (pos.getType().equals("Nexus")) {
+                System.out.println(h.getName() + " has reached the enemy Nexus! HEROES' VICTORY!");
+                v = true;
+                setGAMEOVER();
+            }
+        }
+        if (!v) {
+            for (Monster m: spawnedM) {
+                Tile pos = m.getLoc();
+                if (pos.getType().equals("Nexus")) {
+                    System.out.println(m.getName() + " has reached the enemy Nexus! DEFEAT!");
+                    setGAMEOVER();
+                }
+            }
+        }
+    }
+
     public int existsHeroinTeam(String name) {
         int ret = -1;
         for (int i = 0; i < teamcount; i++) {
             if (team[i].getName().equals(name)) ret = i;
         }
         return ret;
+    }
+
+    public boolean validateMovementInput(String move) {
+        // TODO validate Movement per Hero
+        return true;
+    }
+
+    public boolean validateTeleport(int[] Tcoord) {
+        // TODO validateTeleport
+        return true;
     }
 
     public static void main(String[] args) {

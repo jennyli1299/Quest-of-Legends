@@ -10,44 +10,6 @@ public class Market {
     // private HashMap<String, Spell> S; //Spells
     private HashMap<String, Item> M;
 
-    /**public Market(Item[][] specs) {
-        W = new HashMap<String, Weapon>();
-        A = new HashMap<>();
-        P = new HashMap<>();
-        S = new HashMap<>();
-        for (int t = 0; t < 4; t++) {
-            for (Item i: specs[t]) {
-                switch(t) {
-                    case 0:
-                        W.put(i.getItemName(), i);
-                        break;
-                    case 1:
-                        A.put(i.getItemName(), i);
-                        break;
-                    case 2:
-                        P.put(i.getItemName(), i);
-                        break;
-                    case 3:
-                        S.put(i.getItemName(), i);
-                        break;
-                }
-            }
-        }
-    } */
-    /**
-    private Item[] W; //Weapons
-    private Item[] A; //Armor
-    private Item[] P; //Potions
-    private Item[] S; //Spells
-
-    public Market(Item[][] specs) {
-        W = specs[0];
-        A = specs[1];
-        P = specs[2];
-        S = specs[3];
-    }
-    */
-
     public Market (HashMap<String, Item> themarket) {
         M = themarket;
     }
@@ -74,21 +36,6 @@ public class Market {
     public HashMap<String, Item> getItems() {
         return this.M;
     }
-
-    // TODO BUY ITEM IN MARKET
-    // UNDONE THIS IS IMPLEMENTED IN QUEST CLASS INSTEAD
-    /** 
-    public void shop() {
-        Scanner shopper = new Scanner(System.in);
-        boolean done = false;
-        do {
-            printMarket();
-            System.out.println("See anything that interests you?");
-            done = true;
-        }
-        while (!done);
-    }
-    */
 
 
     public static void main(String[] args) {

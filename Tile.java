@@ -2,36 +2,13 @@ import java.util.Arrays;
 import java.util.*;
 
 public class Tile {
-    private String type; // { Nexus [N] = Market, PLAIN = Common Tile [Safe Zone OR Monster], Bush (inc dexterity 10%), Koulou (inc strength 10%), Cave (inc agility 10%) } //TODO update M&H attacks
-    // private boolean onloc;
+    private String type; // { Nexus [N] = Market, PLAIN = Common Tile [Safe Zone OR Monster], Bush (inc dexterity 10%), Koulou (inc strength 10%), Cave (inc agility 10%) }
     private int[] coordinate; // [lane#, row#, col#]
-    // private ArrayList<Hero> h;
-    // private ArrayList<Monster> m;
     private Hero h;
     private Monster m;
 
-    //TODO check nexus win, scan for enemies to fight, teleport, move, & set locations, MARKET AT NEXUS
+    //TODO scan for enemies to fight, teleport, move, & set locations, MARKET AT NEXUS
 
-    // public Tile(int[] coords, ArrayList<Hero> hl, ArrayList<Monster> ml) {
-    //     double prob = Math.random();
-    //     if (prob < 0.2) {
-    //         type = "Bush"; // +10% dexterity
-    //     }
-    //     else if (prob < 0.4) {
-    //         type = "Koulou"; // + 10% strength
-    //     }
-    //     else if (prob < 0.6) {
-    //         type = "Cave"; // +10% agility
-    //     }
-    //     else {
-    //         type = "Plain";
-    //     }
-    //     // onloc = false;
-    //     coordinate = coords;
-    //     h = hl;
-    //     m = ml;
-    //     // whoonme = null;
-    // }
     public Tile(int[] coords) {
         double prob = Math.random();
         if (prob < 0.2) {
@@ -46,10 +23,7 @@ public class Tile {
         else {
             type = "Plain";
         }
-        // onloc = false;
         coordinate = coords;
-        // h = hl;
-        // m = ml;
         h = null;
         m = null;
     }
@@ -61,9 +35,6 @@ public class Tile {
         m = null;
     }
 
-    // public boolean onLocation() {
-    //     return onloc;
-    // }
     public Monster m_on_me() {
         return m;
     }
@@ -110,6 +81,9 @@ public class Tile {
     }
     public void setNexus() {
         this.type = "Nexus";
+    }
+    public void setBaseNexus() {
+        this.type = "NexusBase";
     }
 
     @Override

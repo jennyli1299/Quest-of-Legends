@@ -1,9 +1,8 @@
-// import java.util.Arrays;
 import java.util.Arrays;
-import java.util.Scanner;
+// import java.util.Scanner;
 
 public class Board {
-    private Lane[] gameBoard; //TODO made of Lanes
+    private Lane[] gameBoard;
     private int n;
     private int h;
 
@@ -104,7 +103,7 @@ public class Board {
         return this.gameBoard;
     }
 
-    public String toString() { //TODO add numbers to left
+    public String toString() {
         String map = "";
         String[] lane0 = gameBoard[0].toString().lines().toArray(String[]::new);
         String[] lane1 = gameBoard[1].toString().lines().toArray(String[]::new);

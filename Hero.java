@@ -178,16 +178,24 @@ public class Hero extends InGameCharacter {
         else return true;
     }
     public void castSpell(Monster m, int[] stats) {
-        // Since a Hero spends mana to cast a spell, it cannot be dodged.
+        // Since a Hero spends mana to cast a spell, it's effect cannot be dodged but the damage can be.
         int spelldmg = stats[0];
         spellDmg(m, spelldmg);
         int[] effect = Arrays.copyOfRange(stats, 1, 4);
         m.updAttributes(effect);
     }
     public void spellDmg(Monster m, int sd) {
-        int dmg = (int)(sd + (this.dexterity/10000)*sd);
-        m.updhp((int)(sd + (this.dexterity/10000)*sd));
-        System.out.println(m.getName() + " has taken " + dmg + " damage from " + this.name + "'s SPELL!");
+        if (Math.random() <= m.agility/100) {
+            System.out.println(m.name + " DODGED spell damage! However, Spell residue is effective!");
+        }
+        else {
+            int dmg = (int)(sd + (this.dexterity/10000)*sd);
+            if (this.getLoc().getType().equals("Bush")) { // Bush (inc dexterity (spell casting) 10%)
+                dmg = (int)(dmg*1.1);
+            }
+            m.updhp(dmg);
+            System.out.println(m.getName() + " has taken " + dmg + " damage from " + this.name + "'s SPELL! Spell Residue is effective!");
+        }
     }
 
     public void setAttacking (Monster m) {

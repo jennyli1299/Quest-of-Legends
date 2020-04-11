@@ -54,24 +54,31 @@ public abstract class InGameCharacter {
         target.setLocTile(this);
     }
     public void attack(InGameCharacter c) { //TODO CHANGE ATTACK
-        // Random rand = new Random();
-        // int dodgechance = rand.nextInt(2);
-        if (c.type.equals("Monster")) {
+        //PLAIN = Common Tile [Safe Zone OR Monster], Bush (inc dexterity (spell casting) 10%) <- implemented in Hero's cast spell, Koulou (inc strength 10%), Cave (inc agility 10%)
+        if (c.getHM().equals("Monster")) {
             if (Math.random() <= c.agility/100) {
                 System.out.println(c.name + " DODGED " + this.name + "'s attack!");
             }
             else {
-                int dmg = (int)((this.strength-c.defense)*0.05); // CHANGED FROM 0.05 TO 0.5
+                String Htile = this.getLoc().getType();
+                int dmg = (int)((this.strength-c.defense)*0.05);
+                if (Htile.equals("Koulou")) { // Koulou (inc strength 10%)
+                    dmg = (int)(((this.strength*1.1)-c.defense)*0.05);
+                }
                 c.updhp(dmg);
                 System.out.println(this.name + "'s attack was EFFECTIVE!" + " " + c.getName() + " has taken " + Integer.toString(dmg) + " damage.");
             }
         }
         else {
-            if (Math.random() <= c.agility*0.0002) { //0.02
+            double dodgechance = c.agility*0.0002; //0.02
+            if (c.getLoc().getType().equals("Cave")) { // Cave (inc agility 10%)
+                dodgechance *= 1.1;
+            }
+            if (Math.random() <= dodgechance) {
                 System.out.println(c.name + " DODGED " + this.name + "'s attack!");
             }
             else {
-                int dmg = (int)((this.strength-c.defense)*0.05); // CHANGED FROM 0.05 TO 0.5
+                int dmg = (int)((this.strength-c.defense)*0.05);
                 c.updhp(dmg);
                 System.out.println(this.name + "'s attack was EFFECTIVE!" + " " + c.getName() + " has taken " + Integer.toString(dmg) + " damage.");
             }
@@ -82,17 +89,13 @@ public abstract class InGameCharacter {
             this.hp -= h;
         }
         if (this.hp <=0 ) {
-        //PRINT STATEMENT
         System.out.println(this.name + " has FAINTED!");
         }
     }
 
-    public void move(int lane, int row, int col) {
-        //TODO
-    }
-    public abstract void reward();
+    public abstract void reward(); //TODO
     // public abstract void levelup();
-    public abstract void setPiece();
+    public abstract void setPiece(); //TODO
 
     public boolean equals(InGameCharacter c) {
         return (this.name.equals(c.name));

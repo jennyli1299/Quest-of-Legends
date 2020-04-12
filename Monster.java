@@ -5,6 +5,7 @@ public class Monster extends InGameCharacter {
     public Monster () {
         name = "a monster";
         type =  "Friendly Foe"; //"Fiendly Adversary";
+        HM = "Monster";
         lvl = 1;
         exp = 0;
         maxhp = lvl*100;
@@ -21,6 +22,7 @@ public class Monster extends InGameCharacter {
     public Monster (String n, String t, int l, int s, int d, int a) {
         name = n;
         type = t;
+        HM = "Monster";
         lvl = l;
         exp = Math.max(0, (lvl-1)*10);
         maxhp = l*100;
@@ -37,6 +39,7 @@ public class Monster extends InGameCharacter {
     public Monster (String n, String t, int l, int h, int s, int d, int a) {
         name = n;
         type = t;
+        HM = "Monster";
         lvl = l;
         exp = Math.max(0, (lvl-1)*10);
         maxhp = h;
@@ -55,6 +58,13 @@ public class Monster extends InGameCharacter {
     public void setPiece(int n) {
         this.boardpiece = "M" + Integer.toString(n);
     }
+
+    // public void moveTo(Tile target) {
+    //     if (this.loc != null) this.loc.leaveTile(this);
+    //     this.loc = target;
+    //     // target.setLocTile(this);
+    //     target.testMLocTile(this);
+    // }
 
     public void updAttributes (int[] a) {
         this.strength -= a[0];

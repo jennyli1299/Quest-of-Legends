@@ -58,6 +58,7 @@ public abstract class InGameCharacter {
         if (this.loc != null) this.loc.leaveTile(this);
         this.loc = target;
         target.setLocTile(this);
+        // target.testMLocTile(this);
     }
 
     public void attack(InGameCharacter c) { //TODO CHANGE ATTACK

@@ -45,6 +45,9 @@ public class Tile {
             m = (Monster)igc;
         }
     }
+    // public void testMLocTile(Monster m) { // TEST
+    //     this.m = m;
+    // }
     public void leaveTile(InGameCharacter igc) {
         if (igc.getHM().equals("Hero"))
             h = null;

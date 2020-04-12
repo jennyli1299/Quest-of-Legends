@@ -12,7 +12,7 @@ public class Lane {
         lane = new Tile[h][2];
         for (int r = 0; r < h; r++) {
             for (int c = 0; c < 2; c++) {
-                int[] coords = new int[] {lanenum, r, c};
+                int[] coords = new int[] {lanenum, r, c+1};
                 Tile t = new Tile(coords);
                 lane[r][c] = t;
             }
@@ -21,6 +21,10 @@ public class Lane {
             lane[0][c].setNexus();
             lane[h-1][c].setBaseNexus();
         }
+    }
+
+    public Tile getTileAt(int[] coords) {
+        return lane[coords[1]][coords[2]-1];
     }
 
     @Override

@@ -5,10 +5,13 @@ public class Board {
     private Lane[] gameBoard;
     private int n;
     private int h;
+    private int w;
+    // Scalable number of Lanes and height of Lanes, but not width of Lane
 
     public Board(int n, int h) {
         this.n = n;
         this.h = h;
+        this.w = 2;
         gameBoard = new Lane[n];
         for (int l = 0; l < n; l++) {
             gameBoard[l] = new Lane(l+1, h);
@@ -103,6 +106,18 @@ public class Board {
         return this.gameBoard;
     }
 
+    public Tile getHSpawnTile(int n) {
+        int lane = (n+1)%3;
+        if (lane == 0) lane = 3;
+        int widthpos = ((int)Math.floor((double)n/3) %2) + 1;
+        Tile SpawnTile = getTileAt(new int[] {lane, this.h-1, widthpos});
+        return SpawnTile;
+    }
+
+    public Tile getTileAt(int[] coords) {
+        return (gameBoard[coords[0]-1]).getTileAt(coords);
+    }
+
     public String toString() {
         String map = "";
         String[] lane0 = gameBoard[0].toString().lines().toArray(String[]::new);
@@ -133,11 +148,25 @@ public class Board {
         Board hello = new Board(3, 8);
 
         System.out.println(hello);
+        int[] target = new int[] {2, 3, 2};
+        System.out.println(hello.getTileAt(target));
+        System.out.println(Arrays.toString(hello.getHSpawnTile(10).getCoords()));
+        System.out.println(Arrays.toString(hello.getHSpawnTile(0).getCoords()));
+        System.out.println(Arrays.toString(hello.getHSpawnTile(14).getCoords()));
+        System.out.println(Arrays.toString(hello.getHSpawnTile(6).getCoords()));
+        // System.out.println(hello.getHSpawnTile(10));
 
-        String[] lane2 = hello.gameBoard[1].toString().lines().toArray(String[]::new);
-        System.out.println(Arrays.toString(lane2));
+        // String[] lane2 = hello.gameBoard[1].toString().lines().toArray(String[]::new);
+        // System.out.println(Arrays.toString(lane2));
 
-        Lane[] map = hello.getMap();
+        // Lane[] map = hello.getMap();
+
+        // for (int i = 0; i < 14; i++) {
+        //     System.out.print(i);
+        //     System.out.print(" ");
+        //     System.out.print((int)Math.floor((double)i/3) %2);
+        //     System.out.println();
+        // }
 
         // for (int r = 0; r < hello.getn(); r++) {
         //     for (int c = 0; c < hello.getn(); c++) {

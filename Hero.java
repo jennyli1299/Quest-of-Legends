@@ -16,6 +16,7 @@ public class Hero extends InGameCharacter {
     protected HashMap<String, Integer> invnum;
     protected Monster attacking;
     protected int[] ogstats; // Strength, Defense, Dexterity, Agility
+    protected Tile base;
 
     public Hero () {
         name = "a Hero";
@@ -38,6 +39,7 @@ public class Hero extends InGameCharacter {
         ogstats = new int[] {strength, defense, dexterity, agility};
 
         loc = null; // TODO CREATE SOMETHING TO GIVE IT A LOCATION
+        base = null;
         boardpiece = null; //TODO UPDATE CONSTRUCTORS
         nearbyEnemies = null; //TODO create scan for enemies based on LOC
     }
@@ -62,7 +64,8 @@ public class Hero extends InGameCharacter {
         invnum = new HashMap<>();
         ogstats = new int[] {strength, defense, dexterity, agility};
 
-        loc = null; // TODO CREATE SOMETHING TO GIVE IT A LOCATION
+        loc = null; // Call spawn method
+        base = null;
         boardpiece = null; //TODO UPDATE CONSTRUCTORS
         nearbyEnemies = null; //TODO create scan for enemies based on LOC
     }
@@ -87,8 +90,20 @@ public class Hero extends InGameCharacter {
         ogstats = new int[] {strength, defense, dexterity, agility};
 
         loc = null; // TODO CREATE SOMETHING TO GIVE IT A LOCATION
-        boardpiece = null; //TODO UPDATE CONSTRUCTORS
+        base = null;
+        boardpiece = null;
         nearbyEnemies = null; //TODO create scan for enemies based on LOC
+    }
+
+    @Override
+    public void spawn(Tile loc, int n) {
+        moveTo(loc);
+        setPiece(n);
+        setBase(loc);
+    }
+
+    public void setBase(Tile b) {
+        base = b;
     }
 
     @Override

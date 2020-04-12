@@ -13,10 +13,15 @@ public abstract class InGameCharacter {
     protected int strength;
     protected int defense;
     protected int agility;
-    protected Tile loc; // TODO UPDATE CONSTRUCTORS AND METHODS ABOUT WHERE THEY ARE AND MOVEMENT
-    protected String boardpiece; //TODO UPDATE CONSTRUCTORS
+    protected Tile loc;
+    protected String boardpiece; 
     protected ArrayList<InGameCharacter> nearbyEnemies; //TODO create scan for enemies based on LOC
 
+
+    public void spawn(Tile loc, int n) {
+        moveTo(loc);
+        setPiece(n);
+    }
 
     public void levelup() {
         if (this.exp >= lvl*10) {
@@ -48,11 +53,13 @@ public abstract class InGameCharacter {
     public Tile getLoc() {
         return loc;
     }
+
     public void moveTo(Tile target) {
-        this.loc.leaveTile(this);
+        if (this.loc != null) this.loc.leaveTile(this);
         this.loc = target;
         target.setLocTile(this);
     }
+
     public void attack(InGameCharacter c) { //TODO CHANGE ATTACK
         //PLAIN = Common Tile [Safe Zone OR Monster], Bush (inc dexterity (spell casting) 10%) <- implemented in Hero's cast spell, Koulou (inc strength 10%), Cave (inc agility 10%)
         if (c.getHM().equals("Monster")) {

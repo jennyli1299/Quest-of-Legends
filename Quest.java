@@ -7,6 +7,7 @@ public class Quest extends Game {
     // private Team H; //Heroes X
     // private Team M; //Monsters O
     HashMap<String, Monster> AllMonsters;
+    MonsterFactory mf; // TODO: CONSTRUCTOR AND INCORPORATE FUNCTIONALITY INTO QUEST
     Hero[] team;
     Market M;
     Scanner qScan;

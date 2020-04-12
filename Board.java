@@ -107,10 +107,18 @@ public class Board {
     }
 
     public Tile getHSpawnTile(int n) {
-        int lane = (n+1)%3;
+        int lane = (n)%3;
         if (lane == 0) lane = 3;
         int widthpos = ((int)Math.floor((double)n/3) %2) + 1;
         Tile SpawnTile = getTileAt(new int[] {lane, this.h-1, widthpos});
+        return SpawnTile;
+    }
+
+    public Tile getMSpawnTile(int n) {
+        int lane = (n)%3;
+        if (lane == 0) lane = 3;
+        int widthpos = ((int)Math.floor((double)n/3) %2) + 1;
+        Tile SpawnTile = getTileAt(new int[] {lane, 0, widthpos});
         return SpawnTile;
     }
 

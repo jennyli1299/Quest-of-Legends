@@ -10,6 +10,10 @@ public class MonsterFactory {
     }
 
     public Monster spawnMonster(Board b, ArrayList<Monster> m, int n) {
+        // INPUT PARAMS: board, ArrayList of Monsters already spawned on the map/board, int representing the nth Monster to be spawned in Quest of Legends
+        // fetches and adds the necessary properties and attributes to a random monster NOT already on the map
+        // adds the created Monster to the ArrayList of Monsters in the game
+        // RETURNS the monster
         boolean newM = false;
         Monster tryMonster;
         do {
@@ -21,6 +25,7 @@ public class MonsterFactory {
         while (!newM);
         Tile mspawnhere = b.getMSpawnTile(n);
         tryMonster.spawn(mspawnhere, n);
+        m.add(tryMonster);
         return tryMonster;
     }
 

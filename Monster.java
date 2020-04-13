@@ -114,7 +114,22 @@ public class Monster extends InGameCharacter {
     public void reward() { //Reward for alive monsters that win battle
         this.exp += 1;
     }
+<<<<<<< HEAD
     public void reward(int c) {    }
+=======
+    
+    public boolean canAttack(){
+        //check if arraylist is empty, if it is it cannot attack, and will be forced to move downward 1 tile
+        //couple this code with if(m.canAttack){choose random enemy to attack}else{move down}
+        if(this.nearbyEnemies.isEmpty()){
+            return false;
+        }
+        else{
+            return true;
+        }
+        
+    }
+>>>>>>> 8ff760a3c2a609f8ba5542421550053c0a8dbcd3
 
     public String si(int i) {
         return Integer.toString(i);

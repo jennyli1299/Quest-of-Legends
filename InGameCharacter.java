@@ -23,6 +23,11 @@ public abstract class InGameCharacter {
         setPiece(n);
     }
 
+    public abstract void setPiece(int n); //TODO SCAN THROUGH LIST OF SPAWNED H/M TO GET N (length/size)
+    public String getPiece() {
+        return boardpiece;
+    }
+
     public void levelup() {
         if (this.exp >= lvl*10) {
         hp = maxhp;
@@ -103,10 +108,6 @@ public abstract class InGameCharacter {
 
     public abstract void reward();
     // public abstract void levelup();
-    public abstract void setPiece(int n); //TODO SCAN THROUGH LIST OF SPAWNED H/M TO GET N
-    public String getPiece() {
-        return boardpiece;
-    }
 
     public void setNearbyEnemies(ArrayList<InGameCharacter> nE) {
         this.nearbyEnemies = nE;

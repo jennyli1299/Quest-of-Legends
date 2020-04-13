@@ -1,0 +1,34 @@
+Jenny Li jennjenn@bu.edu INSERT U NUMBER
+Patrick Duffill pduffill@bu.edu U84513865
+
+The Quest II Design Document
+Classes:
+	Armor: This is the same exact class that Jenny had written for Quest 1. This is because it extends her item class which makes it a lot easier to equip and unequip, as well as sell in shops.
+	BATTLE: //TODO:
+	Board: This is mostly the class that Jenny had from The Quest 1. We expanded this class to also contain an array of a new type of class called Lane, which ends up being the game board itself. This is in order to make the class scalable in case we need more lanes to be added in the future. We changed some functions to make use of this lane system and also added a function to figure out what tile the monster needs to spawn in based on a lane.
+	Dragon: This is the same class Jenny used that extended her monster class.
+	Exoskeleton: This is the same class Jenny used that extended her monster class.
+	FireSpell: This is the same class Jenny used that extended her spell class.
+	Game: Same abstract class that Jenny created that implements Playable interface
+	GameController: Same class that Jenny created that creates a quest and then plays it
+	Hero: The same class that Jenny created. added a Tile attribute called base in order to track where the hero should teleport to if he chooses to go back to the nexus. In addition added a function to respawn the hero at their nexus
+	IceSpell: This is the same class Jenny used that extended her spell class.
+	InGameCharacter: //TODO: Finish this explanation! Based on Jenny's abstract class from part 1, we added a current location tile as an attribute, and a nearbyEnemies arraylist to capture whether or not there are enemies close enough to the character in order to attack them. 
+	Item: The same as Jenny's quest 1, because her implementation used equipping and unequipping worked well with the one action per round system.
+	Lane: A new class created to give greater flexibility of the game. This is a 2 tile width lane that can be extended vertically. The top and bottom tiles are nexus tiles. Has a lanenum attribute that can be used to find what monster or heros are available to be attacked in a given circumstance.
+	LightningSpell: This is the same class Jenny used that extended her spell class.
+	Market: Jenny's market class that is functional when Pat's was not
+	Monster: //TODO: Finish explanation. Based on Jenny's monster class from Quest 1. Functionality was added to look at the monster's current location, and nearby enemies similar to the hero.
+	MonsterFactory: A new class written as a factory to determine what monster should be spawned every 8 turns at the monster nexus, because we are worried about spawning the same object multiple times?????? //TODO: finish
+	NexusTile: A new extension of the tile class in order to contain the market which the heros can access when they are on that tile. Can be used in the future to add additional nexus functionality if desired.
+	Paladin: Extension of Jenny's hero class that is unchanged from Quest 1.
+	Playable: The same interface from Jenny's Quest 1 that has everything have a Play function
+	Potion: The same class from Jenny's Quest 1 becaues it has better implementation through the extension of the item class.
+	Quest: //TODO: longish explanation maybe?? A lot of the logic is taken from Jenny's Quest 1, with new stuff added to implement the new requirements for movement and combat in Quest of Legends.
+	Setup: Taken entirely from Jenny's Quest 1, because it can allow expansion if we decide there needs to be more/different heroes or monsters.
+	Sorcerer: Extension of Jenny's hero class that is unchanged from Quest 1.
+	Spell: Taken from Jenny's quest 1 where spells extend items that are sold in stores.
+	Spirit: This is the same class Jenny used that extended her monster class.
+	Tile: Taken from Jenny's Quest 1, and expanded to potentially have 1 monster, 1 hero, or 1 of each. Also added functionality to set the tile attributes of the hero/monster that will be on it, which is important for attacking damage calculation and dodge chance.
+	Warrior: Extension of Jenny's hero class that is unchanged from Quest 1.
+	Weapon: Unchanged item subclass from Jenny's Quest 1

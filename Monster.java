@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Monster extends InGameCharacter {
 
@@ -99,6 +100,36 @@ public class Monster extends InGameCharacter {
     public Hero getAttacking() {
         return this.attacking;
     }
+    public boolean canAttack(){
+        //check if arraylist is empty, if it is it cannot attack, and will be forced to move downward 1 tile
+        //couple this code with if(m.canAttack){choose random enemy to attack}else{move down}
+        if(this.nearbyEnemies.isEmpty()){
+            return false;
+        }
+        else{
+            Random rand = new Random();
+            int index = rand.nextInt(nearbyEnemies.size());
+            Hero attacking = (Hero)nearbyEnemies.get(index);
+            this.setAttacking(attacking);
+            return true;
+        }
+        
+    }
+
+    public boolean tryAttackaction() {
+        // Fight
+        boolean attacked = false;
+        if (canAttack()) {
+            attack(this.getAttacking());
+            attacked = true;
+        }
+        return attacked;
+        // Move
+    }
+
+    public void tryMove() {
+        // TODO
+    }
 
     @Override
     public void levelup() {
@@ -115,18 +146,6 @@ public class Monster extends InGameCharacter {
         this.exp += 1;
     }
     public void reward(int c) {    }
-    
-    public boolean canAttack(){
-        //check if arraylist is empty, if it is it cannot attack, and will be forced to move downward 1 tile
-        //couple this code with if(m.canAttack){choose random enemy to attack}else{move down}
-        if(this.nearbyEnemies.isEmpty()){
-            return false;
-        }
-        else{
-            return true;
-        }
-        
-    }
 
     public String si(int i) {
         return Integer.toString(i);

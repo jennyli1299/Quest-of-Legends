@@ -3,18 +3,18 @@ import java.util.*;
 
 public class Quest extends Game {
 
-    // private Board b;
-    // private Team H; //Heroes X
-    // private Team M; //Monsters O
+    // (Inherited)
+    // protected Board b;
+    // protected boolean gameOver; 
+
     HashMap<String, Monster> AllMonsters;
-    MonsterFactory mf; // TODO: CONSTRUCTOR AND INCORPORATE FUNCTIONALITY INTO QUEST
+    MonsterFactory mf; // TODO: INCORPORATE FUNCTIONALITY INTO QUEST (add returned spawnedMonster to ArrayList spawnedM)
     Hero[] team;
     Market M;
     Scanner qScan;
     int teamcount;
     int rounds; //TODO rounds (every 8, a new Monster spawns random lane)
-    // TODO add BATTLE
-    // TODO add factory of Monsters
+    // TODO add BATTLE !! THIS IS A MAJOR TODO
     Tile loc; //TODO take out
     // TODO Arraylist of Heroes and Monsters
     ArrayList<Monster> spawnedM;
@@ -25,7 +25,7 @@ public class Quest extends Game {
     public Quest() {
         System.out.println("\nWelcome to QUEST! Prepare yourself for a journey filled with Heroes, Monsters, MAGIC, and fun!\n");
         System.out.println("First things first. Let's put together a team of courageous heroes for you.");
-        Hero[] team_prelim = SetUp.chooseYourFighters();
+        Hero[] team_prelim = SetUp.chooseYourFighters(); // TODO: create another method specifically for team of 3
         team = team_prelim;
         teamcount = team.length;
         rounds = 0;
@@ -39,7 +39,7 @@ public class Quest extends Game {
         gameOver = false;
     }
 
-    public void play() {
+    public void play() { // TODO PLAY OF THE GAME
         // System.out.println("\nWelcome to QUEST! Prepare yourself for a journey filled with Heroes, Monsters, MAGIC, and fun!\n");
         System.out.println("Let's get all the important stuff out of the way, Shall we? \nHere is your MAP: ");
         System.out.println(b);
@@ -72,7 +72,9 @@ public class Quest extends Game {
                 I();
             } // TODO add movement for T and B
             else if (dir.equals("W") || dir.equals("A") || dir.equals("D") || dir.equals("S") || dir.equals("w") || dir.equals("a") || dir.equals("d") || dir.equals("s")) {
-                boolean valid = b.valid(dir);
+                // make capital
+                boolean valid = b.valid(dir); // TODO: validate a real and accessible position on board
+                // TODO: validate allowed movement in Game (RULES)
                 if (valid) {
                     loc = b.move(dir);
                     System.out.println(b);
@@ -96,7 +98,7 @@ public class Quest extends Game {
         }
     }
 
-    public void explore() {
+    public void explore() { //TODO explore()
         String tiletype = loc.getType();
         if (tiletype.equals("Common")) {
             if (Math.random() < 0.75) {
@@ -158,8 +160,8 @@ public class Quest extends Game {
         }
     }
 
-    public void battle() {
-        Battle fight = new Battle(team, SetUp.AllMonsters());
+    public void battle() {  // TODO bruh. BATTLE.
+        Battle fight = new Battle(team, SetUp.AllMonsters()); // switch this out for Quest's HashMap of AllMonsterss
         fight.fight();
     }
 
@@ -337,14 +339,117 @@ public class Quest extends Game {
         return ret;
     }
 
-    public boolean validateMovementInput(String move) {
-        // TODO validate Movement per Hero
-        return true;
+    // RETURNS the coordinates given an InGameCharacter and the direction it wants to move in (WASD)
+    public int[] convertDirtoCoords(InGameCharacter igc, String dir) { 
+        //Takes in direction input and converts it to coordinates
+        int[] attemptcoords = igc.getLoc().getCoords();
+        switch (dir) {
+            case "W":
+                attemptcoords[1]--;
+                break;
+            case "A":
+                attemptcoords[2]--;
+                break;
+            case "S":
+                attemptcoords[1]++;
+                break;
+            case "D":
+                attemptcoords[2]++;
+                break;
+        }
+        return attemptcoords;
     }
 
-    public boolean validateTeleport(int[] Tcoord) {
-        // TODO validateTeleport
-        return true;
+    // RETURNS true if there is not a Hero on the Nexus base this Hero is trying to back to
+    public boolean validateBack(Hero h) {
+        int[] basecoords = h.getBase().getCoords();
+        return checkTileNOclashingtypes(h, basecoords);
+    }
+
+    // STEPPING WASD: RETURNS a valid Tile t that the InGameCharacter can call moveTo(Tile t) to OTHERWISE RETURNS null
+    public Tile validateMovementInput(InGameCharacter igc, String dir) { //TODO CHECK/TEST
+        // ISSUES TO ADDRESS: inaccessible tile, valid "teleport"(think of each move as a teleport to that space, even if it's the next Tile)
+        int[] trycoords = convertDirtoCoords(igc, dir);
+        boolean validTile = b.valid(trycoords);
+        if (validTile) {
+            boolean validTeleport = validateTeleport(igc, trycoords);
+            if (validTeleport) return b.getTileAt(trycoords);
+            else return null;
+        }
+        else return null;
+    }
+
+    // INTENDED TELEPORT: RETURNS a valid Tile t that the InGameCharacter can TELEPORT to by calling moveTo(Tile t) to OTHERWISE RETURNS null
+    public Tile validateTeleportInput(InGameCharacter igc, int[] Tcoords) {
+        // ISSUES TO ADDRESS: inaccessible tile, valid ACTUAL TELEPORT, cannot teleport to same lane
+        int[] curr = igc.getLoc().getCoords();
+        boolean NOTsameLane = !(curr[0] == Tcoords[0]);
+        if (!NOTsameLane) {
+            System.out.println("You cannot teleport in the same lane you are currently in. The road to victory is not that easy. Walk.");
+            return null;
+        }
+        boolean validTile = b.valid(Tcoords);
+        if (validTile) {
+            boolean validTeleport = validateTeleport(igc, Tcoords);
+            if (validTeleport) return b.getTileAt(Tcoords);
+            else return null;
+        }
+        else return null;
+    }
+
+    // check whether an InGameCharacter can move to the Tile specifies by Tcoords
+    // can be called by validateMovementInput to validate stepping and not Teleporting
+    public boolean validateTeleport(InGameCharacter igc, int[] Tcoords) { 
+        // Assumes Tcoords is a valid position on the map/board
+        boolean noclash = checkTileNOclashingtypes(igc, Tcoords);
+        boolean nobackdoor = checkNObackdoor(igc, Tcoords);
+        return noclash && nobackdoor;
+    }
+
+    // Called by validateTeleport and RETURNS true if a Tile does not already contain an IGC of the same type (Hero/Monster)
+    public boolean checkTileNOclashingtypes(InGameCharacter igc, int[] Tcoords) {
+        // Assumes Tcoords is a valid position on the map/board
+        // ISSUES TO ADDRESS: same HMtype on Tile
+        String HM = igc.getHM();
+        Tile targetTeleport = b.getTileAt(Tcoords);
+        if (HM.equals("Hero")) {
+            if (targetTeleport.h_on_me() != null) {
+                System.out.println("There is already a Hero on that Tile.");
+                return false;
+            }
+            else return true;
+        }
+        else if (HM.equals("Monster")) {
+            if (targetTeleport.m_on_me() != null) return false;
+            else return true;
+        }
+        return false;
+    }
+
+    // Called by validateTeleport and RETURNS true if an IGC is not trying to teleport behind an enemy 
+        // or trying to reach an area of the map their type has not yet been explored
+    public boolean checkNObackdoor(InGameCharacter igc, int[] Tcoords) {
+        // Assumes Tcoords is a valid position on the map/board
+        // ISSUES TO ADDRESS: behind an enemy, ****FURTHEST HERO DISTANCE EXPLORED****
+        String HM = igc.getHM();
+        boolean NObackdoor = true;
+        if (HM.equals("Hero")) {
+            // Hero h = (Hero)igc;
+            for (Monster m: spawnedM) {
+                int[] mc = m.getLoc().getCoords();
+                if (Tcoords[0] == mc[0]) NObackdoor &= (Tcoords[1] >= mc[1]);
+            }
+        }
+        // Nothing for Monsters since we established Monsters would not move with the ability to attack
+        if (!NObackdoor) {
+            System.out.println("You cannot teleport behind a Monster! That's sneaky. An honorable Hero would never do that.");
+            return NObackdoor;
+        }
+        if (Tcoords[1] < b.getFurthestDistanceinLane(Tcoords[0])) {
+            System.out.println("That area has not been explored by Heroes yet! To help you out, the furthest distance explored in Lane " + Tcoords[0] + " is row " + b.getFurthestDistanceinLane(Tcoords[0]) + ".");
+            return false;
+        }
+        return NObackdoor;
     }
 
     public static void main(String[] args) {

@@ -105,6 +105,12 @@ public class Hero extends InGameCharacter {
     public void setBase(Tile b) {
         base = b;
     }
+    public Tile getBase() {
+        return base;
+    }
+    public void BacktoBase() {
+        this.moveTo(base);
+    }
 
     @Override
     public void setPiece(int n) {

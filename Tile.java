@@ -6,6 +6,7 @@ public class Tile {
     private int[] coordinate; // [lane#, row#, col#]
     private Hero h;
     private Monster m;
+    private Lane myLane;
 
     //TODO scan for enemies to fight, teleport, move, & set locations, MARKET AT NEXUS
 
@@ -26,6 +27,7 @@ public class Tile {
         coordinate = coords;
         h = null;
         m = null;
+        myLane = null;
     }
 
     public Tile() {
@@ -33,14 +35,21 @@ public class Tile {
         coordinate = new int[] {-1,-1,-1};
         h = null;
         m = null;
+        myLane = null;
+    }
+
+    public void setLane(Lane lane) {
+        myLane = lane;
     }
 
     public Monster m_on_me() {
         return m;
     }
-    public void setLocTile(InGameCharacter igc) { // TODO validate no Hero already on. probably in Quest/take input class
-        if (igc.getHM().equals("Hero"))
+    public void setLocTile(InGameCharacter igc) {
+        if (igc.getHM().equals("Hero")) {
             h = (Hero)igc;
+            myLane.updateFurthestExplored(this);
+        }
         else if (igc.getHM().equals("Monster")) {
             m = (Monster)igc;
         }

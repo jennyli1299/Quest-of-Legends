@@ -15,93 +15,13 @@ public class Board {
         gameBoard = new Lane[n];
         for (int l = 0; l < n; l++) {
             gameBoard[l] = new Lane(l+1, h);
+            gameBoard[1].setLane();
         }
     }
-
-    // public boolean valid(String dir) { // check valid move & move
-    //     // String[] directions = new String[] {"w", "A", "S", "D"};
-    //     int r = p[0];
-    //     int c = p[1];
-    //     switch (dir) {
-    //         case "W":
-    //             r--;
-    //             break;
-    //         case "A":
-    //             c--;
-    //             break;
-    //         case "S":
-    //             r++;
-    //             break;
-    //         case "D":
-    //             c++;
-    //         case "w":
-    //             r--;
-    //             break;
-    //         case "a":
-    //             c--;
-    //             break;
-    //         case "s":
-    //             r++;
-    //             break;
-    //         case "d":
-    //             c++;
-    //     }
-    //     if (r < 0 || c < 0 || r >= n || c >= n) {
-    //         System.out.println("You cannot move in that direction! It's off the map!");
-    //         return false;
-    //     }
-    //     if (gameBoard[r][c].getType().equals("Nonaccessible")) {
-    //         System.out.println("You cannot move in that direction! It's blocked and nonaccessible!");
-    //         return false;
-    //     }
-    //     else {
-    //         // gameBoard[p[0]][p[1]].leaveTile();
-    //         // p[0] = r;
-    //         // p[1] = c;
-    //         // gameBoard[r][c].setLocTile();
-    //         return true;
-    //     }
-    // }
-    // public Tile move(String dir) { // check valid move & move
-    //     int r = p[0];
-    //     int c = p[1];
-    //     switch (dir) {
-    //         case "W":
-    //             r--;
-    //             break;
-    //         case "A":
-    //             c--;
-    //             break;
-    //         case "S":
-    //             r++;
-    //             break;
-    //         case "D":
-    //             c++;
-    //         case "w":
-    //             r--;
-    //             break;
-    //         case "a":
-    //             c--;
-    //             break;
-    //         case "s":
-    //             r++;
-    //             break;
-    //         case "d":
-    //             c++;
-    //     }
-    //     gameBoard[p[0]][p[1]].leaveTile();
-    //     p[0] = r;
-    //     p[1] = c;
-    //     gameBoard[r][c].setLocTile();
-    //     return gameBoard[r][c];
-    // }
 
     public int getn() {
         return n;
     }
-    // public String getTileType() {
-    //     return gameBoard[p[0]][p[1]].getType();
-    // }
     public Lane[] getMap() {
         return this.gameBoard;
     }
@@ -113,7 +33,6 @@ public class Board {
         Tile SpawnTile = getTileAt(new int[] {lane, this.h-1, widthpos});
         return SpawnTile;
     }
-
     public Tile getMSpawnTile(int n) {
         int lane = (n)%3;
         if (lane == 0) lane = 3;
@@ -124,6 +43,22 @@ public class Board {
 
     public Tile getTileAt(int[] coords) {
         return (gameBoard[coords[0]-1]).getTileAt(coords);
+    }
+    public boolean valid(int[] coords) {
+        for (int c: coords) {
+            if (c < 0) return false;
+            System.out.println("Negative coordinates do not exist on the map!");
+        }
+        if (coords[0]-1<n && coords[1]<h && coords[2]-1<w) return true;
+        else {
+            System.out.println("This location does not exist on the map!");
+            return false;
+        }
+    }
+
+    public int getFurthestDistanceinLane(int l) {
+        Lane lane = gameBoard[l-1];
+        return lane.getFurthestExplored();
     }
 
     public String toString() {

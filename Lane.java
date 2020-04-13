@@ -5,6 +5,7 @@ public class Lane {
     private Tile[][] lane;
     private int lanenum;
     private int h;
+    private int furthestexploredH;
 
     public Lane(int n, int h) {
         lanenum = n;
@@ -21,10 +22,27 @@ public class Lane {
             lane[0][c].setNexus();
             lane[h-1][c].setBaseNexus();
         }
+        furthestexploredH = h-1;
     }
 
     public Tile getTileAt(int[] coords) {
         return lane[coords[1]][coords[2]-1];
+    }
+
+    public void setLane() {
+        for (Tile[] row: lane) {
+            for (Tile t: row) {
+                t.setLane(this);
+            }
+        }
+    }
+
+    public int getFurthestExplored() {
+        return furthestexploredH;
+    }
+    public void updateFurthestExplored(Tile t) {
+        int distexpl = t.getCoords()[1];
+        if (furthestexploredH > distexpl) furthestexploredH = distexpl;
     }
 
     @Override

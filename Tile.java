@@ -8,7 +8,7 @@ public class Tile {
     private Monster m;
     private Lane myLane;
 
-    //TODO scan for enemies to fight, teleport, move, & set locations, MARKET AT NEXUS
+    //TODO MARKET AT NEXUS
 
     public Tile(int[] coords) {
         double prob = Math.random();

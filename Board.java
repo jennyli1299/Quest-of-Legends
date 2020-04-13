@@ -22,6 +22,12 @@ public class Board {
     public int getn() {
         return n;
     }
+    public int geth() {
+        return h;
+    }
+    public int getw() {
+        return w;
+    }
     public Lane[] getMap() {
         return this.gameBoard;
     }
@@ -61,7 +67,7 @@ public class Board {
         return lane.getFurthestExplored();
     }
 
-    public String toString() {
+    public String toString() { // TODO print Lane# and width#
         String map = "";
         String[] lane0 = gameBoard[0].toString().lines().toArray(String[]::new);
         String[] lane1 = gameBoard[1].toString().lines().toArray(String[]::new);

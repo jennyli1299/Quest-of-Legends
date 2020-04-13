@@ -61,7 +61,7 @@ public abstract class InGameCharacter {
         // target.testMLocTile(this);
     }
 
-    public void attack(InGameCharacter c) { //TODO CHANGE ATTACK
+    public void attack(InGameCharacter c) { 
         //PLAIN = Common Tile [Safe Zone OR Monster], Bush (inc dexterity (spell casting) 10%) <- implemented in Hero's cast spell, Koulou (inc strength 10%), Cave (inc agility 10%)
         if (c.getHM().equals("Monster")) {
             if (Math.random() <= c.agility/100) {
@@ -108,7 +108,99 @@ public abstract class InGameCharacter {
         return boardpiece;
     }
 
+    public void setNearbyEnemies(ArrayList<InGameCharacter> nE) {
+        this.nearbyEnemies = nE;
+    }
+    public ArrayList<InGameCharacter> getNearbyEnemies() {
+        return this.nearbyEnemies;
+    }
+    public void printNearbyEnemies() {
+        String igctype = this.getHM();
+        if (igctype.equals("Hero")) {
+            for (InGameCharacter nE : this.nearbyEnemies) {
+                Monster m = (Monster)nE;
+                System.out.println(m);
+            }
+        }
+        // else if (igctype.equals("Monster")) {
+        //     for (InGameCharacter nE : this.nearbyEnemies) {
+        //         Hero h = (Hero)nE;
+        //         System.out.println(h);
+        //     }
+        // }
+    }
+
     public boolean equals(InGameCharacter c) {
         return (this.name.equals(c.name));
+    }
+
+    public static void scanNearbyEnemies(InGameCharacter igc, Board b) {
+        String igcType = igc.getHM();
+        int[] igcCoords = igc.getLoc().getCoords(); // NEED DEEP COPY BRO
+        /** 1   2   3
+         *  4  igc  6
+         *  7   8   9
+         */
+        ArrayList<InGameCharacter> nE = new ArrayList<InGameCharacter>();
+        int[] scanpos = igcCoords.clone();
+        // 4
+        scanpos[2]--;
+        InGameCharacter.addEnemiesatTile(igc, nE, b, scanpos);
+        // 6
+        scanpos = igcCoords.clone();
+        scanpos[2]++;
+        InGameCharacter.addEnemiesatTile(igc, nE, b, scanpos);
+        if (igcType.equals("Hero")) {
+            // 1
+            scanpos = igcCoords.clone();
+            scanpos[1]--;
+            scanpos[2]--;
+            InGameCharacter.addEnemiesatTile(igc, nE, b, scanpos);            
+            // 2
+            scanpos = igcCoords.clone();
+            scanpos[1]--;
+            InGameCharacter.addEnemiesatTile(igc, nE, b, scanpos);
+            // 3
+            scanpos = igcCoords.clone();
+            scanpos[1]--;
+            scanpos[2]++;
+            InGameCharacter.addEnemiesatTile(igc, nE, b, scanpos);  
+        }
+        if (igcType.equals("Monster")) {
+            // 7
+            scanpos = igcCoords.clone();
+            scanpos[1]++;
+            scanpos[2]--;
+            InGameCharacter.addEnemiesatTile(igc, nE, b, scanpos);  
+            // 8
+            scanpos = igcCoords.clone();
+            scanpos[1]++;
+            InGameCharacter.addEnemiesatTile(igc, nE, b, scanpos);  
+            // 9
+            scanpos = igcCoords.clone();
+            scanpos[1]++;
+            scanpos[2]++;
+            InGameCharacter.addEnemiesatTile(igc, nE, b, scanpos);  
+        }
+        igc.setNearbyEnemies(nE);
+    }
+    public static void addEnemiesatTile(InGameCharacter igc, ArrayList<InGameCharacter> nE, Board b, int[] tcoords) {
+        String igcType = igc.getHM();
+        if (b.valid(tcoords)) {
+            Tile pos = b.getTileAt(tcoords);
+            if (igcType.equals("Hero")) {
+                if (pos.m_on_me() != null) {
+                    nE.add(pos.m_on_me());
+                }
+            }
+            else if (igcType.equals("Monster")) {
+                if (pos.h_on_me() != null) {
+                    nE.add(pos.m_on_me());
+                }
+            }
+        }
+    }
+    public static void main(String[] args) {
+        
     }
 }

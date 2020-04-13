@@ -342,7 +342,7 @@ public class Quest extends Game {
     // RETURNS the coordinates given an InGameCharacter and the direction it wants to move in (WASD)
     public int[] convertDirtoCoords(InGameCharacter igc, String dir) { 
         //Takes in direction input and converts it to coordinates
-        int[] attemptcoords = igc.getLoc().getCoords();
+        int[] attemptcoords = igc.getLoc().getCoords().clone();
         switch (dir) {
             case "W":
                 attemptcoords[1]--;

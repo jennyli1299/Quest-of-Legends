@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Monster extends InGameCharacter {
 
     protected int[] og; //original stats PRE-SPELLS
@@ -15,9 +17,9 @@ public class Monster extends InGameCharacter {
         agility = 0;
         og = new int[] {strength,defense,agility};
 
-        loc = null; // TODO CREATE SOMETHING TO GIVE IT A LOCATION
-        boardpiece = null; //TODO UPDATE CONSTRUCTORS
-        nearbyEnemies = null; //TODO create scan for enemies based on LOC
+        loc = null; 
+        boardpiece = null; 
+        nearbyEnemies = new ArrayList<InGameCharacter>(); //TODO create scan for enemies based on LOC
     }
     public Monster (String n, String t, int l, int s, int d, int a) {
         name = n;
@@ -32,9 +34,9 @@ public class Monster extends InGameCharacter {
         agility = a;
         og = new int[] {strength,defense,agility};
 
-        loc = null; // TODO CREATE SOMETHING TO GIVE IT A LOCATION
-        boardpiece = null; //TODO UPDATE CONSTRUCTORS
-        nearbyEnemies = null; //TODO create scan for enemies based on LOC
+        loc = null; 
+        boardpiece = null; 
+        nearbyEnemies = new ArrayList<InGameCharacter>(); //TODO create scan for enemies based on LOC
     }
     public Monster (String n, String t, int l, int h, int s, int d, int a) {
         name = n;
@@ -49,9 +51,9 @@ public class Monster extends InGameCharacter {
         agility = a;
         og = new int[] {strength,defense,agility};
 
-        loc = null; // TODO CREATE SOMETHING TO GIVE IT A LOCATION
-        boardpiece = null; //TODO UPDATE CONSTRUCTORS
-        nearbyEnemies = null; //TODO create scan for enemies based on LOC
+        loc = null; 
+        boardpiece = null; 
+        nearbyEnemies = new ArrayList<InGameCharacter>(); //TODO create scan for enemies based on LOC
     }
 
     @Override

@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.ArrayList;
 // import java.util.Iterator;
 // import java.util.Map;
 // import java.io.InputStream;
@@ -38,10 +39,10 @@ public class Hero extends InGameCharacter {
         invnum = new HashMap<>();
         ogstats = new int[] {strength, defense, dexterity, agility};
 
-        loc = null; // TODO CREATE SOMETHING TO GIVE IT A LOCATION
+        loc = null; 
         base = null;
-        boardpiece = null; //TODO UPDATE CONSTRUCTORS
-        nearbyEnemies = null; //TODO create scan for enemies based on LOC
+        boardpiece = null; 
+        nearbyEnemies = new ArrayList<InGameCharacter>(); //TODO create scan for enemies based on LOC
     }
     public Hero (String n, String t, int m, int s, int a, int dx, int startingmoney, int startingexp) {
         name = n;
@@ -64,10 +65,10 @@ public class Hero extends InGameCharacter {
         invnum = new HashMap<>();
         ogstats = new int[] {strength, defense, dexterity, agility};
 
-        loc = null; // Call spawn method
+        loc = null; 
         base = null;
-        boardpiece = null; //TODO UPDATE CONSTRUCTORS
-        nearbyEnemies = null; //TODO create scan for enemies based on LOC
+        boardpiece = null; 
+        nearbyEnemies = new ArrayList<InGameCharacter>(); //TODO create scan for enemies based on LOC
     }
     public Hero (String n, String t, int l, int e, int h, int m, int s, int d, int dx, int a, int c) { // SUPER CUSTOM HERO
         name = n;
@@ -89,10 +90,10 @@ public class Hero extends InGameCharacter {
         coins = c;
         ogstats = new int[] {strength, defense, dexterity, agility};
 
-        loc = null; // TODO CREATE SOMETHING TO GIVE IT A LOCATION
+        loc = null; 
         base = null;
         boardpiece = null;
-        nearbyEnemies = null; //TODO create scan for enemies based on LOC
+        nearbyEnemies = new ArrayList<InGameCharacter>(); //TODO create scan for enemies based on LOC
     }
 
     @Override
@@ -219,8 +220,8 @@ public class Hero extends InGameCharacter {
         }
     }
 
-    public void setAttacking (Monster m) {
-        this.attacking = m;
+    public void setAttacking (InGameCharacter m) {
+        this.attacking = (Monster)m;
     }
     public Monster getAttacking() {
         return this.attacking;

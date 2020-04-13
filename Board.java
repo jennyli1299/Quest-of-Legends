@@ -8,13 +8,13 @@ public class Board {
     private int w;
     // Scalable number of Lanes and height of Lanes, but not width of Lane
 
-    public Board(int n, int h) {
+    public Board(int n, int h, int w) {
         this.n = n;
         this.h = h;
-        this.w = 2;
+        this.w = w;
         gameBoard = new Lane[n];
         for (int l = 0; l < n; l++) {
-            gameBoard[l] = new Lane(l+1, h);
+            gameBoard[l] = new Lane(l+1, h, w);
             gameBoard[1].setLane();
         }
     }
@@ -88,7 +88,7 @@ public class Board {
     } */
 
     public static void main(String[] args) {
-        Board hello = new Board(3, 8);
+        Board hello = new Board(3, 8, 2);
 
         System.out.println(hello);
         int[] target = new int[] {2, 3, 2};

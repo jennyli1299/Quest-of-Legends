@@ -5,20 +5,22 @@ public class Lane {
     private Tile[][] lane;
     private int lanenum;
     private int h;
+    private int w;
     private int furthestexploredH;
 
-    public Lane(int n, int h) {
+    public Lane(int n, int h, int w) {
         lanenum = n;
         this.h = h;
-        lane = new Tile[h][2];
+        this.w = w;
+        lane = new Tile[h][w];
         for (int r = 0; r < h; r++) {
-            for (int c = 0; c < 2; c++) {
+            for (int c = 0; c < w; c++) {
                 int[] coords = new int[] {lanenum, r, c+1};
                 Tile t = new Tile(coords);
                 lane[r][c] = t;
             }
         }
-        for (int c = 0; c < 2; c++) {
+        for (int c = 0; c < w; c++) {
             lane[0][c].setNexus();
             lane[h-1][c].setBaseNexus();
         }
@@ -61,7 +63,7 @@ public class Lane {
     }
 
     public static void main(String[] args) {
-        Lane L1 = new Lane(1, 8);
+        Lane L1 = new Lane(1, 8, 2);
         System.out.println(L1);
     }
 }

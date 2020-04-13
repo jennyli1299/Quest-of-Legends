@@ -281,7 +281,7 @@ public class SetUp { // redo so only one scanner for all
     }
 
 
-    public static Hero[] chooseYourFighters () { //TODO make 3
+    public static Hero[] chooseYourFighters () {
         Scanner setup = new Scanner(System.in);
         boolean isnum = false;
         int n = 0;
@@ -302,6 +302,28 @@ public class SetUp { // redo so only one scanner for all
             if (n < 1 || n > 3) System.out.println("Invalid Input. Please Enter 1, 2, or 3.");
         }
         while (n < 1 || n > 3);
+        int num = 0;
+        Hero[] team = new Hero[n];
+        HashMap<String, Hero> allH = SetUp.AllHeroes();
+        SetUp.printHeroes(SetUp.AllHeroes());
+        do {
+            System.out.println("Please enter the name of the Hero you would like on your team: ");
+            String name = setup.nextLine();
+            // setup.next();
+            if (allH.containsKey(name)) {
+                team[num] = allH.get(name);
+                num++;
+                System.out.println("What a mighty Hero! " + name + " has been added to your team!");
+            }
+            else System.out.println("That doesn't seem to match any of our Heroes. Please try again.");
+        }
+        while (num < n);
+        System.out.println("\nYour team of Heroes is complete! Good luck on your Quest!\n");
+        // setup.close();
+        return team;
+    }
+    public static Hero[] chooseYourFighters(int n) {
+        Scanner setup = new Scanner(System.in);
         int num = 0;
         Hero[] team = new Hero[n];
         HashMap<String, Hero> allH = SetUp.AllHeroes();

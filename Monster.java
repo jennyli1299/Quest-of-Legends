@@ -3,6 +3,7 @@ import java.util.ArrayList;
 public class Monster extends InGameCharacter {
 
     protected int[] og; //original stats PRE-SPELLS
+    protected Hero attacking;
 
     public Monster () {
         name = "a monster";
@@ -19,7 +20,8 @@ public class Monster extends InGameCharacter {
 
         loc = null; 
         boardpiece = null; 
-        nearbyEnemies = new ArrayList<InGameCharacter>(); //TODO create scan for enemies based on LOC
+        nearbyEnemies = new ArrayList<InGameCharacter>(); 
+        attacking = null;
     }
     public Monster (String n, String t, int l, int s, int d, int a) {
         name = n;
@@ -36,7 +38,8 @@ public class Monster extends InGameCharacter {
 
         loc = null; 
         boardpiece = null; 
-        nearbyEnemies = new ArrayList<InGameCharacter>(); //TODO create scan for enemies based on LOC
+        nearbyEnemies = new ArrayList<InGameCharacter>(); 
+        attacking = null;
     }
     public Monster (String n, String t, int l, int h, int s, int d, int a) {
         name = n;
@@ -53,7 +56,8 @@ public class Monster extends InGameCharacter {
 
         loc = null; 
         boardpiece = null; 
-        nearbyEnemies = new ArrayList<InGameCharacter>(); //TODO create scan for enemies based on LOC
+        nearbyEnemies = new ArrayList<InGameCharacter>(); 
+        attacking = null;
     }
 
     @Override
@@ -89,6 +93,13 @@ public class Monster extends InGameCharacter {
     public String getName() {
         return name;
     }
+    public void setAttacking (InGameCharacter m) {
+        this.attacking = (Hero)m;
+    }
+    public Hero getAttacking() {
+        return this.attacking;
+    }
+
     @Override
     public void levelup() {
         if (this.exp >= lvl*10) {
@@ -103,6 +114,7 @@ public class Monster extends InGameCharacter {
     public void reward() { //Reward for alive monsters that win battle
         this.exp += 1;
     }
+    public void reward(int c) {    }
 
     public String si(int i) {
         return Integer.toString(i);

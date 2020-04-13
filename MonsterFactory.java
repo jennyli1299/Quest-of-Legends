@@ -108,7 +108,7 @@ public class MonsterFactory {
     }
 
     public static void main(String[] args) {
-        Board b = new Board(3, 8);
+        Board b = new Board(3, 8, 2);
         MonsterFactory mf = new MonsterFactory();
         ArrayList<Monster> alm = new ArrayList<Monster>();
         Monster newM = mf.spawnMonster(b, alm, 1);

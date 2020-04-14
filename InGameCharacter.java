@@ -1,6 +1,7 @@
 // import java.util.Random;
 // import java.util.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public abstract class InGameCharacter {
     protected String name;
@@ -149,12 +150,12 @@ public abstract class InGameCharacter {
                 System.out.println(m);
             }
         }
-        // else if (igctype.equals("Monster")) {
-        //     for (InGameCharacter nE : this.nearbyEnemies) {
-        //         Hero h = (Hero)nE;
-        //         System.out.println(h);
-        //     }
-        // }
+        else if (igctype.equals("Monster")) { //TEST
+            for (InGameCharacter nE : this.nearbyEnemies) {
+                Hero h = (Hero)nE;
+                System.out.println(h);
+            }
+        }
     }
 
     public boolean equals(InGameCharacter c) {
@@ -170,6 +171,8 @@ public abstract class InGameCharacter {
          */
         ArrayList<InGameCharacter> nE = new ArrayList<InGameCharacter>();
         int[] scanpos = igcCoords.clone();
+        // igc
+        InGameCharacter.addEnemiesatTile(igc, nE, b, scanpos);
         // 4
         scanpos[2]--;
         InGameCharacter.addEnemiesatTile(igc, nE, b, scanpos);
@@ -222,7 +225,7 @@ public abstract class InGameCharacter {
             }
             else if (igcType.equals("Monster")) {
                 if (pos.h_on_me() != null) {
-                    nE.add(pos.m_on_me());
+                    nE.add(pos.h_on_me());
                 }
             }
         }

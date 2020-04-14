@@ -25,7 +25,7 @@ public class MonsterFactory {
         while (!newM);
         Tile mspawnhere = b.getMSpawnTile(n);
         tryMonster.spawn(mspawnhere, n);
-        m.add(tryMonster);
+        // m.add(tryMonster);
         return tryMonster;
     }
 

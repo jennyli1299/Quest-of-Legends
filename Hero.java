@@ -299,7 +299,10 @@ public class Hero extends InGameCharacter {
         System.out.println();
     }
     public void printSpecificINV(String itemtype) {
-        System.out.println(this.name + "'s " + itemtype + ":");
+        if (itemtype.equals("Armor")) {
+            System.out.println(this.name + "'s " + itemtype + ":");
+        }
+        else System.out.println(this.name + "'s " + itemtype + "s:");
         for (Item it : inv.values()) {
             if (it.getType().equals(itemtype)) {
                 System.out.println(invnum.get(it.getItemName()).toString() + "\t" + it.toString());
@@ -314,6 +317,7 @@ public class Hero extends InGameCharacter {
         do {
             System.out.println("Would you like to buy or sell items or leave the Market? Enter Buy, Sell, or Leave");
             shop = qScan.nextLine();
+            shop.toLowerCase();
             if (shop.equals("buy") || shop.equals("Buy")) {
                 System.out.println("YAY! I love to shop!");
                 shop(M, qScan);
@@ -350,9 +354,20 @@ public class Hero extends InGameCharacter {
                         complete = true;
                         done = true;
                     } else if (M.getItems().containsKey(shop)) {
-                        complete = true;
                         Item i = M.getItems().get(shop);
-                        buyItem(i);
+                        if (i.getType().equals("Spell")) {
+                            if (inv.containsKey(shop)) {
+                                System.out.println("You've already mastered this Spell!");
+                            }
+                            else {
+                                buyItem(i);
+                                complete = true;
+                            }
+                        }
+                        else {
+                            buyItem(i);
+                            complete = true;
+                        }
                     } else {
                         System.out.println("The market doesn't seem to carry that... Did you mispell the Item name?");
                     }
@@ -390,7 +405,7 @@ public class Hero extends InGameCharacter {
                 if (hinv.containsKey(sell)) {
                     sellItem(hinv.get(sell));
                     sold = true;
-                } else if (sell.equals("DONE")) {
+                } else if (sell.equals("DONE") || sell.equals("Done") || sell.equals("done")) {
                     sold = true;
                     done = true;
                 } else if (sell.equals("I") || sell.equals("i")) {
@@ -419,7 +434,7 @@ public class Hero extends InGameCharacter {
         return descr;
     }
 
-    public void fight(Scanner fightinput) {
+    public void fight(Scanner fightinput) { 
         System.out.println("You have chosen to attack!");
         HashMap<String, Monster> hmNE = new HashMap<String, Monster>();
         for (InGameCharacter igc : nearbyEnemies) {
@@ -447,17 +462,24 @@ public class Hero extends InGameCharacter {
             AorS = AorS.toLowerCase();
             if (AorS.equals("a") || AorS.equals("attack")) {
                 attack(attacking);
+                MinNE = true;
             } else if (AorS.equals("s")) {
                 castSpell(fightinput);
+                MinNE = true;
             }
         } while (!MinNE);
-        if (attacking.getHealth() <= 0) rewardIGC();
+        System.out.println(this);
+        System.out.println(attacking);
+        if (attacking.getHealth() <= 0) {
+            attacking.setDead();
+            rewardIGC();
+        }
     }
 
     public void castSpell(Scanner fightinput) {
         // CAST SPELL
         System.out.println("You have chosen to Cast a Spell! Here are all the Spells you've mastered: ");
-        printSpecificINV("Spells");
+        printSpecificINV("Spell");
         boolean done = false;
         do {
             System.out.println(getRep() + " may only Cast ONE Spell. \nEnter the name of the Spell you would like to use or None if you wish to exit Inventory and end your turn: ");
@@ -492,7 +514,7 @@ public class Hero extends InGameCharacter {
     public void usePotion(Scanner fightinput) {
         // CAST SPELL
         System.out.println("You have chosen to Use a potion! Here is your inventory of Potions: ");
-        printSpecificINV("Potions");
+        printSpecificINV("Potion");
         boolean done = false;
         do {
             System.out.println(getRep() + " may only use ONE Potion. \nEnter the name of the Potion you wishto use or None if you wish to exit Inventory and end your turn: ");
@@ -522,7 +544,7 @@ public class Hero extends InGameCharacter {
         System.out.println("Armor: ");
         printSpecificINV("Armor");
         System.out.println("Weapons: ");
-        printSpecificINV("Weapons");
+        printSpecificINV("Weapon");
         boolean done = false;
         do {
             System.out.println(getName() + " may only equip armor and/or weapons. \nEnter the name of an Armor or Weapon you would like to equip or None to exit Inventory and end your turn: ");

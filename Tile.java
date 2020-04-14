@@ -8,7 +8,7 @@ public class Tile {
     private Monster m;
     private Lane myLane;
 
-    //TODO MARKET AT NEXUS
+    //TODO MARKET AT NEXUS (accomplished)
 
     public Tile(int[] coords) {
         double prob = Math.random();
@@ -41,6 +41,9 @@ public class Tile {
     public void setLane(Lane lane) {
         myLane = lane;
     }
+    public Lane getLane() {
+        return myLane;
+    }
 
     public Monster m_on_me() {
         return m;
@@ -48,13 +51,14 @@ public class Tile {
     public void setLocTile(InGameCharacter igc) {
         if (igc.getHM().equals("Hero")) {
             h = (Hero)igc;
-            myLane.updateFurthestExplored(this);
+            int dist = coordinate[1]; // 2
+            myLane.updateFurthestExplored(dist);
         }
         else if (igc.getHM().equals("Monster")) {
             m = (Monster)igc;
         }
     }
-    // public void testMLocTile(Monster m) { // TEST
+    // public void testMLocTile(Monster m) { 
     //     this.m = m;
     // }
     public void leaveTile(InGameCharacter igc) {

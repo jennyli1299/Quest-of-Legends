@@ -14,11 +14,8 @@ public class Quest extends Game {
     Scanner qScan;
     int teamcount;
     int round; 
-    // TODO add BATTLE !! THIS IS A MAJOR TODO
-    Tile loc; //TODO take out
     ArrayList<Monster> spawnedM;
     // ArrayList<Hero> teamH;
-    // TODO SEPARATE ACTION FOR EACH HERO
 
     public Quest() {
         // int bsize = SetUp.boardsize(); // If you want to make board scalable, ask for #lanes and lane distance and land width TODO
@@ -47,7 +44,7 @@ public class Quest extends Game {
         gameOver = false;
     }
 
-    public void play() { // TODO PLAY OF THE GAME
+    public void play() {
         // System.out.println("\nWelcome to QUEST! Prepare yourself for a journey filled with Heroes, Monsters, MAGIC, and fun!\n");
         System.out.println("Let's get all the important stuff out of the way, Shall we? \nHere is your MAP: ");
         System.out.println(b);
@@ -76,7 +73,7 @@ public class Quest extends Game {
             System.out.println(b);
             round++;
             if (round%8 == 0) {
-                spawnedM.add(mf.spawnMonster(b, spawnedM, spawnedM.size()));
+                spawnedM.add(mf.spawnMonster(b, spawnedM, spawnedM.size()+1));
             }
             if (round != 1) {
                 for (Hero h : team) {
@@ -84,15 +81,20 @@ public class Quest extends Game {
                 }
                 System.out.println("Round " + Integer.toString(round) + "! Your team of Heroes has had time to REGEN some health and mana.");
             }
+            I();
             for (Hero h : team) {
                 InGameCharacter.scanNearbyEnemies(h, b);
 
                 System.out.println(b);
-                System.out.println("It is " + h.getHM() + ": " + h.getName() + "'s turn.");
+                System.out.println("It is " + h.getRep() + "'s turn.");
 
-                String[] options = new String[] {"[Move]: Move 1 space", "[T]: Teleport", "[B]: back to Base", "NA", "NA", "[P]: Use a Potion", "[G]: Gear up Armor/Weapons","[I]: display Team Info", "[MI]: display Enemy Info", "[Nothing]", "[Q]: quit game"};
+                String[] options = new String[] {"[Move]: Move 1 space", "[TP]: Teleport", "NA", "NA", "NA", "[P]: Use a Potion", "[G]: Gear up Armor/Weapons","[I]: display Team Info", "[MI]: display Enemy Info", "[Nothing]", "[Q]: quit game"};
                 boolean shopnexus = false;
                 boolean canfight = false;
+                boolean canB = validateBack(h);
+                if (canB) {
+                    options[2] = "[B]: back to Base";
+                }
                 if (h.getLoc().getCoords()[1] == (b.geth()-1)) {
                     System.out.println(h.getHM() + ": " + h.getName() + " is on a Nexus Tile! You may shop if you wish.");
                     options[3] = "[Shop]: buy/sell items or learn Spells at the Market";
@@ -118,12 +120,12 @@ public class Quest extends Game {
                         WASD(h);
                         acted = true;
                     }
-                    else if (action.equals("t") || action.equals("teleport")) {
+                    else if (action.equals("t") || action.equals("tp") ||action.equals("teleport")) {
                         getValidTeleportCoordinates(h);
                         acted = true;
                     }
                     else if (action.equals("b")) {
-                        boolean canB = validateBack(h);
+                        // boolean canB = validateBack(h);
                         if (canB) {
                             h.BacktoBase();
                             acted = true;
@@ -177,33 +179,47 @@ public class Quest extends Game {
             if (gameOver) break;
 
             for (Monster m : spawnedM) {
-                InGameCharacter.scanNearbyEnemies(m, b);
-                boolean acted = false;
-                boolean attacksuccess = m.tryAttackaction();
-                if (attacksuccess) {
-                    acted = true;
-                    checkKill(m);
-                }
-                else {
-                    int TandE = 0;
-                    do {
-                        TandE++;
-                        String movement = m.tryMove(TandE);
-                        if (movement.equals("outofmoves")) {
-                            acted = true;
-                        }
-                        else {
-                            Tile Mgoto = validateMovementInput(m, movement);
+                if (m.getHealth() > 0) {
+                    boolean jumpthegun = false;
+                    boolean acted = false;
+                    if (m.getLoc().getCoords()[1] == b.geth()-2) { // TODO: this is new. please test.
+                        double fifty = Math.random();
+                        if (fifty > 0.5) {
+                            Tile Mgoto = validateMovementInput(m, "S");
                             if (Mgoto != null) {
-                                m.moveTo(Mgoto);
+                                m.moveTo(Mgoto); 
                                 acted = true;
+                                jumpthegun = true;
                             }
                         }
                     }
-                    while (!acted);
+                    if (!jumpthegun) {
+                        InGameCharacter.scanNearbyEnemies(m, b); 
+                        boolean attacksuccess = m.tryAttackaction();
+                        if (attacksuccess) {
+                            acted = true;
+                            checkKill(m);
+                        } else {
+                            int TandE = 0;
+                            do {
+                                TandE++;
+                                String movement = m.tryMove(TandE);
+                                if (movement.equals("outofmoves")) {
+                                    acted = true;
+                                } else {
+                                    Tile Mgoto = validateMovementInput(m, movement);
+                                    if (Mgoto != null) {
+                                        m.moveTo(Mgoto); 
+                                        acted = true; 
+                                    }
+                                }
+                            } while (!acted);
+                        }
+                        // checkNexusBreach();
+                    }
                 }
-                // checkNexusBreach();
             }
+            revive();
             checkNexusBreach();
         }
         while (!gameOver);
@@ -344,6 +360,7 @@ public class Quest extends Game {
         for (Hero h: team) {
             Tile pos = h.getLoc();
             if (pos.getType().equals("Nexus")) {
+                System.out.println(b);
                 System.out.println(h.getName() + " has reached the enemy Nexus! HEROES' VICTORY!");
                 v = true;
                 setGAMEOVER();
@@ -351,10 +368,13 @@ public class Quest extends Game {
         }
         if (!v) {
             for (Monster m: spawnedM) {
-                Tile pos = m.getLoc();
-                if (pos.getType().equals("NexusBase")) {
-                    System.out.println(m.getName() + " has reached the enemy Nexus! DEFEAT!");
-                    setGAMEOVER();
+                if (m.getHealth() > 0) {
+                    Tile pos = m.getLoc();
+                    if (pos.getType().equals("NexusBase")) {
+                        System.out.println(b);
+                        System.out.println(m.getName() + " has reached the enemy Nexus! DEFEAT!");
+                        setGAMEOVER();
+                    }
                 }
             }
         }
@@ -393,19 +413,24 @@ public class Quest extends Game {
     // RETURNS true if there is not a Hero on the Nexus base this Hero is trying to back to
     public boolean validateBack(Hero h) {
         int[] basecoords = h.getBase().getCoords();
+        int[] currcoords = h.getLoc().getCoords();
+        if (Arrays.equals(currcoords, basecoords)) {
+            System.out.println("You are already at Base!");
+            return false;
+        }
         boolean canB = checkTileNOclashingtypes(h, basecoords);
         if (!canB) System.out.println("There is a Hero on " + h.getRep() + "'s Base. " + h.getName() + " cannot back.");
         return canB;
     }
 
     // STEPPING WASD: RETURNS a valid Tile t that the InGameCharacter can call moveTo(Tile t) to OTHERWISE RETURNS null
-    public Tile validateMovementInput(InGameCharacter igc, String dir) { //TODO CHECK/TEST
+    public Tile validateMovementInput(InGameCharacter igc, String dir) { 
         // ISSUES TO ADDRESS: inaccessible tile, valid "teleport"(think of each move as a teleport to that space, even if it's the next Tile)
         dir = dir.toUpperCase();
         int[] trycoords = convertDirtoCoords(igc, dir);
         boolean validTile = b.valid(trycoords);
         if (validTile) {
-            boolean validTeleport = validateTeleport(igc, trycoords);
+            boolean validTeleport = validateMovement(igc, trycoords);
             if (validTeleport) return b.getTileAt(trycoords);
             else return null;
         }
@@ -431,12 +456,18 @@ public class Quest extends Game {
     }
 
     // check whether an InGameCharacter can move to the Tile specifies by Tcoords
-    // can be called by validateMovementInput to validate stepping and not Teleporting
     public boolean validateTeleport(InGameCharacter igc, int[] Tcoords) { 
         // Assumes Tcoords is a valid position on the map/board
         boolean noclash = checkTileNOclashingtypes(igc, Tcoords);
         boolean nobackdoor = checkNObackdoor(igc, Tcoords);
         return noclash && nobackdoor;
+    }
+
+    public boolean validateMovement(InGameCharacter igc, int[] Mcoords) {
+        // Assumes Mcoords is a valid position on the map/board
+        boolean noclash = checkTileNOclashingtypes(igc, Mcoords);
+        boolean nobehind = checkNOTbehind(igc, Mcoords);
+        return noclash && nobehind;
     }
 
     // Called by validateTeleport and RETURNS true if a Tile does not already contain an IGC of the same type (Hero/Monster)
@@ -469,28 +500,53 @@ public class Quest extends Game {
         if (HM.equals("Hero")) {
             // Hero h = (Hero)igc;
             for (Monster m: spawnedM) {
-                int[] mc = m.getLoc().getCoords();
-                if (Tcoords[0] == mc[0]) NObackdoor &= (Tcoords[1] >= mc[1]);
+                if (m.getHealth() > 0) {
+                    int[] mc = m.getLoc().getCoords();
+                    if (Tcoords[0] == mc[0]) NObackdoor &= (Tcoords[1] >= mc[1]);
+                }
             }
         }
         // Nothing for Monsters since we established Monsters would not move with the ability to attack
         if (!NObackdoor) {
-            System.out.println("You cannot teleport behind a Monster! That's sneaky. An honorable Hero would never do that.");
+            System.out.println("You cannot move behind a Monster! That's sneaky. An honorable Hero would never do that.");
             return NObackdoor;
         }
-        if (Tcoords[1] < b.getFurthestDistanceinLane(Tcoords[0])) {
+        if (Tcoords[1] < b.getFurthestDistanceinLane(Tcoords[0])) { //TODO FIX(ed)!
             System.out.println("That area has not been explored by Heroes yet! To help you out, the furthest distance explored in Lane " + Tcoords[0] + " is row " + b.getFurthestDistanceinLane(Tcoords[0]) + ".");
             return false;
         }
         return NObackdoor;
     }
+
+    // Called by validateMovement and RETURNS true if an IGC is not trying to move behind an enemy 
+        public boolean checkNOTbehind(InGameCharacter igc, int[] Tcoords) {
+            // Assumes Tcoords is a valid position on the map/board
+            // ISSUES TO ADDRESS: behind an enemy
+            String HM = igc.getHM();
+            boolean NOTbehind = true;
+            if (HM.equals("Hero")) {
+                // Hero h = (Hero)igc;
+                for (Monster m: spawnedM) {
+                    if (m.getHealth() > 0) {
+                        int[] mc = m.getLoc().getCoords();
+                        if (Tcoords[0] == mc[0]) NOTbehind &= (Tcoords[1] >= mc[1]);
+                    }
+                }
+            }
+            // Nothing for Monsters since we established Monsters would not move with the ability to attack
+            if (!NOTbehind) {
+                System.out.println("You cannot move behind a Monster! That's sneaky. An honorable Hero would never do that.");
+                return NOTbehind;
+            }
+            return NOTbehind;
+        }
     
 
     /**
      * ADDED FROM BATTLE
      */
     public void I() {
-        System.out.println("\nYou asked for your team's stats, so HERE THEY ARE:");
+        // System.out.println("\nYou asked for your team's stats, so HERE THEY ARE:");
         for (Hero h: team) {
             System.out.println(h);
         }

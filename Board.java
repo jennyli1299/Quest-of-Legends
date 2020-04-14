@@ -15,7 +15,12 @@ public class Board {
         gameBoard = new Lane[n];
         for (int l = 0; l < n; l++) {
             gameBoard[l] = new Lane(l+1, h, w);
-            gameBoard[1].setLane();
+        }
+        // for (int l = 0; l < n; l++) {
+        //     gameBoard[1].setLane();
+        // }
+        for (Lane l: gameBoard) {
+            l.setLane();
         }
     }
 
@@ -33,16 +38,17 @@ public class Board {
     }
 
     public Tile getHSpawnTile(int n) {
-        int lane = (n)%3;
-        if (lane == 0) lane = 3;
-        int widthpos = ((int)Math.floor((double)n/3) %2) + 1;
+        int lane = (n)%this.n;
+        if (lane == 0) lane = this.n;
+        int widthpos = ((int)Math.floor((double)(n-1)/(this.n)) %(this.w)) + 1;
         Tile SpawnTile = getTileAt(new int[] {lane, this.h-1, widthpos});
         return SpawnTile;
     }
     public Tile getMSpawnTile(int n) {
-        int lane = (n)%3;
-        if (lane == 0) lane = 3;
-        int widthpos = ((int)Math.floor((double)n/3) %2) + 1;
+        int lane = (n)%(this.n);
+        if (n > 3) lane = (int)Math.ceil(Math.random()*this.n); //New added
+        if (lane == 0) lane = this.n;
+        int widthpos = ((int)Math.floor((double)(n-1)/(this.n)) %(this.w)) + 1;
         Tile SpawnTile = getTileAt(new int[] {lane, 0, widthpos});
         return SpawnTile;
     }
@@ -51,11 +57,12 @@ public class Board {
         return (gameBoard[coords[0]-1]).getTileAt(coords);
     }
     public boolean valid(int[] coords) {
-        for (int c: coords) {
-            if (c < 0) return false;
-            System.out.println("Negative coordinates do not exist on the map!");
-        }
-        if (coords[0]-1<n && coords[1]<h && coords[2]-1<w) return true;
+        // for (int c: coords) {
+        //     if (c < 0) return false;
+        //     // System.out.println("Negative coordinates do not exist on the map!");
+        // }
+        if (coords[0] < 1 || coords[1] < 0 || coords[2] < 1) return false;
+        if (coords[0] <= n && coords[1] < h && coords[2] <= w) return true;
         else {
             System.out.println("This location does not exist on the map!");
             return false;
@@ -67,7 +74,7 @@ public class Board {
         return lane.getFurthestExplored();
     }
 
-    public String toString() { // TODO print Lane# and width#
+    public String toString() { // TODO print Lane# and width# // NOT SCALED
         String map = "";
         String[] lane0 = gameBoard[0].toString().lines().toArray(String[]::new);
         String[] lane1 = gameBoard[1].toString().lines().toArray(String[]::new);
@@ -103,6 +110,24 @@ public class Board {
         System.out.println(Arrays.toString(hello.getHSpawnTile(0).getCoords()));
         System.out.println(Arrays.toString(hello.getHSpawnTile(14).getCoords()));
         System.out.println(Arrays.toString(hello.getHSpawnTile(6).getCoords()));
+
+        for (int i = 0; i < hello.getn(); i++) {
+            System.out.println(hello.getFurthestDistanceinLane(i+1));
+        }
+
+        // for (int i = 0; i < hello.getn(); i++) {
+        //     Lane inq = hello.gameBoard[i];
+        //     Tile[][] test = inq.testhelp();
+        //     for (Tile[] row: test) {
+        //         for (Tile t: row) {
+        //             if (t.getLane() != null) {
+        //                 System.out.println("S");
+        //             }
+        //             else System.out.println("Failure");
+        //         }
+        //     }
+        // }
+
         // System.out.println(hello.getHSpawnTile(10));
 
         // String[] lane2 = hello.gameBoard[1].toString().lines().toArray(String[]::new);

@@ -20,18 +20,18 @@ public class SetUp { // redo so only one scanner for all
          * Sehanine_Moonbow    600     700     800     500     2500    8
          * Muamman_Duathall    300     900     500     750     2546    6
          * Flandal_Steelskin   200     750     650     700     2500    7
-         * UNDEFEATED          700     1080    132     146     2017    7
+         * UNDEFEATED          7000     1080    132     146     2017    7
          */
         // AllHeroes.put("Gaerdal_Ironhand", new Hero("Gaerdal_Ironhand", "Warrior", 100, 700, 500, 600, 1354, 7));
         // AllHeroes.put("Sehanine_Moonbow", new Hero("Sehanine_Moonbow", "Warrior", 600, 700, 800, 500, 2500, 8));
         // AllHeroes.put("Muamman_Duathall", new Hero("Muamman_Duathall", "Warrior", 300, 900, 500, 750, 2546, 6));
         // AllHeroes.put("Flandal_Steelskin", new Hero("Flandal_Steelskin", "Warrior", 200, 750, 650, 700, 2500, 7));
-        // AllHeroes.put("UNDEFEATED", new Hero("UNDEFEATED", "Warrior", 700, 1080, 132, 146, 2017, 7));      
+        // AllHeroes.put("UNDEFEATED", new Hero("UNDEFEATED", "Warrior", 7000, 1080, 132, 146, 2017, 7));      
         AllHeroes.put("Gaerdal_Ironhand", new Warrior("Gaerdal_Ironhand", 100, 700, 500, 600, 1354, 7));
         AllHeroes.put("Sehanine_Moonbow", new Warrior("Sehanine_Moonbow", 600, 700, 800, 500, 2500, 8));
         AllHeroes.put("Muamman_Duathall", new Warrior("Muamman_Duathall", 300, 900, 500, 750, 2546, 6));
         AllHeroes.put("Flandal_Steelskin", new Warrior("Flandal_Steelskin", 200, 750, 650, 700, 2500, 7));
-        AllHeroes.put("UNDEFEATED", new Warrior("UNDEFEATED", 700, 1080, 132, 146, 2017, 7));    
+        AllHeroes.put("UNDEFEATED", new Warrior("UNDEFEATED", 7000, 1080, 132, 146, 2017, 7));    
         /**
          * PALADINS: Name     /mana/strength/agility/dexterity/starting money/starting experience
          * Solonor_Thelandira   300     750     650     700     2500    7
@@ -44,27 +44,29 @@ public class SetUp { // redo so only one scanner for all
         // AllHeroes.put("Sehanine_Sunbow", new Hero("Sehanine_Sunbow", "Paladin", 300, 750, 700, 700, 2500, 7));
         // AllHeroes.put("Skoraeus_Stonebones", new Hero("Skoraeus_Stonebones", "Paladin", 250, 650, 600, 350, 2500, 4));
         // AllHeroes.put("Garl_Glittergold", new Hero("Garl_Glittergold", "Paladin", 100, 600, 500, 400, 2500, 5));
-        // AllHeroes.put("eunoia*", new Hero("eunoia*", "Paladin", 100, 600, 500, 400, 2500, 5));
+        // AllHeroes.put("eunoia*", new Hero("eunoia*", "Paladin", 700, 1320, 108, 146, 2016, 7));
         AllHeroes.put("Solonor_Thelandira", new Paladin("Solonor_Thelandira", 300, 750, 650, 700, 2500, 7));
         AllHeroes.put("Sehanine_Sunbow", new Paladin("Sehanine_Sunbow", 300, 750, 700, 700, 2500, 7));
         AllHeroes.put("Skoraeus_Stonebones", new Paladin("Skoraeus_Stonebones", 250, 650, 600, 350, 2500, 4));
         AllHeroes.put("Garl_Glittergold", new Paladin("Garl_Glittergold", 100, 600, 500, 400, 2500, 5));
-        AllHeroes.put("eunoia*", new Paladin("eunoia*", 100, 600, 500, 400, 2500, 5));
+        AllHeroes.put("eunoia*", new Paladin("eunoia*", 700, 1320, 108, 146, 2016, 7));
+        AllHeroes.put("weak", new Paladin("weak", 10, 10, 10, 10, 2018, 10));
+
         /**
          * SORCERERS: Name        /mana/strength/agility/dexterity/starting money/starting experience
-         * Reign                    700     750     700   146     2017    7
-         * Calliber                1990     170     700   146     1996    7
-         * HAVOC                   1996     700     700   146     1996    7
-         * Skye_Soar                700     700     700   146     1999    7
+         * Reign                    7000     7500     7000   146     2017    7
+         * Caliber                1990     1700     700   146     1996    7
+         * HAVOC                   1996     7000     700   146     1996    7
+         * Skye_Soar                7000     7000     700   146     1999    7
          * Rillifane_Rallathil     1300     750     450   500     2500    9
          * Segojan_Earthcaller      900     800     500   650     2500    5
          */
         AllHeroes.put("Rillifane_Rallathil", new Sorcerer("Rillifane_Rallathil", 1300, 750, 450, 500, 2500, 9));
         AllHeroes.put("Segojan_Earthcaller", new Sorcerer("Segojan_Earthcaller", 900, 800, 500, 650, 2500, 5));
-        AllHeroes.put("Reign", new Sorcerer("Reign", 700, 750, 700, 146, 2017, 7));
-        AllHeroes.put("Calliber", new Sorcerer("Calliber", 1990, 170, 700, 146, 1996, 7));
-        AllHeroes.put("HAVOC", new Sorcerer("HAVOC", 1996, 700, 700, 146, 1996, 7));
-        AllHeroes.put("Skye_Soar", new Sorcerer("Skye_Soar", 700, 750, 700, 146, 1999, 7));
+        AllHeroes.put("Reign", new Sorcerer("Reign", 7000, 7500, 7000, 146, 2017, 7));
+        AllHeroes.put("Caliber", new Sorcerer("Caliber", 1990, 1700, 700, 146, 1996, 7));
+        AllHeroes.put("HAVOC", new Sorcerer("HAVOC", 1996, 7000, 700, 146, 1996, 7));
+        AllHeroes.put("Skye_Soar", new Sorcerer("Skye_Soar", 7000, 7500, 700, 146, 1999, 7));
 
         return AllHeroes;
     }
@@ -326,16 +328,21 @@ public class SetUp { // redo so only one scanner for all
         Scanner setup = new Scanner(System.in);
         int num = 0;
         Hero[] team = new Hero[n];
+        ArrayList<String> checkNODOUBLE = new ArrayList<String>();
         HashMap<String, Hero> allH = SetUp.AllHeroes();
         SetUp.printHeroes(SetUp.AllHeroes());
         do {
             System.out.println("Please enter the name of the Hero you would like on your team: ");
             String name = setup.nextLine();
             // setup.next();
-            if (allH.containsKey(name)) {
+            if (allH.containsKey(name) && !(checkNODOUBLE.contains(name))) {
                 team[num] = allH.get(name);
                 num++;
+                checkNODOUBLE.add(name);
                 System.out.println("What a mighty Hero! " + name + " has been added to your team!");
+            }
+            else if (checkNODOUBLE.contains(name)) {
+                System.out.println("That Hero is already a member of your team.");
             }
             else System.out.println("That doesn't seem to match any of our Heroes. Please try again.");
         }

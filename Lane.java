@@ -38,17 +38,20 @@ public class Lane {
             }
         }
     }
+    public Tile[][] testhelp() {
+        return this.lane;
+    }
 
     public int getFurthestExplored() {
         return furthestexploredH;
     }
-    public void updateFurthestExplored(Tile t) {
-        int distexpl = t.getCoords()[1];
+    public void updateFurthestExplored(int distexpl) {
+        // int distexpl = t.getCoords()[1];
         if (furthestexploredH > distexpl) furthestexploredH = distexpl;
     }
 
     @Override
-    public String toString() {
+    public String toString() { //NOT SCALED
         String lanerep = "";
         for (int r = 0; r < h; r++) {
             // Stream<String> stream = lane[r][0].toString().lines();

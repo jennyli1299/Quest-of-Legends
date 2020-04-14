@@ -109,7 +109,8 @@ public class Monster extends InGameCharacter {
         else{
             Random rand = new Random();
             int index = rand.nextInt(nearbyEnemies.size());
-            Hero attacking = (Hero)nearbyEnemies.get(index);
+            InGameCharacter attackthis = nearbyEnemies.get(index);
+            Hero attacking = (Hero)attackthis;
             this.setAttacking(attacking);
             return true;
         }

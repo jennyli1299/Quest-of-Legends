@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Hero extends InGameCharacter {
+    //Subclass of InGameCharacter which represents the hero, AKA human-controlled characters.
 
     // could have arrays to store information ://
     protected int maxmana;

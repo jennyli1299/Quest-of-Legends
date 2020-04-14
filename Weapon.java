@@ -1,6 +1,7 @@
 import java.util.Arrays;
 
 public class Weapon extends Item {
+    //Subclass of item which when held, will determine the amount of damage an attack by its wielder will do
 
     private int dmg;
     private int weldhands;

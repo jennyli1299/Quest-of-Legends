@@ -1,6 +1,7 @@
 import java.util.*;
 
 public class Paladin extends Hero {
+    //Subclass of hero that represents the paladin, who gets a boost in strength and dexterity
 
     public Paladin (String n, int m, int s, int a, int dx, int startingmoney, int startingexp) {
         super(n, "Paladin", m, s, a, dx, startingmoney, startingexp);
@@ -22,8 +23,8 @@ public class Paladin extends Hero {
         agility = (int)(agility*1.05);
         // switch (type) {
             // case "Paladins":
-                strength = (int)(strength*1.05);
-                dexterity = (int)(dexterity*1.05);
+        strength = (int)(strength*1.05);
+        dexterity = (int)(dexterity*1.05);
                 // break;
         // }
         ogstats[0] = strength;

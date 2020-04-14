@@ -1,5 +1,7 @@
-Name: Jenny Li
-BU ID: U63136209
+Names: Jenny Li U63136209
+       Patrick Duffill U84513865
+Team number: 12
+
 
 Hello there! In order to compile and execute my code, please use the following two commands:
 1. javac GameController.java

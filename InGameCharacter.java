@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public abstract class InGameCharacter {
+    //Abstract Class representing any entity that will be on the game board in Quest of Legends.
+    
     protected String name;
     protected String type;
     protected String HM;

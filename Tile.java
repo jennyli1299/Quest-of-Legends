@@ -8,8 +8,6 @@ public class Tile {
     private Monster m;
     private Lane myLane;
 
-    //TODO MARKET AT NEXUS (accomplished)
-
     public Tile(int[] coords) {
         double prob = Math.random();
         if (prob < 0.2) {

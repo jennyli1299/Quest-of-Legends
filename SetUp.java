@@ -1,5 +1,10 @@
 import java.util.*;
 
+/**
+ * Static methods to SetUp and create the different components of Quest of Legends game
+ * Instantiates all possible Heroes, Monsters, Items: Weapon, Armor, Potion, Spell
+ */
+
 public class SetUp { // redo so only one scanner for all
     HashMap<String, Hero> AllHeroes;
     HashMap<String, Hero> ChosenHeroes;

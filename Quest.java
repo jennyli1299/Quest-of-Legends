@@ -1,6 +1,10 @@
 import java.util.Scanner;
 import java.util.*;
 
+/**
+ * A Concrete Class of Game: Quest of Legends
+ */
+
 public class Quest extends Game {
 
     // (Inherited)
@@ -44,6 +48,8 @@ public class Quest extends Game {
         gameOver = false;
     }
 
+    // play() method as a result of Playable interface
+    // Outlines the play of the game with a ROUND SYSTEM which takes action inputs
     public void play() {
         // System.out.println("\nWelcome to QUEST! Prepare yourself for a journey filled with Heroes, Monsters, MAGIC, and fun!\n");
         System.out.println("Let's get all the important stuff out of the way, Shall we? \nHere is your MAP: ");
@@ -72,9 +78,6 @@ public class Quest extends Game {
         while (!answer.equals("Y"));
         System.out.println("HAVE FUN!");
 
-        // System.out.println(b);
-        // boolean exit = false;
-        // String dir = "";
         // ROUND SYSTEM STARTS NOW
         do {
             System.out.println(b);
@@ -84,12 +87,12 @@ public class Quest extends Game {
             }
             if (round != 1) {
                 for (Hero h : team) {
-                    h.regen();
+                    h.regen(); // Team of Heroes regenerate a portion of their Health and Mana per round
                 }
                 System.out.println("Round " + Integer.toString(round) + "! Your team of Heroes has had time to REGEN some health and mana.");
             }
             I();
-            for (Hero h : team) {
+            for (Hero h : team) { // Choice of action per Hero in team
                 InGameCharacter.scanNearbyEnemies(h, b);
 
                 System.out.println(b);
@@ -185,11 +188,13 @@ public class Quest extends Game {
 
             if (gameOver) break;
 
+            // Choice of action for each Monster spawned and alive.
+            // A Monster's choice of option is determined as a methods within Monster. Usually will attack, if they have the option, before moving.
             for (Monster m : spawnedM) {
                 if (m.getHealth() > 0) {
                     boolean jumpthegun = false;
                     boolean acted = false;
-                    if (m.getLoc().getCoords()[1] == b.geth()-2) { // TODO: this is new. please test.
+                    if (m.getLoc().getCoords()[1] == b.geth()-2) { // If Monsters are at the Tile right before they reach the Nexus, there is a 50/50 chance they will backdoor for the Nexus instead of fighting
                         double fifty = Math.random();
                         if (fifty > 0.5) {
                             Tile Mgoto = validateMovementInput(m, "S");
@@ -202,7 +207,7 @@ public class Quest extends Game {
                     }
                     if (!jumpthegun) {
                         InGameCharacter.scanNearbyEnemies(m, b); 
-                        boolean attacksuccess = m.tryAttackaction();
+                        boolean attacksuccess = m.tryAttackaction(); // Try to Attack first
                         if (attacksuccess) {
                             acted = true;
                             checkKill(m);
@@ -210,7 +215,7 @@ public class Quest extends Game {
                             int TandE = 0;
                             do {
                                 TandE++;
-                                String movement = m.tryMove(TandE);
+                                String movement = m.tryMove(TandE); // Calls method inside Monster to determine preferred movement: 1. South (goal-oriented) 2. West 3. East. Never North.
                                 if (movement.equals("outofmoves")) {
                                     acted = true;
                                 } else {
@@ -226,13 +231,18 @@ public class Quest extends Game {
                     }
                 }
             }
-            revive();
-            checkNexusBreach();
+            revive(); // Revive & spawn Heroes if they have died at the end of each round
+            checkNexusBreach(); // Checks to see if either Nexuses have been breached, signalling Victory/Defeat for Heroes if true.
         }
         while (!gameOver);
 
         System.out.println("I hope you had fun on your QUEST! Until next time :)");
     }
+
+    /**
+     * MOVEMENT/TELEPORT INPUT
+     * MOVEMENT/TELEPORTATION VALIDATION
+     */
 
     // METHOD to get WASD movement input and move Hero h
     public void WASD(Hero h) {
@@ -315,7 +325,6 @@ public class Quest extends Game {
                         System.out.println("Invalid Input. Please enter a number.");
                         qScan.next();
                     }
-                    // setup.next();
                 }
                 while (!isnum);
                 if (!(n >= maxheight && n < bn)) {
@@ -340,7 +349,6 @@ public class Quest extends Game {
                         System.out.println("Invalid Input. Please enter a number.");
                         qScan.next();
                     }
-                    // setup.next();
                 }
                 while (!isnum);
                 if (!(n >= 1 && n <= bn)) {
@@ -356,43 +364,6 @@ public class Quest extends Game {
         }
         while (teleportTile == null);
         h.moveTo(teleportTile);
-    }
-
-    public void setGAMEOVER() {
-        this.gameOver = true;
-    }
-
-    public void checkNexusBreach() {
-        boolean v = false;
-        for (Hero h: team) {
-            Tile pos = h.getLoc();
-            if (pos.getType().equals("Nexus")) {
-                System.out.println(b);
-                System.out.println(h.getName() + " has reached the enemy Nexus! HEROES' VICTORY!");
-                v = true;
-                setGAMEOVER();
-            }
-        }
-        if (!v) {
-            for (Monster m: spawnedM) {
-                if (m.getHealth() > 0) {
-                    Tile pos = m.getLoc();
-                    if (pos.getType().equals("NexusBase")) {
-                        System.out.println(b);
-                        System.out.println(m.getName() + " has reached the enemy Nexus! DEFEAT!");
-                        setGAMEOVER();
-                    }
-                }
-            }
-        }
-    }
-
-    public int existsHeroinTeam(String name) {
-        int ret = -1;
-        for (int i = 0; i < teamcount; i++) {
-            if (team[i].getName().equals(name)) ret = i;
-        }
-        return ret;
     }
 
     // RETURNS the coordinates given an InGameCharacter and the direction it wants to move in (WASD)
@@ -526,32 +497,32 @@ public class Quest extends Game {
     }
 
     // Called by validateMovement and RETURNS true if an IGC is not trying to move behind an enemy 
-        public boolean checkNOTbehind(InGameCharacter igc, int[] Tcoords) {
-            // Assumes Tcoords is a valid position on the map/board
-            // ISSUES TO ADDRESS: behind an enemy
-            String HM = igc.getHM();
-            boolean NOTbehind = true;
-            if (HM.equals("Hero")) {
-                // Hero h = (Hero)igc;
-                for (Monster m: spawnedM) {
-                    if (m.getHealth() > 0) {
-                        int[] mc = m.getLoc().getCoords();
-                        if (Tcoords[0] == mc[0]) NOTbehind &= (Tcoords[1] >= mc[1]);
-                    }
+    public boolean checkNOTbehind(InGameCharacter igc, int[] Tcoords) {
+        // Assumes Tcoords is a valid position on the map/board
+        // ISSUES TO ADDRESS: behind an enemy
+        String HM = igc.getHM();
+        boolean NOTbehind = true;
+        if (HM.equals("Hero")) {
+            // Hero h = (Hero)igc;
+            for (Monster m : spawnedM) {
+                if (m.getHealth() > 0) {
+                    int[] mc = m.getLoc().getCoords();
+                    if (Tcoords[0] == mc[0])
+                        NOTbehind &= (Tcoords[1] >= mc[1]);
                 }
             }
-            // Nothing for Monsters since we established Monsters would not move with the ability to attack
-            if (!NOTbehind) {
-                System.out.println("You cannot move behind a Monster! That's sneaky. An honorable Hero would never do that.");
-                return NOTbehind;
-            }
+        }
+        // Nothing for Monsters since we established Monsters would not move with the ability to attack
+        if (!NOTbehind) {
+            System.out
+                    .println("You cannot move behind a Monster! That's sneaky. An honorable Hero would never do that.");
             return NOTbehind;
         }
-    
+        return NOTbehind;
+    }
 
-    /**
-     * ADDED FROM BATTLE
-     */
+    
+    // PRINT HERO INFORMATION
     public void I() {
         // System.out.println("\nYou asked for your team's stats, so HERE THEY ARE:");
         for (Hero h: team) {
@@ -559,6 +530,7 @@ public class Quest extends Game {
         }
         System.out.println();
     }
+    // PRINT ENEMY INFORMATION
     public void MI() {
         System.out.println("\nYou asked for the enemy's stats, so HERE THEY ARE:");
         Iterator<Monster> iterm = spawnedM.iterator();
@@ -568,6 +540,10 @@ public class Quest extends Game {
         }
         System.out.println();
     }
+
+    /**
+     * Methods to be called after action or round to determine how the state of the game has changed
+     */
 
     public void checkKill(InGameCharacter igc) {
         String igctype = igc.getHM();
@@ -585,10 +561,53 @@ public class Quest extends Game {
         }
     }
 
-    public void revive() {// MUST REWARD BEFORE REVIVE
+    // At the end of each round, revive & respawn dead Heroes
+    public void revive() {
         for (Hero h : team) {
             if (h.getHealth() <= 0) h.revive();
         }
+    }
+
+    // called when game is either quit, or there has been a Victory/Defeat
+    public void setGAMEOVER() {
+        this.gameOver = true;
+    }
+
+    // Checks to determine if either Nexuses have been breached, signalling
+    // Victory/Defeat for Heroes if true.
+    public void checkNexusBreach() {
+        boolean v = false;
+        for (Hero h : team) {
+            Tile pos = h.getLoc();
+            if (pos.getType().equals("Nexus")) {
+                System.out.println(b);
+                System.out.println(h.getName() + " has reached the enemy Nexus! HEROES' VICTORY!");
+                v = true;
+                setGAMEOVER();
+            }
+        }
+        if (!v) {
+            for (Monster m : spawnedM) {
+                if (m.getHealth() > 0) {
+                    Tile pos = m.getLoc();
+                    if (pos.getType().equals("NexusBase")) {
+                        System.out.println(b);
+                        System.out.println(m.getName() + " has reached the enemy Nexus! DEFEAT!");
+                        setGAMEOVER();
+                    }
+                }
+            }
+        }
+    }
+
+    // returns the index of a Hero in team given the name of the Hero you hope to find
+    // UNUSED
+    public int existsHeroinTeam(String name) {
+        int ret = -1;
+        for (int i = 0; i < teamcount; i++) {
+            if (team[i].getName().equals(name)) ret = i;
+        }
+        return ret;
     }
 
 

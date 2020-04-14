@@ -1,6 +1,7 @@
 import java.util.*;
 
 public class Warrior extends Hero {
+    //Subclass of hero that represents the warrior, who gets a boost in strength and agility
 
     public Warrior (String n, int m, int s, int a, int dx, int startingmoney, int startingexp) {
         super(n, "Warrior", m, s, a, dx, startingmoney, startingexp);

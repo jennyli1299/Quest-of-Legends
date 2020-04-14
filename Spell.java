@@ -1,6 +1,7 @@
 import java.util.Arrays;
 
 public class Spell extends Item {
+    //Subclass of Item that is another way of damaging and affecting the enemy by decreasing a stat
 
     protected int dmg;
     protected int manacost;

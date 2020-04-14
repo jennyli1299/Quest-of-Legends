@@ -2,6 +2,8 @@ import java.util.Arrays;
 import java.util.*;
 
 public class Tile {
+    //Represents a cell on the game board, can be different types and have different effects based on the type
+    
     private String type; // { Nexus [N] = Market, PLAIN = Common Tile [Safe Zone OR Monster], Bush (inc dexterity 10%), Koulou (inc strength 10%), Cave (inc agility 10%) }
     private int[] coordinate; // [lane#, row#, col#]
     private Hero h;

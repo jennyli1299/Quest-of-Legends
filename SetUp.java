@@ -371,10 +371,33 @@ public class SetUp { // redo so only one scanner for all
         return n;
     }
 
+    public static String TeleportPossibilities(int start, int end) {
+        String bnrep = "";
+        for (int i = start; i <= end; i++){
+            bnrep = bnrep + "[";
+            bnrep = bnrep + Integer.toString(i);
+            bnrep = bnrep + "] ";
+        }
+        return bnrep;
+    }
+    
+    public static void printOptions(String[] op) {
+        String option = "";
+        option = option + "This hero has the following action options:  ";
+        for (String s: op) {
+            if (!s.equals("NA")) {
+                // option = option + "[" + s + "] ";
+                option = option + s + "  ";
+            }
+        }
+        System.out.println(option);
+
+    }
 
     public static void main(String[] args) {
         Hero[] Team = SetUp.chooseYourFighters();
         // System.out.println(Arrays.toString(Team));
         // SetUp.boardsize();
     }
+
 }

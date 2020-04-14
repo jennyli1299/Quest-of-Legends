@@ -127,8 +127,19 @@ public class Monster extends InGameCharacter {
         // Move
     }
 
-    public void tryMove() {
-        // TODO
+    public String tryMove(int TandE) {
+        if (TandE == 1) {
+            return "S";
+        }
+        else if (TandE == 2) return "D";
+        else if (TandE == 3) return "A";
+        // MONSTERS NEVER TURN BACK TOWARD THEIR NEXUS
+        else if (TandE > 3) return "outofmoves";
+        else return "outofmoves";
+    }
+
+    public void setDead() {
+        this.getLoc().leaveTile(this);
     }
 
     @Override

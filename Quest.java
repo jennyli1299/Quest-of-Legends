@@ -8,34 +8,42 @@ public class Quest extends Game {
     // protected boolean gameOver; 
 
     HashMap<String, Monster> AllMonsters;
-    MonsterFactory mf; // TODO: INCORPORATE FUNCTIONALITY INTO QUEST (add returned spawnedMonster to ArrayList spawnedM)
+    MonsterFactory mf;
     Hero[] team;
     Market M;
     Scanner qScan;
     int teamcount;
-    int rounds; //TODO rounds (every 8, a new Monster spawns random lane)
+    int round; 
     // TODO add BATTLE !! THIS IS A MAJOR TODO
     Tile loc; //TODO take out
-    // TODO Arraylist of Heroes and Monsters
     ArrayList<Monster> spawnedM;
-    ArrayList<Hero> teamH;
+    // ArrayList<Hero> teamH;
     // TODO SEPARATE ACTION FOR EACH HERO
-    // TODO VALIDATE MOVEMENTS not necessarily in this class
 
     public Quest() {
+        // int bsize = SetUp.boardsize(); // If you want to make board scalable, ask for #lanes and lane distance and land width TODO
+        b = new Board(3, 8, 2);
         System.out.println("\nWelcome to QUEST! Prepare yourself for a journey filled with Heroes, Monsters, MAGIC, and fun!\n");
         System.out.println("First things first. Let's put together a team of courageous heroes for you.");
-        Hero[] team_prelim = SetUp.chooseYourFighters(); // TODO: create another method specifically for team of 3
+        Hero[] team_prelim = SetUp.chooseYourFighters(3);
         team = team_prelim;
         teamcount = team.length;
-        rounds = 0;
+        for (int i = 0; i < teamcount; i++) {
+            Tile base = b.getHSpawnTile(i+1);
+            team[i].spawn(base, i+1);
+        }
+        mf = new MonsterFactory();
         AllMonsters = SetUp.AllMonsters();
+        spawnedM = new ArrayList<Monster>();
+        for (int i = 1; i <= teamcount; i++) {
+            Monster m = mf.spawnMonster(b, spawnedM, i);
+            spawnedM.add(m);
+        }
+        round = 0;
         HashMap<String, Item> ItemInfo = SetUp.AllItems();
         M = new Market(ItemInfo);
         qScan = new Scanner(System.in);
-        System.out.println("Can't go on a QUEST without land to explore, and a map to guide you along the way!");
-        // int bsize = SetUp.boardsize(); //TODO if you want to make board scalable, ask for #lanes and lane distance
-        b = new Board(3, 8);
+        // System.out.println("Can't go on a QUEST without land to explore, and a map to guide you along the way!");
         gameOver = false;
     }
 
@@ -43,7 +51,7 @@ public class Quest extends Game {
         // System.out.println("\nWelcome to QUEST! Prepare yourself for a journey filled with Heroes, Monsters, MAGIC, and fun!\n");
         System.out.println("Let's get all the important stuff out of the way, Shall we? \nHere is your MAP: ");
         System.out.println(b);
-        System.out.println("X MARKS THE SPOT! That's where you and your team are!");
+        System.out.println("X MARKS THE SPOT! That's where you and your team are!"); // TODO: Change
         System.out.println("M stands for Market, and that's where you'll have to go if you want to stock up on gear.\nThat means all Armor, Weapons, and magic items such as Potions and Spells can be bought at Markets.");
         System.out.println("ψD stands for DANGER and the areas on the map labled D are nonaccessible parts of the map. Trust me, you don't want to go there... and you can't!");
         System.out.println("The empty tiles may seem safe, but be careful. There's a chance we may run into some Monsters in the uncharted territory.\nIf you do run into hostiles, you MUST fight.\nIf you win a battle, your heroes will be compensated for their troubles and bravery!\nIf you lose a battle, don't sweat it. All Heroes get revived at the end of the fight... but at a cost.");
@@ -63,22 +71,166 @@ public class Quest extends Game {
         // System.out.println(b);
         // boolean exit = false;
         // String dir = "";
+        // ROUND SYSTEM STARTS NOW
         do {
             System.out.println(b);
+            round++;
+            if (round%8 == 0) {
+                spawnedM.add(mf.spawnMonster(b, spawnedM, spawnedM.size()));
+            }
+            if (round != 1) {
+                for (Hero h : team) {
+                    h.regen();
+                }
+                System.out.println("Round " + Integer.toString(round) + "! Your team of Heroes has had time to REGEN some health and mana.");
+            }
+            for (Hero h : team) {
+                InGameCharacter.scanNearbyEnemies(h, b);
 
-            System.out.println("Where would you like your team of Heroes to explore? W: North, A: West, D: East, S: South, and I -> Show Team Stats");
+                System.out.println(b);
+                System.out.println("It is " + h.getHM() + ": " + h.getName() + "'s turn.");
+
+                String[] options = new String[] {"[Move]: Move 1 space", "[T]: Teleport", "[B]: back to Base", "NA", "NA", "[P]: Use a Potion", "[G]: Gear up Armor/Weapons","[I]: display Team Info", "[MI]: display Enemy Info", "[Nothing]", "[Q]: quit game"};
+                boolean shopnexus = false;
+                boolean canfight = false;
+                if (h.getLoc().getCoords()[1] == (b.geth()-1)) {
+                    System.out.println(h.getHM() + ": " + h.getName() + " is on a Nexus Tile! You may shop if you wish.");
+                    options[3] = "[Shop]: buy/sell items or learn Spells at the Market";
+                    shopnexus = true;
+                }
+                if (h.canAttack()) {
+                    System.out.println("There are nearby hostiles! " + h.getHM() + ": " + h.getName() + " may fight if you wish.");
+                    options[4] = "[Fight]: Attack or Cast Spell on nearby enemy";
+                    canfight = true;
+                }
+
+                String wwyltodo = "What would you like " + h.getPiece() + ": " + h.getName() + " to do?";
+
+                String action = "";
+                boolean acted = false;
+
+                do {
+                    SetUp.printOptions(options);
+                    System.out.println(wwyltodo);
+                    action = qScan.nextLine();
+                    action = action.toLowerCase();
+                    if (action.equals("move")) {
+                        WASD(h);
+                        acted = true;
+                    }
+                    else if (action.equals("t") || action.equals("teleport")) {
+                        getValidTeleportCoordinates(h);
+                        acted = true;
+                    }
+                    else if (action.equals("b")) {
+                        boolean canB = validateBack(h);
+                        if (canB) {
+                            h.BacktoBase();
+                            acted = true;
+                        }
+                    }
+                    else if (action.equals("shop")) {
+                        if (shopnexus) {
+                            h.exploreMarket(M, qScan);
+                            acted = true;
+                        }
+                    }
+                    else if (action.equals("fight")) {
+                        if (canfight) {
+                            h.fight(qScan);
+                            acted = true;
+                        }
+                    }
+                    else if (action.equals("p")) {
+                        h.usePotion(qScan);
+                        acted = true;
+                    }
+                    else if (action.equals("g") || action.equals("gear")) {
+                        h.gearUP(qScan);
+                        acted = true;
+                    }
+                    else if (action.equals("i")) {
+                        I();
+                    }
+                    else if (action.equals("mi")) {
+                        MI();
+                    }
+                    else if (action.equals("nothing")) {
+                        acted = true;
+                    }
+                    else if (action.equals("q") || action.equals("quit")) {
+                        setGAMEOVER();
+                        acted = true;
+                    }
+                    else {
+                        acted = false;
+                        System.out.println("Invalid Input.");
+                    }
+                }
+                while(!acted);
+
+                checkNexusBreach();
+
+                if (gameOver) break;
+            }
+
+            if (gameOver) break;
+
+            for (Monster m : spawnedM) {
+                InGameCharacter.scanNearbyEnemies(m, b);
+                boolean acted = false;
+                boolean attacksuccess = m.tryAttackaction();
+                if (attacksuccess) {
+                    acted = true;
+                    checkKill(m);
+                }
+                else {
+                    int TandE = 0;
+                    do {
+                        TandE++;
+                        String movement = m.tryMove(TandE);
+                        if (movement.equals("outofmoves")) {
+                            acted = true;
+                        }
+                        else {
+                            Tile Mgoto = validateMovementInput(m, movement);
+                            if (Mgoto != null) {
+                                m.moveTo(Mgoto);
+                                acted = true;
+                            }
+                        }
+                    }
+                    while (!acted);
+                }
+                // checkNexusBreach();
+            }
+            checkNexusBreach();
+        }
+        while (!gameOver);
+
+        System.out.println("I hope you had fun on your QUEST! Until next time :)");
+    }
+
+    // METHOD to get WASD movement input and move Hero h
+    public void WASD(Hero h) {
+        boolean goodInput = false;
+        do {
+            System.out.println("Where would you like " + h.getPiece() + ": " + h.getName() + " to explore? W: North, A: West, D: East, S: South, I -> Show Team Stats, MI -> Show Enemy Stats: ");
             String dir = qScan.nextLine();
             if (dir.equals("I") || dir.equals("i")) {
                 I();
-            } // TODO add movement for T and B
+            }
+            if (dir.equals("MI") || dir.equals("mi")) {
+                MI();
+            }
             else if (dir.equals("W") || dir.equals("A") || dir.equals("D") || dir.equals("S") || dir.equals("w") || dir.equals("a") || dir.equals("d") || dir.equals("s")) {
-                // make capital
-                boolean valid = b.valid(dir); // TODO: validate a real and accessible position on board
-                // TODO: validate allowed movement in Game (RULES)
-                if (valid) {
-                    loc = b.move(dir);
-                    System.out.println(b);
-                    explore();
+                dir = dir.toUpperCase();
+                Tile validTile = validateMovementInput(h, dir);
+                if (validTile != null) {
+                    h.moveTo(validTile);
+                    goodInput = true;
+                    // System.out.println(b);
+                    // explore();
                 }
             }
             else if (dir.equals("Q") || dir.equals("q")) setGAMEOVER();
@@ -86,224 +238,101 @@ public class Quest extends Game {
                 System.out.println("Invalid Input!");
             }
         }
-        while (!gameOver);
-
-        System.out.println("I hope you had fun on your QUEST! Until next time :)");
+        while (!goodInput);
     }
 
-    public void I() { // PRINT TEAM STATS OR INFO NOT INVENTORY
-        System.out.println("\nYou asked for your team's stats, so HERE THEY ARE:");
-        for (Hero h: team) {
-            System.out.println(h);
-        }
-    }
+    // METHOD to get Tile t with intent to Teleport Hero h to through input
+    public void getValidTeleportCoordinates(Hero h) {
+        Tile teleportTile = null;
 
-    public void explore() { //TODO explore()
-        String tiletype = loc.getType();
-        if (tiletype.equals("Common")) {
-            if (Math.random() < 0.75) {
-                System.out.println("OH NO! Hostile enemies approaching! Prepare for Battle!");
-                battle();
-            }
-            else System.out.println("Lucky us! It's a safe-zone.");
-        }
-        else {
-            System.out.println("Oh look, a market! Let's go shopping!");
-            boolean valid = false;
+        do {
+            int[] inputcoords = new int[3];
+            boolean isnum = false;
+            int n = 0;
+            System.out.println("Where would you like to Teleport?");
+
+            int bn = b.getn();
+            String bnrep = SetUp.TeleportPossibilities(1, bn);
+            // System.out.println("The Lanes in the Map are numbered: " + bnrep + "\nEnter the Lane number you want to Teleport to now: ");
             do {
-                System.out.println("Would you like to browse? Y/N: ");
-                String shop = qScan.nextLine();
-                if (shop.equals("Y") || shop.equals("y")) {
-                    valid = true;
-                    boolean chose = false;
-                    do {
-                        System.out.println("Would you like to buy or sell items or leave the Market? Enter Buy, Sell, or Leave");
-                        shop = qScan.nextLine();
-                        if (shop.equals("buy") || shop.equals("Buy")) {
-                            System.out.println("YAY! I love to shop!");
-                            valid = true;
-                            shop();        
-                        }
-                        else if (shop.equals("Sell") || shop.equals("sell")) {
-                            System.out.println("Alright! All this gear was getting kind of heavy anyway.");
-                            valid = true;
-                            sell();
-                        }
-                        else if (shop.equals("Leave") || shop.equals("leave")) {
-                            valid = true;
-                            chose = true;
-                        }
-                        else if (shop.equals("Q") || shop.equals("q")) {
-                            valid = true;
-                            chose = true;
-                            setGAMEOVER();
-                        }
-                        else {
-                            System.out.println("Um, so is that a yes or a no? Enter Y for Yes, N for No.");
-                        }
-                    }
-                    while (!chose);
-                }
-                else if (shop.equals("N") || shop.equals("n")) {
-                    valid = true;
-                    System.out.println("Alright, maybe next time then! ONWARD with our QUEST!");
-                }
-                else if (shop.equals("Q") || shop.equals("q")) {
-                    valid = true;
-                    setGAMEOVER();
-                }
-                else {
-                    System.out.println("Um, so is that a yes or a no? Enter Y for Yes, N for No.");
-                }
-            }
-            while (!valid);
-        }
-    }
-
-    public void battle() {  // TODO bruh. BATTLE.
-        Battle fight = new Battle(team, SetUp.AllMonsters()); // switch this out for Quest's HashMap of AllMonsterss
-        fight.fight();
-    }
-
-    public void shop() {
-        boolean done = false;
-        M.printMarket();
-        do {
-            // M.printMarket();
-            System.out.println("See anything that interests you? Input Y/N or M to see the listings again.");
-            String shop = qScan.nextLine();
-                if (shop.equals("Y") || shop.equals("y")) {
-                    boolean complete = false;
-                    do {
-                        System.out.println("Which item? Please enter the full name of the Item as written in the catalog or enter DONE to leave the market at any time: ");
-                        shop = qScan.nextLine();
-                        if (shop.equals("Q") || shop.equals("q")) {
-                            complete = true;
-                            done = true;
-                            setGAMEOVER();
-                        }
-                        else if (shop.equals("I") || shop.equals("i")) {
-                            I();
-                        }
-                        else if (shop.equals("DONE")) {
-                            complete = true;
-                            done = true;
-                        }
-                        else if (M.getItems().containsKey(shop)) {
-                            complete = true;
-                            Item i = M.getItems().get(shop);
-                            boolean purchased = false;
-                            do {
-                                System.out.println("Which Hero would you like to purchase this item for? Or enter DONE to leave the Market");
-                                shop = qScan.nextLine();
-                                if (shop.equals("Q") || shop.equals("q")) {
-                                    purchased = true;
-                                    complete = true;
-                                    done = true;
-                                    setGAMEOVER();
-                                }
-                                else if (shop.equals("I") || shop.equals("i")) {
-                                    I();
-                                }
-                                else if (shop.equals("DONE")) {
-                                    purchased = true;
-                                    complete = true;
-                                    done = true;
-                                }
-                                else if (existsHeroinTeam(shop) != -1) {
-                                    purchased = team[existsHeroinTeam(shop)].buyItem(i);
-                                }
-                                else {
-                                    System.out.println("Who? Try again, please.");
-                                }
-                            }
-                            while (!purchased);
-                        }
-                        else {
-                            System.out.println("The market doesn't seem to carry that... Did you mispell the Item name?");
-                        }
-                    }
-                    while (!complete);
-                }
-                else if (shop.equals("N") || shop.equals("n")) {
-                    done = true;
-                    System.out.println("Alright, maybe next time then! ONWARD with our QUEST!");
-                }
-                else if (shop.equals("M") || shop.equals("m")) {
-                    M.printMarket();
-                }
-                else if (shop.equals("Q") || shop.equals("q")) {
-                    done = true;
-                    setGAMEOVER();
-                }
-                else if (shop.equals("I") || shop.equals("i")) {
-                    I();
-                }
-                else {
-                    System.out.println("Um, so is that a yes or a no? Enter Y for Yes, N for No.");
-                }
-        }
-        while (!done);
-        System.out.println("Thanks for visiting the Market!");
-    }
-
-    public void sell() {
-        System.out.println("Welcome to the Market! I'm sure you have many treasures from your QUEST. \nInterested in showing me what you got? I'll pay handsomely. If not, enter DONE at any time to leave the marketplace.");
-        
-        boolean done = false;
-        do {
-            System.out.println("Now let's see, whose inventory do you want to sell Items from? Otherwise, enter DONE if you have nothing more you'd like to sell.");
-            String sell = qScan.nextLine();
-            if (existsHeroinTeam(sell) != -1) {
-                Hero h = team[existsHeroinTeam(sell)];
-                HashMap<String, Item> hinv = h.getInv();
-                h.printInv();
-                boolean sold = false;
+                System.out.println("From L->R, the Lanes in the Map are numbered: " + bnrep + "\nEnter the Lane number you want to Teleport to now: ");
                 do {
-                    System.out.println("Which Item would you like to sell? Or, if you'd like to sell from another Hero's inventory, enter Switch. \nPlease enter the full name of the Item as displayed in the Hero's inventory.");
-                    sell = qScan.nextLine();
-                    if (hinv.containsKey(sell)) {
-                        h.sellItem(hinv.get(sell));
-                        sold = true;
-                    }
-                    else if (sell.equals("Switch")) {
-                        sold = true;
-                    }
-                    else if (sell.equals("DONE")) {
-                        sold = true;
-                        done = true;
-                    }
-                    else if (sell.equals("Q") || sell.equals("q")) {
-                        sold = true;
-                        done = true;
-                        setGAMEOVER();
-                    }
-                    else if (sell.equals("I") || sell.equals("i")) {
-                        I();
+                    if(qScan.hasNextInt()) {
+                        n = qScan.nextInt();
+                        isnum = true;
                     }
                     else {
-                        System.out.println("I'm not sure I've heard of that Item... Try again, please.");
+                        System.out.println("Invalid Input. Please enter a number.");
+                        qScan.next();
                     }
+                    // setup.next();
                 }
-                while (!sold);
+                while (!isnum);
+                if (!(n >= 1 && n <= bn)) {
+                    // System.out.println("Invalid Input. Remember, the Lanes in the Map are numbered: " + bnrep);
+                    isnum = false;
+                    System.out.println("That's not a Lane on the map.");
+                }
             }
-            else if (sell.equals("DONE")) {
-                done = true;
-            }
-            else if (sell.equals("Q") || sell.equals("q")) {
-                done = true;
-                setGAMEOVER();
-            }
-            else if (sell.equals("I") || sell.equals("i")) {
-                I();
-            }
-            else {
-                System.out.println("I'm not sure I've heard of that Hero... Try again, please.");
-            }
-        }
-        while(!done);
-        System.out.println("Thanks for visiting the Market!");
+            while (!(n >= 1 && n <= bn));
+            inputcoords[0] = n;
 
+            isnum = false;
+            bn = b.geth();
+            int maxheight = b.getFurthestDistanceinLane(n);
+            bnrep = SetUp.TeleportPossibilities(maxheight, bn-1);
+            do {
+                System.out.println("From top-> bottom, the accessible rows in this lane currently are numbered: " + bnrep + "\nEnter the row number you want to Teleport to now: ");
+                do {
+                    if(qScan.hasNextInt()) {
+                        n = qScan.nextInt();
+                        isnum = true;
+                    }
+                    else {
+                        System.out.println("Invalid Input. Please enter a number.");
+                        qScan.next();
+                    }
+                    // setup.next();
+                }
+                while (!isnum);
+                if (!(n >= maxheight && n < bn)) {
+                    // System.out.println("Invalid Input. Remember, the Lanes in the Map are numbered: " + bnrep);
+                    isnum = false;
+                    System.out.println("That's not a row on the map you can Teleport to in this Lane.");
+                }
+            }
+            while (!(n >= maxheight && n < bn));
+            inputcoords[1] = n;
+
+            bn = b.getw();
+            bnrep = SetUp.TeleportPossibilities(1, bn);
+            do {
+                System.out.println("In this Lane and row Area, you may try to Teleport to: " + bnrep + "L->R \nEnter the row number you want to Teleport to now: ");
+                do {
+                    if(qScan.hasNextInt()) {
+                        n = qScan.nextInt();
+                        isnum = true;
+                    }
+                    else {
+                        System.out.println("Invalid Input. Please enter a number.");
+                        qScan.next();
+                    }
+                    // setup.next();
+                }
+                while (!isnum);
+                if (!(n >= 1 && n <= bn)) {
+                    // System.out.println("Invalid Input. Remember, the Lanes in the Map are numbered: " + bnrep);
+                    isnum = false;
+                    System.out.println("That's not a valid space in this Lane and row");
+                }
+            }
+            while (!(n >= 1 && n <= bn));
+            inputcoords[2] = n;
+
+            teleportTile = validateTeleportInput(h, inputcoords);
+        }
+        while (teleportTile == null);
+        h.moveTo(teleportTile);
     }
 
     public void setGAMEOVER() {
@@ -342,6 +371,7 @@ public class Quest extends Game {
     // RETURNS the coordinates given an InGameCharacter and the direction it wants to move in (WASD)
     public int[] convertDirtoCoords(InGameCharacter igc, String dir) { 
         //Takes in direction input and converts it to coordinates
+        dir = dir.toUpperCase();
         int[] attemptcoords = igc.getLoc().getCoords().clone();
         switch (dir) {
             case "W":
@@ -363,12 +393,15 @@ public class Quest extends Game {
     // RETURNS true if there is not a Hero on the Nexus base this Hero is trying to back to
     public boolean validateBack(Hero h) {
         int[] basecoords = h.getBase().getCoords();
-        return checkTileNOclashingtypes(h, basecoords);
+        boolean canB = checkTileNOclashingtypes(h, basecoords);
+        if (!canB) System.out.println("There is a Hero on " + h.getRep() + "'s Base. " + h.getName() + " cannot back.");
+        return canB;
     }
 
     // STEPPING WASD: RETURNS a valid Tile t that the InGameCharacter can call moveTo(Tile t) to OTHERWISE RETURNS null
     public Tile validateMovementInput(InGameCharacter igc, String dir) { //TODO CHECK/TEST
         // ISSUES TO ADDRESS: inaccessible tile, valid "teleport"(think of each move as a teleport to that space, even if it's the next Tile)
+        dir = dir.toUpperCase();
         int[] trycoords = convertDirtoCoords(igc, dir);
         boolean validTile = b.valid(trycoords);
         if (validTile) {
@@ -451,6 +484,50 @@ public class Quest extends Game {
         }
         return NObackdoor;
     }
+    
+
+    /**
+     * ADDED FROM BATTLE
+     */
+    public void I() {
+        System.out.println("\nYou asked for your team's stats, so HERE THEY ARE:");
+        for (Hero h: team) {
+            System.out.println(h);
+        }
+        System.out.println();
+    }
+    public void MI() {
+        System.out.println("\nYou asked for the enemy's stats, so HERE THEY ARE:");
+        Iterator<Monster> iterm = spawnedM.iterator();
+        while (iterm.hasNext()) {
+            Monster m = iterm.next();
+            if (m.getHealth() > 0) System.out.println(m);
+        }
+        System.out.println();
+    }
+
+    public void checkKill(InGameCharacter igc) {
+        String igctype = igc.getHM();
+        if (igctype.equals("Hero")) {
+            Hero igcH = (Hero)igc;
+            if (igcH.getAttacking().getHealth() <= 0) {
+                igc.rewardIGC();
+            }
+        }
+        else { //if (igctype.equals("Monster")) {
+            Monster igcM = (Monster)igc;
+            if (igcM.getAttacking().getHealth() <= 0) {
+                igc.rewardIGC();
+            }
+        }
+    }
+
+    public void revive() {// MUST REWARD BEFORE REVIVE
+        for (Hero h : team) {
+            if (h.getHealth() <= 0) h.revive();
+        }
+    }
+
 
     public static void main(String[] args) {
         Quest q = new Quest();

@@ -15,7 +15,7 @@ public abstract class InGameCharacter {
     protected int agility;
     protected Tile loc;
     protected String boardpiece; 
-    protected ArrayList<InGameCharacter> nearbyEnemies; //TODO create scan for enemies based on LOC
+    protected ArrayList<InGameCharacter> nearbyEnemies; 
 
 
     public void spawn(Tile loc, int n) {
@@ -23,19 +23,19 @@ public abstract class InGameCharacter {
         setPiece(n);
     }
 
-    public abstract void setPiece(int n); //TODO SCAN THROUGH LIST OF SPAWNED H/M TO GET N (length/size)
+    public abstract void setPiece(int n); 
     public String getPiece() {
         return boardpiece;
     }
 
-    public void levelup() {
-        if (this.exp >= lvl*10) {
-        hp = maxhp;
-        strength = (int)(strength*1.05);
-        defense = (int)(defense*1.05);
-        agility = (int)(agility*1.05);
-        }
-    }
+    // public void levelup() {
+    //     if (this.exp >= lvl*10) {
+    //     hp = maxhp;
+    //     strength = (int)(strength*1.05);
+    //     defense = (int)(defense*1.05);
+    //     agility = (int)(agility*1.05);
+    //     }
+    // }
     public int getLVL() {
         return lvl;
     }
@@ -48,6 +48,9 @@ public abstract class InGameCharacter {
     }
     public String getName() {
         return name;
+    }
+    public String getRep() {
+        return this.getPiece() + ": " + this.getName();
     }
     public String getType() {
         return type;
@@ -64,6 +67,17 @@ public abstract class InGameCharacter {
         this.loc = target;
         target.setLocTile(this);
         // target.testMLocTile(this);
+    }
+
+    public boolean canAttack(){
+        //check if arraylist is empty, if it is it cannot fight
+        if(this.nearbyEnemies.isEmpty()){
+            return false;
+        }
+        else{
+            return true;
+        }
+        
     }
 
     public void attack(InGameCharacter c) { 
@@ -106,8 +120,20 @@ public abstract class InGameCharacter {
         }
     }
 
+    public void rewardIGC() {
+        String igctype = this.HM;
+        if (igctype.equals("Hero")) {
+            Hero igc = (Hero)this;
+            if (igc.getHealth() > 0) {
+                igc.reward(igc.getAttacking().getLVL()*100);
+            }
+        }
+        this.reward();
+        this.levelup();
+    }
     public abstract void reward();
-    // public abstract void levelup();
+    public abstract void reward(int c);
+    public abstract void levelup();
 
     public void setNearbyEnemies(ArrayList<InGameCharacter> nE) {
         this.nearbyEnemies = nE;

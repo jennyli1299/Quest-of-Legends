@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.*;
 
 public class Battle {
+    //Unused in Quest II, but the logic for attacking other characters was moved into the main Quest file.
     ArrayList<Hero> Ah; // Alive Heroes Hero[] Ah
     // ArrayList<Hero> Dh; // Dead Heroes Hero[] Dh
     ArrayList<Monster> Am; // Alive Monsters Monster[] Am

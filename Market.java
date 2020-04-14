@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.*;
 
 public class Market {
+    //The market class which holds all of the items(weapons, armor, potions, and spells) in the Quest of Legends
+    //Heroes can enter and purchase items
+    
     // private HashMap<String, Weapon> W; //Weapons
     // private HashMap<String, Armor> A; //Armor
     // private HashMap<String, Potion> P; //Potions

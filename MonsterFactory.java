@@ -3,6 +3,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class MonsterFactory {
+    //A factor which decides which monster will be spawned on the game board at a given time, based on monsters that are already on the board
     HashMap<String, Monster> AllMonsters;
 
     public MonsterFactory() {

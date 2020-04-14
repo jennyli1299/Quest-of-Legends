@@ -1,6 +1,8 @@
 // import java.util.*;
 
 public class LightningSpell extends Spell {
+    //Subclass of Spell which has the added effect of reducing agility of an enemy that is hit by it
+    
     // protected String spelltype; // Ice, Fire, Lightning; enemy attributes to be decreased upon casting
         // ice = reduces damage of enemy, fire = reduced defense of enemy, lightning = reducded agility of enemy
         // damage, enemy: reduce strength, reduce defense, reduce agility

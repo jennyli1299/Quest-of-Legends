@@ -1,6 +1,8 @@
 // import java.util.*;
 
 public class FireSpell extends Spell {
+    //FireSpell is a subclass of Spell which has an effect of reducing the defense of the enemy it is used on
+    
     // protected String spelltype; // Ice, Fire, Lightning; enemy attributes to be decreased upon casting
         // ice = reduces damage of enemy, fire = reduced defense of enemy, lightning = reducded agility of enemy
         // damage, enemy: reduce strength, reduce defense, reduce agility

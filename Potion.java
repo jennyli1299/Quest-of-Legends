@@ -1,4 +1,5 @@
 public class Potion extends Item {
+    //Subclass of item which when used, will increase an attribute of a hero by a certain amount.
 
     private int inc;
     private String[] attr; //attributes to be increased

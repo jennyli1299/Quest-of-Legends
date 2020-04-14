@@ -2,6 +2,8 @@ import java.util.ArrayList;
 import java.util.stream.Stream;
 
 public class Lane {
+    //Represents a lane of the game board, scalable in height and width, and is constructed of tiles
+    
     private Tile[][] lane;
     private int lanenum;
     private int h;

@@ -1,4 +1,5 @@
 public class Exoskeleton extends Monster {
+    //subclass of Monster that represents the Exoskeleton enemy
 
     public Exoskeleton (String n, int l, int s, int d, int a) {
         super(n, "Exoskeleton", l, s, d, a);

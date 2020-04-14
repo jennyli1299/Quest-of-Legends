@@ -1,6 +1,8 @@
 // import java.util.*;
 
 public class IceSpell extends Spell {
+    //Subclass of Spell which has the effect of reducing enemy damage output when it is cast upon them
+    
     // protected String spelltype; // Ice, Fire, Lightning; enemy attributes to be decreased upon casting
         // ice = reduces damage of enemy, fire = reduced defense of enemy, lightning = reducded agility of enemy
         // damage, enemy: reduce strength, reduce defense, reduce agility

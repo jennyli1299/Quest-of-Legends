@@ -1,7 +1,7 @@
 import java.util.Arrays;
 
 public class Armor extends Item {
-
+    //Armor is an item that increases an IGC's defense when it is equipped
     private int def;
 
     public Armor () {

@@ -2,6 +2,7 @@ import java.util.Arrays;
 // import java.util.Scanner;
 
 public class Board {
+    //Board represents the map of the Quest of Legends and is scalable
     private Lane[] gameBoard;
     private int n;
     private int h;

@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Monster extends InGameCharacter {
+    //Subclass of IGC that represents the monsters of the Quest of Legends. Monsters will either attack if there are Heroes nearby, or simply move one tile downard.
 
     protected int[] og; //original stats PRE-SPELLS
     protected Hero attacking;

@@ -6,6 +6,7 @@ import java.util.*;
  */
 
 public class Quest extends Game {
+    //contains all of the logic for a person to play the Quest of Legends and attempt to win!
 
     // (Inherited)
     // protected Board b;

@@ -46,7 +46,9 @@ public class Board {
     }
     public Tile getMSpawnTile(int n) {
         int lane = (n)%(this.n);
-        if (n > 3) lane = (int)Math.ceil(Math.random()*this.n); //New added
+        if (n > 3) { 
+            lane = (int)Math.ceil(Math.random()*this.n);
+        }
         if (lane == 0) lane = this.n;
         int widthpos = ((int)Math.floor((double)(n-1)/(this.n)) %(this.w)) + 1;
         Tile SpawnTile = getTileAt(new int[] {lane, 0, widthpos});

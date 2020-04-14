@@ -20,7 +20,7 @@ public class Quest extends Game {
     public Quest() {
         // int bsize = SetUp.boardsize(); // If you want to make board scalable, ask for #lanes and lane distance and land width TODO
         b = new Board(3, 8, 2);
-        System.out.println("\nWelcome to QUEST! Prepare yourself for a journey filled with Heroes, Monsters, MAGIC, and fun!\n");
+        System.out.println("\nWelcome to QUEST OF LEGENDS! Prepare yourself for a journey filled with Heroes, Monsters, MAGIC, and fun!\n");
         System.out.println("First things first. Let's put together a team of courageous heroes for you.");
         Hero[] team_prelim = SetUp.chooseYourFighters(3);
         team = team_prelim;
@@ -48,22 +48,29 @@ public class Quest extends Game {
         // System.out.println("\nWelcome to QUEST! Prepare yourself for a journey filled with Heroes, Monsters, MAGIC, and fun!\n");
         System.out.println("Let's get all the important stuff out of the way, Shall we? \nHere is your MAP: ");
         System.out.println(b);
-        System.out.println("X MARKS THE SPOT! That's where you and your team are!"); // TODO: Change
-        System.out.println("M stands for Market, and that's where you'll have to go if you want to stock up on gear.\nThat means all Armor, Weapons, and magic items such as Potions and Spells can be bought at Markets.");
-        System.out.println("ψD stands for DANGER and the areas on the map labled D are nonaccessible parts of the map. Trust me, you don't want to go there... and you can't!");
-        System.out.println("The empty tiles may seem safe, but be careful. There's a chance we may run into some Monsters in the uncharted territory.\nIf you do run into hostiles, you MUST fight.\nIf you win a battle, your heroes will be compensated for their troubles and bravery!\nIf you lose a battle, don't sweat it. All Heroes get revived at the end of the fight... but at a cost.");
-        System.out.println("Understanding everything so far? I hope so! Are you ready to continue on? Enter Y when you are: ");
+        System.out.println("The Map is pretty simple to read. Each cell/tile of the Map represents a different area.\nDifferent areas have different properties! Let's play with the Alphabet here:");
+        System.out.println("ψ X stands for X DO NOT ENTER X and the areas on the map labled X are nonaccessible parts of the map. Trust me, you don't want to go there... and you can't!");
+        System.out.println("P stands for Plain and those areas are ... honestly kind of boring.");
+        System.out.println("C stands for Caves, which give any Hero in it a 10% agility increase!");
+        System.out.println("B stands for Bush, which boosts a Hero's dexerity by 10%!");
+        System.out.println("K stands for Koulou, which strengthens a Hero by a WHOPPING 10%! Comes in REAL handy when you're facing off against a Monster, trust me.");
+        System.out.println("N stands for Nexus! PAY ATTENTION now, because a Nexus Tile is my favorite kind of tile. Each hero's base is on a Nexus tile, and while there, you can shop the Market.\nA Nexus's Market is FULL of amazing things you can spend your coins on.");
+        System.out.println("When exploring the Market, you can buy Weapons, Armor, and Potions that you may find very useful in battle. You can ALSO pay coins to learn Spells and master them!\n");
+
+        System.out.println("Do you see those markers H1, H2, H3? That's where each member your team is!");
+        System.out.println("Now, watch out for the markers beginning with M. Those are nefarious creatures. Monsters, if you will.");
+        System.out.println("\nFANTASTIC!\nHere are your controls: \nTo move around the map, use your W,A,S,D Keys!\n\t[W] -> North, [A] -> West, [S] -> South, [D] -> East\nYou can also teleport[TP], return to base[B], and a couple more...");
+        System.out.println("If the controls are a lot to remember, don't worry, there will be many prompts along the way to help you out with input.");
+
+        System.out.println("\nThink that should be all! Make sure you read and understand the command thoroughly.\n");
+        System.out.println("Understanding everything so far? I hope so! Are you ready to continue on to the game? Enter Y when you are: ");
         String answer;
         do {
             answer = qScan.nextLine();
-            if (!answer.equals("Y")) System.out.println("I beg your pardon? Enter Y when you are ready to go onto the next part: ");
+            if (!answer.equals("Y")) System.out.println("I beg your pardon? Enter Y when you are ready to play: ");
         }
         while (!answer.equals("Y"));
-        System.out.println("\nFANTASTIC!\nHere are your controls: \nTo move around the map, use your W,A,S,D Keys!\n\tW -> North, A -> West, S -> South, D -> East");
-        System.out.println("Enter I at any time to view your team's stats. This command works in the midst of a battle too! When in battle, you may also enter MI to view enemy monster stats.");
-        System.out.println("Enter Q at any time to exit the game. However, let's not get try get sneaky and use it to escape battles. It doesn't work that way. Around here, we finish the battles we start.");
-
-        System.out.println("\nThink that should be all! Make sure you read and understand the command thoroughly. Have fun!\n");
+        System.out.println("HAVE FUN!");
 
         // System.out.println(b);
         // boolean exit = false;

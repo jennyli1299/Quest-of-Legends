@@ -3,6 +3,10 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Abstract class of InGameCharactor from which concrete in-game-characters (so far: Heroes, Monsters, and their subclasses) are extended
+ */
+
 public abstract class InGameCharacter {
     protected String name;
     protected String type;
@@ -44,7 +48,6 @@ public abstract class InGameCharacter {
         return hp;
     }
     public void gainEXP() {
-        //fill
         this.exp += 2;
     }
     public String getName() {
@@ -63,6 +66,7 @@ public abstract class InGameCharacter {
         return loc;
     }
 
+    // Moves an IGC to a specific Tile target (+removes an IGC from their previous location Tile)
     public void moveTo(Tile target) {
         if (this.loc != null) this.loc.leaveTile(this);
         this.loc = target;
@@ -70,6 +74,7 @@ public abstract class InGameCharacter {
         // target.testMLocTile(this);
     }
 
+    // Returns true if an IGC has the ability to attack determined by whether or not there are nearby hostiles in nearbyEnemies
     public boolean canAttack(){
         //check if arraylist is empty, if it is it cannot fight
         if(this.nearbyEnemies.isEmpty()){
@@ -81,6 +86,7 @@ public abstract class InGameCharacter {
         
     }
 
+    // Called when an IGC want to launch an attack or damage another IGC c (argument)
     public void attack(InGameCharacter c) { 
         //PLAIN = Common Tile [Safe Zone OR Monster], Bush (inc dexterity (spell casting) 10%) <- implemented in Hero's cast spell, Koulou (inc strength 10%), Cave (inc agility 10%)
         if (c.getHM().equals("Monster")) {
@@ -112,6 +118,8 @@ public abstract class InGameCharacter {
             }
         }
     }
+
+    // Updates the hp of an IGC according to int arguement
     public void updhp (int h) {
         if (h > 0) {
             this.hp -= h;
@@ -121,6 +129,10 @@ public abstract class InGameCharacter {
         }
     }
 
+    public abstract void reward();
+    public abstract void reward(int c);
+    public abstract void levelup();
+    // Reward System of IGC if they defeat an enemy
     public void rewardIGC() {
         String igctype = this.HM;
         if (igctype.equals("Hero")) {
@@ -132,9 +144,6 @@ public abstract class InGameCharacter {
         this.reward();
         this.levelup();
     }
-    public abstract void reward();
-    public abstract void reward(int c);
-    public abstract void levelup();
 
     public void setNearbyEnemies(ArrayList<InGameCharacter> nE) {
         this.nearbyEnemies = nE;
@@ -162,6 +171,7 @@ public abstract class InGameCharacter {
         return (this.name.equals(c.name));
     }
 
+    // STATIC method to scan for nearby enemies in range of an InGameCharacter
     public static void scanNearbyEnemies(InGameCharacter igc, Board b) {
         String igcType = igc.getHM();
         int[] igcCoords = igc.getLoc().getCoords(); // NEED DEEP COPY BRO
@@ -214,6 +224,7 @@ public abstract class InGameCharacter {
         }
         igc.setNearbyEnemies(nE);
     }
+    // Helper for scanNearbyEnemies which check a Tile for an enemy and adds it to nearbyEnemies if one exists
     public static void addEnemiesatTile(InGameCharacter igc, ArrayList<InGameCharacter> nE, Board b, int[] tcoords) {
         String igcType = igc.getHM();
         if (b.valid(tcoords)) {

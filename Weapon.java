@@ -25,6 +25,7 @@ public class Weapon extends Item {
         weldhands = w;
     }
 
+    // RETURNS stats of this Weapon item to be added to Hero stats when Weapon is equipped
     public int[] stats() {
         // health, mana, strength/dmg, defense, dexterity, agility
         int[] stats = new int[6];

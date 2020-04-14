@@ -35,6 +35,7 @@ public class Spell extends Item {
         return manacost;
     }
 
+    // RETURNS stats of this Spell item to be used when Spell is Cast by Hero
     public int[] stats() {
         // ice = reduces damage of enemy, fire = reduced defense of enemy, lightning = reducded agility of enemy
         // damage, enemy: reduce strength, reduce defense, reduce agility

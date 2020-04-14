@@ -27,10 +27,12 @@ public class Lane {
         furthestexploredH = h-1;
     }
 
+    // RETURNS the Tile at specified argument coordinates
     public Tile getTileAt(int[] coords) {
         return lane[coords[1]][coords[2]-1];
     }
 
+    // Sets this as the Lane for each Tile t within this Lane
     public void setLane() {
         for (Tile[] row: lane) {
             for (Tile t: row) {
@@ -38,9 +40,9 @@ public class Lane {
             }
         }
     }
-    public Tile[][] testhelp() {
-        return this.lane;
-    }
+    // public Tile[][] testhelp() {
+    //     return this.lane;
+    // }
 
     public int getFurthestExplored() {
         return furthestexploredH;

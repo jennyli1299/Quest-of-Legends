@@ -6,7 +6,6 @@ public class Board {
     private int n;
     private int h;
     private int w;
-    // Scalable number of Lanes and height of Lanes, but not width of Lane
 
     public Board(int n, int h, int w) {
         this.n = n;
@@ -37,6 +36,7 @@ public class Board {
         return this.gameBoard;
     }
 
+    // RETURNS the Tile at which HERO #n should spawn at (B)
     public Tile getHSpawnTile(int n) {
         int lane = (n)%this.n;
         if (lane == 0) lane = this.n;
@@ -44,6 +44,7 @@ public class Board {
         Tile SpawnTile = getTileAt(new int[] {lane, this.h-1, widthpos});
         return SpawnTile;
     }
+    // RETURNS the Tile at which Monster #n should spawn at
     public Tile getMSpawnTile(int n) {
         int lane = (n)%(this.n);
         if (n > 3) { 
@@ -55,9 +56,12 @@ public class Board {
         return SpawnTile;
     }
 
+    // RETURNS the Tile at specified argument coordinates
     public Tile getTileAt(int[] coords) {
         return (gameBoard[coords[0]-1]).getTileAt(coords);
     }
+
+    // RETURNS true if specified coordinates in argument are a valid Tile on the board
     public boolean valid(int[] coords) {
         // for (int c: coords) {
         //     if (c < 0) return false;

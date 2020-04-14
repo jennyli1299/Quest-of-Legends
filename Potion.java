@@ -24,6 +24,7 @@ public class Potion extends Item {
         attr = a;
     }
 
+    // RETURNS stats of this Potion item to be used when Hero uses this Potion
     public int[] stats() {
         // health, mana, strength/dmg, defense, dexterity, agility
         int[] stats = new int[6];

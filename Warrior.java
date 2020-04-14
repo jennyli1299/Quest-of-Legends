@@ -9,6 +9,7 @@ public class Warrior extends Hero {
         super(n, "Warrior", l, e, h, m, s, d, dx, a, c);
     }
 
+    @Override
     public void levelup() {
         if (this.exp >= lvl*10) {
         lvl++;

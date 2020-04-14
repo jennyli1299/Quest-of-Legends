@@ -9,6 +9,7 @@ public class Sorcerer extends Hero {
         super(n, "Sorcerer", l, e, h, m, s, d, dx, a, c);
     }
 
+    @Override
     public void levelup() {
         if (this.exp >= lvl*10) {
         lvl++;

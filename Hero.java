@@ -105,11 +105,9 @@ public class Hero extends InGameCharacter {
         setPiece(n);
         setBase(loc);
     }
-
     public void setBase(Tile b) {
         base = b;
     }
-
     public Tile getBase() {
         return base;
     }
@@ -124,6 +122,7 @@ public class Hero extends InGameCharacter {
 
     }
 
+    // Updates a Hero's attributes based on int array (argument param)
     private void updAttributes(int[] a) {
         this.hp += a[0];
         this.mana += a[1];
@@ -133,98 +132,9 @@ public class Hero extends InGameCharacter {
         this.agility += a[5];
     }
 
-    public void takeOffWeapon(Item i) {
-        int[] statstoreverse = i.stats();
-        for (int s = 0; s < statstoreverse.length; s++) {
-            statstoreverse[s] = -1 * statstoreverse[s];
-        }
-        i.unEquip();
-        this.updAttributes(statstoreverse);
-    }
-
-    public void equip(Item i) {
-        // WRITE AN UNEQUIP & MAKE SURE HERO IS ONLY WIELDING ONE WEAPON AND WEARING ONE
-        // ARMOR AT A TIME (done)
-        String itype = i.getType();
-        // boolean alrdyON = false;
-        if (itype.equals("Weapon")) { // || itype.equals("Armor")) {
-            for (Item thisitem : inv.values()) {
-                if (thisitem.getType().equals(itype)) {
-                    // alrdyON |= thisitem.getEquipped();
-                    if (thisitem.getEquipped()) {
-                        this.takeOffWeapon(thisitem);
-                        break;
-                    }
-                }
-            }
-        }
-        // check for it in inventory TO DO
-        // set equiped to true
-        i.setEquipped();// equipItem();
-        int[] stats = i.stats();
-        if (stats.length == 6) {
-            this.updAttributes(stats);
-            if (i.getType().equals("Potion")) {
-                removefromINVs(i);
-            }
-            i.unEquip();
-        } else if (stats.length == 4) {
-            Spell s = (Spell) i;
-            // if (this.mana < s.getManaCost()) {
-            // System.out.println("Uh oh! Seems to me you don't have enough mana to cast
-            // this spell.");
-            // }
-            // else {
-            if (canCast(s)) {
-                mana -= s.getManaCost();
-                this.castSpell(attacking, stats);
-                // removefromINVs(s);
-                s.unEquip();
-            }
-            // }
-        }
-        // return true;
-    }
-
-    // public void unequipAll() {
-    // // FILL IN
-    // i.unEquip();
-    // }
-    public boolean canCast(Spell s) {
-        if (this.mana < s.getManaCost()) {
-            System.out.println("Uh oh! Seems to me you don't have enough mana to cast this spell.");
-            return false;
-        } else
-            return true;
-    }
-
-    public void castSpell(Monster m, int[] stats) {
-        // Since a Hero spends mana to cast a spell, it's effect cannot be dodged but
-        // the damage can be.
-        int spelldmg = stats[0];
-        spellDmg(m, spelldmg);
-        int[] effect = Arrays.copyOfRange(stats, 1, 4);
-        m.updAttributes(effect);
-    }
-
-    public void spellDmg(Monster m, int sd) {
-        if (Math.random() <= m.agility / 100) {
-            System.out.println(m.name + " DODGED spell damage! However, Spell residue is effective!");
-        } else {
-            int dmg = (int) (sd + (this.dexterity / 10000) * sd);
-            if (this.getLoc().getType().equals("Bush")) { // Bush (inc dexterity (spell casting) 10%)
-                dmg = (int) (dmg * 1.1);
-            }
-            m.updhp(dmg);
-            System.out.println(m.getName() + " has taken " + dmg + " damage from " + this.name
-                    + "'s SPELL! Spell Residue is effective!");
-        }
-    }
-
     public void setAttacking(InGameCharacter m) {
         this.attacking = (Monster) m;
     }
-
     public Monster getAttacking() {
         return this.attacking;
     }
@@ -233,51 +143,7 @@ public class Hero extends InGameCharacter {
         return this.inv;
     }
 
-    public boolean buyItem(Item i) {
-        if (i.getUnlockLvl() > this.lvl) {
-            System.out.println("Young Hero, you are not yet ready. You must be at least level " + i.getUnlockLvl()
-                    + " to purchase this item.");
-            return false;
-        } else if (i.getPrice() > this.coins) {
-            System.out.println(
-                    "I'm afraid you can't purchase this item young hero. It's worth more than you have. Come again later when you have more coins.");
-            return false;
-        } else {
-            this.coins -= i.getPrice();
-            String in = i.getItemName();
-            inv.put(in, i);
-            if (invnum.containsKey(in)) {
-                int n = invnum.get(in).intValue();
-                invnum.replace(in, Integer.valueOf(n + 1));
-            } else {
-                invnum.put(in, Integer.valueOf(1));
-                inv.put(in, i);
-            }
-            System.out.println(
-                    i.getItemName() + " has been added to your inventory! Thanks for shopping! Come again soon!");
-            return true;
-        }
-    }
-
-    public void removefromINVs(Item i) {
-        // use Potion --> decrease count in inventory
-        String in = i.getItemName(); // Item Name
-        if (invnum.get(in).intValue() == 1) {
-            inv.remove(in);
-            invnum.remove(in);
-        } else {
-            int n = invnum.get(in).intValue();
-            invnum.replace(in, Integer.valueOf(n - 1));
-        }
-    }
-
-    public void sellItem(Item i) {
-        removefromINVs(i);
-        this.coins += (int) i.getPrice() / 2;
-        System.out.println("What a wonderful sale! " + i.getItemName() + " has been sold for "
-                + Integer.toString((int) i.getPrice() / 2) + " coins!");
-    }
-
+    // Print Inventory
     public void printInv() {
         // PRINT INVENTORY TO SELL ITEMS IN MARKET
         // inv.forEach((k,v) -> System.out.println(v));
@@ -298,6 +164,7 @@ public class Hero extends InGameCharacter {
         }
         System.out.println();
     }
+    // Print specifc section of Inventory according to String itemtype argument
     public void printSpecificINV(String itemtype) {
         if (itemtype.equals("Armor")) {
             System.out.println(this.name + "'s " + itemtype + ":");
@@ -310,6 +177,11 @@ public class Hero extends InGameCharacter {
         }
     }
 
+    /**
+     * Hero's SHOP: Buy/Sell at Market M
+     */
+
+    // Explore the Market / Window Shop
     public void exploreMarket(Market M, Scanner qScan) {
         System.out.println("Let's go shopping!");
         boolean BSL = false;
@@ -332,6 +204,7 @@ public class Hero extends InGameCharacter {
         } while (!BSL);
     }
 
+    // BUY
     public void shop(Market M, Scanner qScan) {
         boolean done = false;
         M.printMarket();
@@ -388,7 +261,33 @@ public class Hero extends InGameCharacter {
         } while (!done);
         System.out.println("Thanks for visiting the Market!");
     }
+    public boolean buyItem(Item i) {
+        if (i.getUnlockLvl() > this.lvl) {
+            System.out.println("Young Hero, you are not yet ready. You must be at least level " + i.getUnlockLvl()
+                    + " to purchase this item.");
+            return false;
+        } else if (i.getPrice() > this.coins) {
+            System.out.println(
+                    "I'm afraid you can't purchase this item young hero. It's worth more than you have. Come again later when you have more coins.");
+            return false;
+        } else {
+            this.coins -= i.getPrice();
+            String in = i.getItemName();
+            inv.put(in, i);
+            if (invnum.containsKey(in)) {
+                int n = invnum.get(in).intValue();
+                invnum.replace(in, Integer.valueOf(n + 1));
+            } else {
+                invnum.put(in, Integer.valueOf(1));
+                inv.put(in, i);
+            }
+            System.out.println(
+                    i.getItemName() + " has been added to your inventory! Thanks for shopping! Come again soon!");
+            return true;
+        }
+    }
 
+    // SELL
     public void sell(Market M, Scanner qScan) {
         System.out.println(
                 "Welcome to the Market! I'm sure you have many treasures from your QUEST. \nInterested in showing me what you got? I'll pay handsomely. If not, enter DONE at any time to leave the marketplace.");
@@ -417,23 +316,32 @@ public class Hero extends InGameCharacter {
         } while (!done);
         System.out.println("Thanks for visiting the Market!");
     }
-
-    public String si(int i) {
-        return Integer.toString(i);
+    public void sellItem(Item i) {
+        removefromINVs(i);
+        this.coins += (int) i.getPrice() / 2;
+        System.out.println("What a wonderful sale! " + i.getItemName() + " has been sold for "
+                + Integer.toString((int) i.getPrice() / 2) + " coins!");
     }
-
-    public String toString() {
-        // FILL IN THE DISPLAY INFO FOR LVL, HP/MAX HP, MANA, EXP, SKILL LEVELS"
-        String descr = /** "\n" + */
-                name + "\t(" + type + ")" + "\tLevel: " + si(lvl) + "\tCoins: " + si(coins) + "\n\tStrength: "
-                        + si(strength) + "\tDefense: " + si(defense) + "\tDexterity: " + si(dexterity) + "\tAgility: "
-                        + si(agility) + /** "\n" + */
-                        "\tHealth: " + si(hp) + "/" + si(maxhp) + "\t\tMana: " + si(mana) + "/" + si(maxmana)
-                        + "\tExp: " + si(exp) + "/" + si(10 * lvl) /** + "\n" */
-        ;
-        return descr;
+    public void removefromINVs(Item i) {
+        // use Potion --> decrease count in inventory
+        String in = i.getItemName(); // Item Name
+        if (invnum.get(in).intValue() == 1) {
+            inv.remove(in);
+            invnum.remove(in);
+        } else {
+            int n = invnum.get(in).intValue();
+            invnum.replace(in, Integer.valueOf(n - 1));
+        }
     }
+    /**
+     * Hero's Shopping ends here
+     */
 
+    /**
+     * HERO'S ACTION INPUT: Fight, Use Potion, Cast Spell, Equip Gear
+     */
+
+    // Fight
     public void fight(Scanner fightinput) { 
         System.out.println("You have chosen to attack!");
         HashMap<String, Monster> hmNE = new HashMap<String, Monster>();
@@ -476,6 +384,7 @@ public class Hero extends InGameCharacter {
         }
     }
 
+    // Cast a Spell
     public void castSpell(Scanner fightinput) {
         // CAST SPELL
         System.out.println("You have chosen to Cast a Spell! Here are all the Spells you've mastered: ");
@@ -510,7 +419,36 @@ public class Hero extends InGameCharacter {
             }
         } while (!done);
     }
+    public boolean canCast(Spell s) {
+        if (this.mana < s.getManaCost()) {
+            System.out.println("Uh oh! Seems to me you don't have enough mana to cast this spell.");
+            return false;
+        } else
+            return true;
+    }
+    public void castSpell(Monster m, int[] stats) {
+        // Since a Hero spends mana to cast a spell, it's effect cannot be dodged but
+        // the damage can be.
+        int spelldmg = stats[0];
+        spellDmg(m, spelldmg);
+        int[] effect = Arrays.copyOfRange(stats, 1, 4);
+        m.updAttributes(effect);
+    }
+    public void spellDmg(Monster m, int sd) {
+        if (Math.random() <= m.agility / 100) {
+            System.out.println(m.name + " DODGED spell damage! However, Spell residue is effective!");
+        } else {
+            int dmg = (int) (sd + (this.dexterity / 10000) * sd);
+            if (this.getLoc().getType().equals("Bush")) { // Bush (inc dexterity (spell casting) 10%)
+                dmg = (int) (dmg * 1.1);
+            }
+            m.updhp(dmg);
+            System.out.println(m.getName() + " has taken " + dmg + " damage from " + this.name
+                    + "'s SPELL! Spell Residue is effective!");
+        }
+    }
 
+    // Use a Potion
     public void usePotion(Scanner fightinput) {
         // CAST SPELL
         System.out.println("You have chosen to Use a potion! Here is your inventory of Potions: ");
@@ -538,6 +476,7 @@ public class Hero extends InGameCharacter {
         } while (!done);
     }
 
+    // Equip Gear
     public void gearUP(Scanner fightinput) {
         //EQUIP GEAR
         System.out.println("You have chosen to equip gear! Here is your inventory: ");
@@ -573,7 +512,69 @@ public class Hero extends InGameCharacter {
         System.out.println(getRep() + "'s current stats are as follows: ");
         System.out.println(this);
     }
+    public void equip(Item i) {
+        // WRITE AN UNEQUIP & MAKE SURE HERO IS ONLY WIELDING ONE WEAPON AND WEARING ONE
+        // ARMOR AT A TIME (done)
+        String itype = i.getType();
+        // boolean alrdyON = false;
+        if (itype.equals("Weapon")) { // || itype.equals("Armor")) {
+            for (Item thisitem : inv.values()) {
+                if (thisitem.getType().equals(itype)) {
+                    // alrdyON |= thisitem.getEquipped();
+                    if (thisitem.getEquipped()) {
+                        this.takeOffWeapon(thisitem);
+                        break;
+                    }
+                }
+            }
+        }
+        // check for it in inventory TO DO
+        // set equiped to true
+        i.setEquipped();// equipItem();
+        int[] stats = i.stats();
+        if (stats.length == 6) {
+            this.updAttributes(stats);
+            if (i.getType().equals("Potion")) {
+                removefromINVs(i);
+            }
+            i.unEquip();
+        } else if (stats.length == 4) {
+            Spell s = (Spell) i;
+            // if (this.mana < s.getManaCost()) {
+            // System.out.println("Uh oh! Seems to me you don't have enough mana to cast
+            // this spell.");
+            // }
+            // else {
+            if (canCast(s)) {
+                mana -= s.getManaCost();
+                this.castSpell(attacking, stats);
+                // removefromINVs(s);
+                s.unEquip();
+            }
+            // }
+        }
+        // return true;
+    }
+    // public void unequipAll() {
+    // // FILL IN
+    // i.unEquip();
+    // }
+    public void takeOffWeapon(Item i) {
+        int[] statstoreverse = i.stats();
+        for (int s = 0; s < statstoreverse.length; s++) {
+            statstoreverse[s] = -1 * statstoreverse[s];
+        }
+        i.unEquip();
+        this.updAttributes(statstoreverse);
+    }
+    /**
+     * Action Ends Here
+     */
 
+
+    /**
+     * REWARD SYSTEM
+     */
     @Override
     public void levelup() {
         if (this.exp >= lvl * 10) {
@@ -643,6 +644,25 @@ public class Hero extends InGameCharacter {
                 i.unEquip();
             }
         }
+    }
+    /**
+     * End of Reward System Section
+     */
+
+    public String si(int i) {
+        return Integer.toString(i);
+    }
+
+    public String toString() {
+        // DISPLAY INFO FOR LVL, HP/MAX HP, MANA, EXP, SKILL LEVELS etc..."
+        String descr = /** "\n" + */
+                name + "\t(" + type + ")" + "\tLevel: " + si(lvl) + "\tCoins: " + si(coins) + "\n\tStrength: "
+                        + si(strength) + "\tDefense: " + si(defense) + "\tDexterity: " + si(dexterity) + "\tAgility: "
+                        + si(agility) + /** "\n" + */
+                        "\tHealth: " + si(hp) + "/" + si(maxhp) + "\t\tMana: " + si(mana) + "/" + si(maxmana)
+                        + "\tExp: " + si(exp) + "/" + si(10 * lvl) /** + "\n" */
+        ;
+        return descr;
     }
 
     public static void pr(Object o) {

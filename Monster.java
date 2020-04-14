@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Concrete class Monster which extends InGameCharacter
+ */
 public class Monster extends InGameCharacter {
 
     protected int[] og; //original stats PRE-SPELLS
@@ -73,6 +76,8 @@ public class Monster extends InGameCharacter {
     //     target.testMLocTile(this);
     // }
 
+    // Updates the attributes of a Monster based on array argument
+    // Usually called when a Spell is cast on a Monster
     public void updAttributes (int[] a) {
         this.strength -= a[0];
         this.defense -= a[1];
@@ -100,6 +105,9 @@ public class Monster extends InGameCharacter {
     public Hero getAttacking() {
         return this.attacking;
     }
+
+    // RETURNS true if a Monster's nearbyEnemies ArrayList is !empty AND 
+    // Sets Monster's attacking target to a random Hero in its nearbyEnemies if there are enemies in range
     public boolean canAttack(){
         //check if arraylist is empty, if it is it cannot attack, and will be forced to move downward 1 tile
         //couple this code with if(m.canAttack){choose random enemy to attack}else{move down}
@@ -117,6 +125,8 @@ public class Monster extends InGameCharacter {
         
     }
 
+    // Method called when determining a Monster's choice of action. 
+    // TRIES to attack: Returns true when it can attack and false when there is nobody to attack
     public boolean tryAttackaction() {
         // Fight
         boolean attacked = false;
@@ -128,6 +138,7 @@ public class Monster extends InGameCharacter {
         // Move
     }
 
+    // Method to determine a Monster's choice of movement
     public String tryMove(int TandE) {
         if (TandE == 1) {
             return "S";
@@ -139,11 +150,13 @@ public class Monster extends InGameCharacter {
         else return "outofmoves";
     }
 
+    // Called when a Monster's health dips to or below ZERO, signalling "death" of this Monster and takes it off the board
     public void setDead() {
         this.getLoc().leaveTile(this);
     }
 
     @Override
+    // Called during RewardIGC and determines if a Monster can levelup, levels up Monster if it can
     public void levelup() {
         if (this.exp >= lvl*10) {
             hp = maxhp;
@@ -154,10 +167,10 @@ public class Monster extends InGameCharacter {
         }
     }
     @Override
-    public void reward() { //Reward for alive monsters that win battle
+    public void reward() { // Reward for alive monsters that win battle
         this.exp += 1;
     }
-    public void reward(int c) {    }
+    public void reward(int c) {    } // No effect for Monster subclass of IGC
 
     public String si(int i) {
         return Integer.toString(i);

@@ -45,9 +45,16 @@ public class Tile {
         return myLane;
     }
 
+    // RETURNS the Hero on this Tile, if one exists
+    public Hero h_on_me() {
+        return h;
+    }
+    // RETURNS the Monster on this Tile, if one exists
     public Monster m_on_me() {
         return m;
     }
+
+    // Sets the Hero/Monster specified in parameter to this Tile location's Hero/Monster
     public void setLocTile(InGameCharacter igc) {
         if (igc.getHM().equals("Hero")) {
             h = (Hero)igc;
@@ -61,6 +68,8 @@ public class Tile {
     // public void testMLocTile(Monster m) { 
     //     this.m = m;
     // }
+
+    // Called to set this Tile location's Hero/Monster to null when Tile's H/M leaves
     public void leaveTile(InGameCharacter igc) {
         if (igc.getHM().equals("Hero"))
             h = null;
@@ -68,9 +77,7 @@ public class Tile {
             m = null;
         }
     }
-    public Hero h_on_me() {
-        return h;
-    }
+    
     // public int H_on_me() {
     //     int noone = 0;
     //     for (InGameCharacter igc: h) {

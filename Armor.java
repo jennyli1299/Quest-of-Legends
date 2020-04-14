@@ -22,6 +22,7 @@ public class Armor extends Item {
         def = d;
     }
 
+    // RETURNS stats of this Armor item to be added to Hero stats when Armor is equipped
     public int[] stats() {
         // health, mana, strength/dmg, defense, dexterity, agility
         int[] stats = new int[6];

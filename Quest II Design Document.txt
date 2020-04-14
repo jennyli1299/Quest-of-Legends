@@ -1,5 +1,6 @@
-Jenny Li jennjenn@bu.edu U63136209
-Patrick Duffill pduffill@bu.edu U84513865
+Names: Jenny Li U63136209
+       Patrick Duffill U84513865
+Team number: 12
 
 The Quest II Design Document
 Classes:

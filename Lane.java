@@ -1,6 +1,3 @@
-import java.util.ArrayList;
-import java.util.stream.Stream;
-
 public class Lane {
     //Represents a lane of the game board, scalable in height and width, and is constructed of tiles
     
@@ -42,15 +39,11 @@ public class Lane {
             }
         }
     }
-    // public Tile[][] testhelp() {
-    //     return this.lane;
-    // }
 
     public int getFurthestExplored() {
         return furthestexploredH;
     }
     public void updateFurthestExplored(int distexpl) {
-        // int distexpl = t.getCoords()[1];
         if (furthestexploredH > distexpl) furthestexploredH = distexpl;
     }
 
@@ -58,7 +51,6 @@ public class Lane {
     public String toString() { //NOT SCALED
         String lanerep = "";
         for (int r = 0; r < h; r++) {
-            // Stream<String> stream = lane[r][0].toString().lines();
             String[] array0 = lane[r][0].toString().lines().toArray(String[]::new);
             String[] array1 = lane[r][1].toString().lines().toArray(String[]::new);
             for (int i = 0; i < 3; i++) {
@@ -67,10 +59,5 @@ public class Lane {
             lanerep = lanerep + "\n";
         }
         return lanerep;
-    }
-
-    public static void main(String[] args) {
-        Lane L1 = new Lane(1, 8, 2);
-        System.out.println(L1);
     }
 }

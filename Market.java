@@ -1,16 +1,9 @@
 import java.util.HashMap;
-// import java.util.Map;
-// import java.util.Arrays;
-import java.util.*;
 
 public class Market {
     //The market class which holds all of the items(weapons, armor, potions, and spells) in the Quest of Legends
     //Heroes can enter and purchase items
-    
-    // private HashMap<String, Weapon> W; //Weapons
-    // private HashMap<String, Armor> A; //Armor
-    // private HashMap<String, Potion> P; //Potions
-    // private HashMap<String, Spell> S; //Spells
+
     private HashMap<String, Item> M;
 
     public Market (HashMap<String, Item> themarket) {
@@ -25,7 +18,6 @@ public class Market {
         String[] pt = {"Weapons", "Armor", "Potions", "Spells"};
         for (int i = 0; i < 4; i++) {
             int count = 0;
-            // System.out.println(pt[i]);
             for (Item it: M.values()) {
                 if (it.getType().equals(t[i])) {
                     count++;
@@ -40,10 +32,4 @@ public class Market {
         return this.M;
     }
 
-
-    public static void main(String[] args) {
-        HashMap<String, Item> allItems = SetUp.AllItems();
-        Market m = new Market(allItems); 
-        m.printMarket();
-    }
 }

@@ -406,10 +406,4 @@ public class SetUp { // redo so only one scanner for all
 
     }
 
-    public static void main(String[] args) {
-        Hero[] Team = SetUp.chooseYourFighters();
-        // System.out.println(Arrays.toString(Team));
-        // SetUp.boardsize();
-    }
-
 }

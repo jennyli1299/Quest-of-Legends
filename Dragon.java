@@ -8,8 +8,4 @@ public class Dragon extends Monster {
         super(n, "Dragon", l, h, s, d, a);
     }
 
-
-    public static void main(String[] args) {
-        
-    }
 }

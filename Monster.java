@@ -70,13 +70,6 @@ public class Monster extends InGameCharacter {
         this.boardpiece = "M" + Integer.toString(n);
     }
 
-    // public void moveTo(Tile target) {
-    //     if (this.loc != null) this.loc.leaveTile(this);
-    //     this.loc = target;
-    //     // target.setLocTile(this);
-    //     target.testMLocTile(this);
-    // }
-
     // Updates the attributes of a Monster based on array argument
     // Usually called when a Spell is cast on a Monster
     public void updAttributes (int[] a) {
@@ -91,8 +84,6 @@ public class Monster extends InGameCharacter {
         this.defense = og[1];
         this.agility = og[2];
     }
-
-    // public void rematch() {}
 
     public int getLVL() {
         return lvl;
@@ -183,21 +174,4 @@ public class Monster extends InGameCharacter {
         return descr;
     }
 
-    public static void main(String[] args) {
-        /**
-         * Name/level/damage/defense/dodge chance
-Cyrrollalee     7       700        800     75
-Brandobaris     3       350        450     30
-BigBad-Wolf     1       150        250     15
-WickedWitch     2       250        350     25
-Aasterinian     4       400        500     45
-Chronepsish     6       650        750     60
-Kiaransalee     8       850        950     85
-St-Shargaas     5       550        650     55
-Merrshaullk     10      1000       900     55
-St-Yeenoghu     9       950        850     90
-         */
-
-        Monster Cyr = new Monster("Cyrrollalee", "Exoskeleon", 7, 700, 800, 75);
-    }
 }

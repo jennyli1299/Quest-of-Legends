@@ -1,5 +1,3 @@
-import java.util.*;
-
 public class Paladin extends Hero {
     //Subclass of hero that represents the paladin, who gets a boost in strength and dexterity
 
@@ -22,12 +20,8 @@ public class Paladin extends Hero {
         defense = (int)(defense*1.05);
         dexterity = (int)(dexterity*1.05);
         agility = (int)(agility*1.05);
-        // switch (type) {
-            // case "Paladins":
         strength = (int)(strength*1.05);
         dexterity = (int)(dexterity*1.05);
-                // break;
-        // }
         ogstats[0] = strength;
         ogstats[1] = defense;
         ogstats[2] = dexterity;
@@ -35,10 +29,5 @@ public class Paladin extends Hero {
         
         System.out.println(this.name + " has LEVELED UP!");
         }
-    }
-
-    
-    public static void main(String[] args) {
-        
     }
 }

@@ -8,8 +8,4 @@ public class Exoskeleton extends Monster {
         super(n, "Exoskeleton", l, h, s, d, a);
     }
 
-
-    public static void main(String[] args) {
-        
-    }
 }

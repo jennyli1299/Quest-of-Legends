@@ -54,22 +54,4 @@ public class Potion extends Item {
         ret = ret + "]";
         return ret;
     }
-
-    public static void main(String[] args) {
-        /**
-         * Name/cost/required level/attribute increase/attribute affected
-         * Healing_Potion  250     1   100		Health
-         * Strength_Potion 200     1   75		Strength
-         * Magic_Potion    350     2   100		Mana
-         * Luck_Elixir     500     4   65  	    Agility
-         * Mermaid_Tears   850     5   100  	Health/Mana/Strength/Defense
-         * Ambrosia        1000    8   150		All Health/Mana/Strength/Dexterity/Defense/Agility
-         */
-        Potion Hp = new Potion("Healing_Potion", 250, 1, 100, new String[] {"Health"});
-        Potion MT = new Potion("Mermaid_Tears", 850, 5, 100, new String[] {"Health", "Mana", "Strength", "Dexterity", "Agility"});
-        Potion Amb = new Potion("Ambrosia", 1000, 8, 150, new String[] {"Health", "Mana", "Strength", "Dexterity", "Defense", "Agility"});
-        Potion blah = new Potion();
-        System.out.println(Amb);
-        System.out.println(blah);
-    }
 }

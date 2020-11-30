@@ -1,5 +1,3 @@
-import java.util.*;
-
 public class Warrior extends Hero {
     //Subclass of hero that represents the warrior, who gets a boost in strength and agility
 
@@ -22,12 +20,8 @@ public class Warrior extends Hero {
         defense = (int)(defense*1.05);
         dexterity = (int)(dexterity*1.05);
         agility = (int)(agility*1.05);
-        // switch (type) {
-            // case "Warrior":
-                strength = (int)(strength*1.05);
-                agility = (int)(agility*1.05);
-                // break;
-        // }
+        strength = (int)(strength*1.05);
+        agility = (int)(agility*1.05);
         ogstats[0] = strength;
         ogstats[1] = defense;
         ogstats[2] = dexterity;
@@ -35,11 +29,5 @@ public class Warrior extends Hero {
         
         System.out.println(this.name + " has LEVELED UP!");
         }
-    }
-
-    
-    public static void main(String[] args) {
-        Warrior UNDEFEATED = new Warrior("UNDEFEATED", 700, 1080, 132, 146, 2017, 7);
-        System.out.println(UNDEFEATED);
     }
 }

@@ -15,7 +15,7 @@ public abstract class Item{ /** implements Usable */
     public int getPrice() {
         return price;
     }
-    public void setEquipped() { //equipItem() {
+    public void setEquipped() { 
         this.equipped = true;
     }
     public void unEquip() {
@@ -31,6 +31,5 @@ public abstract class Item{ /** implements Usable */
         return type;
     }
     public abstract String toString();
-    // public abstract String getInfo();
 
 }

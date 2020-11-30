@@ -1,5 +1,3 @@
-import java.util.*;
-
 public class Sorcerer extends Hero {
     //Subclass of hero that represents the Sorcerer, who gets a boost in agility and dexterity
 
@@ -22,12 +20,8 @@ public class Sorcerer extends Hero {
         defense = (int)(defense*1.05);
         dexterity = (int)(dexterity*1.05);
         agility = (int)(agility*1.05);
-        // switch (type) {
-            // case "Sorcerer":
-                dexterity = (int)(dexterity*1.05);
-                agility = (int)(agility*1.05);
-                // break;
-        // }
+        dexterity = (int)(dexterity*1.05);
+        agility = (int)(agility*1.05);
         ogstats[0] = strength;
         ogstats[1] = defense;
         ogstats[2] = dexterity;
@@ -37,8 +31,4 @@ public class Sorcerer extends Hero {
         }
     }
 
-    
-    public static void main(String[] args) {
-        
-    }
 }

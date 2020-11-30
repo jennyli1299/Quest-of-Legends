@@ -1,9 +1,8 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class MonsterFactory {
-    //A factor which decides which monster will be spawned on the game board at a given time, based on monsters that are already on the board
+    //A factory which decides which monster will be spawned on the game board at a given time, based on monsters that are already on the board
     HashMap<String, Monster> AllMonsters;
 
     public MonsterFactory() {
@@ -26,7 +25,6 @@ public class MonsterFactory {
         while (!newM);
         Tile mspawnhere = b.getMSpawnTile(n);
         tryMonster.spawn(mspawnhere, n);
-        // m.add(tryMonster);
         return tryMonster;
     }
 
@@ -106,19 +104,5 @@ public class MonsterFactory {
         AllMonsters.put("Taltecuhtli", new Spirit("Taltecuhtli", 10, 300, 200, 50));
 
         return AllMonsters;
-    }
-
-    public static void main(String[] args) {
-        Board b = new Board(3, 8, 2);
-        MonsterFactory mf = new MonsterFactory();
-        ArrayList<Monster> alm = new ArrayList<Monster>();
-        Monster newM = mf.spawnMonster(b, alm, 1);
-        System.out.println(b);
-        System.out.println(newM);
-        System.out.println(newM.getPiece());
-        System.out.println(Arrays.toString(newM.getLoc().getCoords()));
-        newM.moveTo(b.getTileAt(new int[] {3,7,1}));
-        System.out.println(b);
-        System.out.println(newM.getLoc().getType());
     }
 }

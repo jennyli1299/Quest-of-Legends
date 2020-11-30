@@ -1,7 +1,4 @@
-// import java.util.Random;
-// import java.util.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Abstract class of InGameCharactor from which concrete in-game-characters (so far: Heroes, Monsters, and their subclasses) are extended
@@ -35,14 +32,6 @@ public abstract class InGameCharacter {
         return boardpiece;
     }
 
-    // public void levelup() {
-    //     if (this.exp >= lvl*10) {
-    //     hp = maxhp;
-    //     strength = (int)(strength*1.05);
-    //     defense = (int)(defense*1.05);
-    //     agility = (int)(agility*1.05);
-    //     }
-    // }
     public int getLVL() {
         return lvl;
     }
@@ -73,7 +62,6 @@ public abstract class InGameCharacter {
         if (this.loc != null) this.loc.leaveTile(this);
         this.loc = target;
         target.setLocTile(this);
-        // target.testMLocTile(this);
     }
 
     // Returns true if an IGC has the ability to attack determined by whether or not there are nearby hostiles in nearbyEnemies
@@ -176,7 +164,7 @@ public abstract class InGameCharacter {
     // STATIC method to scan for nearby enemies in range of an InGameCharacter
     public static void scanNearbyEnemies(InGameCharacter igc, Board b) {
         String igcType = igc.getHM();
-        int[] igcCoords = igc.getLoc().getCoords(); // NEED DEEP COPY BRO
+        int[] igcCoords = igc.getLoc().getCoords();
         /** 1   2   3
          *  4  igc  6
          *  7   8   9
@@ -242,8 +230,5 @@ public abstract class InGameCharacter {
                 }
             }
         }
-    }
-    public static void main(String[] args) {
-        
     }
 }

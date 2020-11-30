@@ -41,7 +41,6 @@ Usability of Classes:
 
 
 Adjustments to the Logistics of QUEST:
-I posted on piazza and asked to make about most of these adjustments prior to make sure they were alright.
 1. Monsters can also level up.
 2. Spells deteriorate Monster's skills in battle by 20% of the spell's damage instead of the 10% of the Monster's own skills.
 3. When heroes defeat a monster, they all get compensated a flat 150 coins but ones that are still standing get compensated an extra 10*(highest monster's level) for their troubles.

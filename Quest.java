@@ -8,10 +8,6 @@ import java.util.*;
 public class Quest extends Game {
     //contains all of the logic for a person to play the Quest of Legends and attempt to win!
 
-    // (Inherited)
-    // protected Board b;
-    // protected boolean gameOver; 
-
     HashMap<String, Monster> AllMonsters;
     MonsterFactory mf;
     Hero[] team;
@@ -20,10 +16,9 @@ public class Quest extends Game {
     int teamcount;
     int round; 
     ArrayList<Monster> spawnedM;
-    // ArrayList<Hero> teamH;
 
     public Quest() {
-        // int bsize = SetUp.boardsize(); // If you want to make board scalable, ask for #lanes and lane distance and land width TODO
+        // int bsize = SetUp.boardsize(); // If you want to make board scalable, ask for #lanes and lane distance and land width
         b = new Board(3, 8, 2);
         System.out.println("\nWelcome to QUEST OF LEGENDS! Prepare yourself for a journey filled with Heroes, Monsters, MAGIC, and fun!\n");
         System.out.println("First things first. Let's put together a team of courageous heroes for you.");
@@ -228,7 +223,6 @@ public class Quest extends Game {
                                 }
                             } while (!acted);
                         }
-                        // checkNexusBreach();
                     }
                 }
             }
@@ -263,8 +257,6 @@ public class Quest extends Game {
                 if (validTile != null) {
                     h.moveTo(validTile);
                     goodInput = true;
-                    // System.out.println(b);
-                    // explore();
                 }
             }
             else if (dir.equals("Q") || dir.equals("q")) setGAMEOVER();
@@ -299,7 +291,6 @@ public class Quest extends Game {
                         System.out.println("Invalid Input. Please enter a number.");
                         qScan.next();
                     }
-                    // setup.next();
                 }
                 while (!isnum);
                 if (!(n >= 1 && n <= bn)) {
@@ -545,7 +536,6 @@ public class Quest extends Game {
     /**
      * Methods to be called after action or round to determine how the state of the game has changed
      */
-
     public void checkKill(InGameCharacter igc) {
         String igctype = igc.getHM();
         if (igctype.equals("Hero")) {
@@ -602,21 +592,12 @@ public class Quest extends Game {
     }
 
     // returns the index of a Hero in team given the name of the Hero you hope to find
-    // UNUSED
     public int existsHeroinTeam(String name) {
         int ret = -1;
         for (int i = 0; i < teamcount; i++) {
             if (team[i].getName().equals(name)) ret = i;
         }
         return ret;
-    }
-
-
-    public static void main(String[] args) {
-        Quest q = new Quest();
-        q.play();
-        System.out.println("Test Complete!");
-
     }
 
 }
